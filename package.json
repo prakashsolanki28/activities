@@ -1,0 +1,23 @@
+{
+  "name": "hrrl-activities",
+  "private": true,
+  "packageManager": "pnpm@10.12.4",
+  "scripts": {
+    "dev": "pnpm --filter @hrrl/shared build && pnpm --parallel --filter @hrrl/shared --filter backend --filter frontend dev",
+    "build": "pnpm --filter @hrrl/shared build && pnpm --filter backend build && pnpm --filter frontend build",
+    "test": "pnpm --filter @hrrl/shared build && pnpm --filter backend test",
+    "typecheck": "pnpm --filter @hrrl/shared build && pnpm -r typecheck",
+    "seed": "pnpm --filter backend seed"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "sharp",
+      "mongodb-memory-server",
+      "esbuild",
+      "@nestjs/core"
+    ]
+  },
+  "devDependencies": {
+    "playwright": "1.64.0"
+  }
+}

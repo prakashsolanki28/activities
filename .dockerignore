@@ -1,0 +1,11 @@
+**/node_modules
+**/dist
+**/build
+**/.react-router
+**/coverage
+.git
+.impeccable
+seed-assets
+backend/uploads
+/uploads
+.env

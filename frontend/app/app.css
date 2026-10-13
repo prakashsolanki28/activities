@@ -1,0 +1,406 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "@fontsource-variable/atkinson-hyperlegible-next";
+@import "@fontsource-variable/atkinson-hyperlegible-mono";
+
+/*
+ * Evidence Room — HRRL Activities
+ * Graphite shell, concrete ground, white work surfaces. Marker yellow is reserved for
+ * primary action, selection and evidence markers; manila tags carry codes.
+ */
+:root,
+.evidence-ui {
+  /* World palette */
+  --graphite: #1a1c1e;
+  --graphite-2: #25282b;
+  --graphite-3: #363a3e;
+  --shell-fg: #eceee9;
+  --shell-muted: #a9afb2;
+
+  --ground: #f4f5f2;
+  --ground-2: #eaece7;
+  --surface: #ffffff;
+  --ink: #17191b;
+  --ink-2: #474f55;
+  --ink-3: #5f676c;
+  --line: #dadcd6;
+  --line-strong: #b8bdb5;
+
+  --marker: #f2c230;
+  --marker-hover: #e6b31c;
+  --marker-ink: #1a1c1e;
+  --marker-wash: #fbefc4;
+
+  --manila: #e8d5a8;
+  --manila-wash: #f4ebd3;
+  --manila-ink: #574220;
+
+  --evidence-red: #c0392b;
+  --red-ink: #9a2b1f;
+  --red-wash: #f8e2de;
+  --ledger-green: #1e7f4f;
+  --green-ink: #17663f;
+  --green-wash: #dcefe3;
+  --slate: #2f4a63;
+  /* Data hue for charts (validated: lightness band, chroma floor, CVD vs ledger green). */
+  --data: #3366a8;
+  --data-wash: #e3ebf5;
+
+  /* shadcn semantic tokens mapped onto the world */
+  --background: var(--ground);
+  --foreground: var(--ink);
+  --card: var(--surface);
+  --card-foreground: var(--ink);
+  --popover: var(--surface);
+  --popover-foreground: var(--ink);
+  --primary: var(--marker);
+  --primary-hover: var(--marker-hover);
+  --primary-foreground: var(--marker-ink);
+  --secondary: var(--ground-2);
+  --secondary-foreground: var(--ink);
+  --muted: var(--ground-2);
+  --muted-foreground: var(--ink-3);
+  --accent: #eceee8;
+  --accent-foreground: var(--ink);
+  --destructive: var(--evidence-red);
+  --border: var(--line);
+  --input: #878e86;
+  --ring: var(--graphite);
+  --radius: 2px;
+
+  /* Swappable per surface (see .admin-ui) */
+  --font-ui: "Atkinson Hyperlegible Next Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-code: "Atkinson Hyperlegible Mono Variable", ui-monospace, "SFMono-Regular", monospace;
+  --r-xs: 1px;
+  --r-sm: 2px;
+  --r-md: 2px;
+  --r-lg: 3px;
+  --r-xl: 4px;
+
+  /* Admin brand (used inside .admin-ui) */
+  --brand: #0f6cbd;
+  --brand-hover: #115ea3;
+  --brand-pressed: #0f548c;
+  --brand-tint: #ebf3fc;
+  --brand-tint-2: #cfe4fa;
+  --ok: #107c10;
+  --ok-tint: #f1faf1;
+  --bad: #c50f1f;
+  --bad-tint: #fdf3f4;
+  --warn: #bc4b09;
+  --warn-tint: #fff9f5;
+
+  --chart-1: #3366a8;
+  --chart-2: #e0a800;
+  --chart-3: #1e7f4f;
+  --chart-4: #c0392b;
+  --chart-5: #7a6a45;
+
+  --elev-pop: 0 12px 28px -14px rgb(26 28 30 / 0.38), 0 2px 4px -2px rgb(26 28 30 / 0.12);
+  --elev-plate: 0 18px 40px -28px rgb(26 28 30 / 0.45);
+  --elev-card: 0 0 2px rgb(0 0 0 / 0.12), 0 1px 2px rgb(0 0 0 / 0.14);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@theme inline {
+  --font-sans: var(--font-ui);
+  --font-mono: var(--font-code);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-brand: var(--brand);
+  --color-brand-hover: var(--brand-hover);
+  --color-brand-pressed: var(--brand-pressed);
+  --color-brand-tint: var(--brand-tint);
+  --color-brand-tint-2: var(--brand-tint-2);
+  --color-ok: var(--ok);
+  --color-ok-tint: var(--ok-tint);
+  --color-bad: var(--bad);
+  --color-bad-tint: var(--bad-tint);
+  --color-warn: var(--warn);
+  --color-warn-tint: var(--warn-tint);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+
+  --color-graphite: var(--graphite);
+  --color-graphite-2: var(--graphite-2);
+  --color-graphite-3: var(--graphite-3);
+  --color-shell-fg: var(--shell-fg);
+  --color-shell-muted: var(--shell-muted);
+  --color-ground: var(--ground);
+  --color-ground-2: var(--ground-2);
+  --color-surface: var(--surface);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-marker: var(--marker);
+  --color-marker-hover: var(--marker-hover);
+  --color-marker-ink: var(--marker-ink);
+  --color-marker-wash: var(--marker-wash);
+  --color-manila: var(--manila);
+  --color-manila-wash: var(--manila-wash);
+  --color-manila-ink: var(--manila-ink);
+  --color-evidence: var(--evidence-red);
+  --color-red-ink: var(--red-ink);
+  --color-red-wash: var(--red-wash);
+  --color-ledger: var(--ledger-green);
+  --color-green-ink: var(--green-ink);
+  --color-green-wash: var(--green-wash);
+  --color-slate: var(--slate);
+  --color-data: var(--data);
+  --color-data-wash: var(--data-wash);
+
+  --radius-xs: var(--r-xs);
+  --radius-sm: var(--r-sm);
+  --radius-md: var(--r-md);
+  --radius-lg: var(--r-lg);
+  --radius-xl: var(--r-xl);
+
+  /* Fixed rem scale (ratio ≈ 1.2); product UI, not fluid display type. */
+  --text-2xs: 0.6875rem;
+  --text-2xs--line-height: 1rem;
+
+  --shadow-pop: var(--elev-pop);
+  --shadow-plate: var(--elev-plate);
+  --shadow-card: var(--elev-card);
+  --ease-out-expo: var(--ease-out);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    color-scheme: light;
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-feature-settings: "kern" 1;
+    caret-color: var(--graphite);
+  }
+
+  ::selection {
+    background: var(--marker-wash);
+    color: var(--ink);
+  }
+
+  a {
+    text-underline-offset: 0.2em;
+    text-decoration-thickness: 1px;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--graphite);
+    outline-offset: 2px;
+  }
+
+  /* Data reads in tabular numerals everywhere it is compared. */
+  table,
+  time,
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--line-strong) transparent;
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+}
+
+/*
+ * Admin console: Microsoft 365 / Forms conventions. Re-points the shared tokens so
+ * shadcn components and neutral utilities follow the admin look; the employee
+ * world (markers, manila, graphite) stays available for previews and the red-flag map.
+ */
+.admin-ui {
+  --font-ui: "Segoe UI Variable Text", "Segoe UI Variable", "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+  --font-code: Consolas, "Cascadia Mono", "SF Mono", Menlo, ui-monospace, monospace;
+  --r-xs: 2px;
+  --r-sm: 4px;
+  --r-md: 4px;
+  --r-lg: 8px;
+  --r-xl: 8px;
+
+  --ground: #f5f5f5;
+  --ground-2: #f0f0f0;
+  --surface: #ffffff;
+  --ink: #242424;
+  --ink-2: #424242;
+  --ink-3: #616161;
+  --line: #e0e0e0;
+  --line-strong: #d1d1d1;
+  --slate: var(--brand);
+  --data: var(--brand);
+  --data-wash: var(--brand-tint);
+
+  --background: var(--ground);
+  --primary: var(--brand);
+  --primary-hover: var(--brand-hover);
+  --primary-foreground: #ffffff;
+  --accent: #f5f5f5;
+  --input: #8a8a8a;
+  --ring: #242424;
+  --elev-pop: 0 0 2px rgb(0 0 0 / 0.12), 0 8px 16px rgb(0 0 0 / 0.14);
+  /* Shared components that name Evidence Room tokens take the Fluent equivalents here. */
+  --graphite: var(--brand);
+  --graphite-2: var(--brand-hover);
+  --red-ink: var(--bad);
+  --green-ink: var(--ok);
+  --manila-ink: var(--warn);
+  --manila-wash: var(--warn-tint);
+  --marker-wash: var(--brand-tint);
+  --evidence-red: var(--bad);
+  --ledger-green: var(--ok);
+
+  font-family: var(--font-ui);
+  color: var(--ink);
+  background: var(--ground);
+}
+/* Fluent body text is 14px; set on body so rem (spacing, type scale) stays at the browser default. */
+.admin-ui body {
+  font-size: 14px;
+}
+/* An employee screen shown inside the admin (preview) keeps its own world. */
+.evidence-ui {
+  font-family: var(--font-ui);
+  font-size: 1rem;
+  color: var(--ink);
+}
+
+.admin-ui [data-sonner-toast] {
+  --normal-bg: var(--surface);
+  --normal-text: var(--ink);
+  --normal-border: var(--line);
+  --border-radius: 8px;
+  box-shadow: var(--elev-pop);
+}
+.admin-ui [data-sonner-toast] [data-description] {
+  color: var(--ink-3) !important;
+}
+.admin-ui ::selection {
+  background: var(--brand-tint-2);
+  color: var(--ink);
+}
+
+/* On graphite, focus rings flip to marker yellow so they stay visible. */
+.on-shell :focus-visible {
+  outline-color: var(--marker);
+}
+
+.on-shell ::selection {
+  background: var(--marker);
+  color: var(--marker-ink);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Evidence markers drop onto the plate when a reveal lands. */
+@keyframes marker-drop {
+  from {
+    opacity: 0;
+    transform: translateY(-14px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes region-draw {
+  from {
+    clip-path: inset(0 100% 100% 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes stamp-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-marker-drop {
+  animation: marker-drop 420ms var(--ease-out) both;
+}
+
+.animate-region-draw {
+  animation: region-draw 520ms var(--ease-out) both;
+}
+
+@keyframes miss {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.25);
+  }
+  40% {
+    opacity: 1;
+    transform: translate(calc(-50% - 4px), -50%) scale(1);
+  }
+  60% {
+    transform: translate(calc(-50% + 4px), -50%);
+  }
+  100% {
+    opacity: 0.8;
+    transform: translate(-50%, -50%);
+  }
+}
+
+.animate-miss {
+  animation: miss 420ms var(--ease-out) both;
+}
+
+.animate-stamp-in {
+  animation: stamp-in 260ms var(--ease-out) both;
+}

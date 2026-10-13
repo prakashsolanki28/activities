@@ -1,0 +1,14 @@
+node_modules/
+dist/
+build/
+coverage/
+.react-router/
+.env
+.env.local
+*.log
+.DS_Store
+/uploads/
+/backend/uploads/
+.impeccable/live/
+.impeccable/review/
+seed-assets/

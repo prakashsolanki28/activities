@@ -1,0 +1,59 @@
+name: hrrl-activities
+
+services:
+  mongo:
+    image: mongo:7
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USER:-hrrl}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD:?Set MONGO_ROOT_PASSWORD in .env}
+    volumes:
+      - mongo-data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping').ok"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    # Not published: only the api container talks to Mongo.
+
+  api:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      MONGO_URL: mongodb://${MONGO_ROOT_USER:-hrrl}:${MONGO_ROOT_PASSWORD}@mongo:27017/hrrl_activities?authSource=admin
+      JWT_SECRET: ${JWT_SECRET:?Set JWT_SECRET in .env}
+      COOKIE_SECURE: ${COOKIE_SECURE:-false}
+      ADMIN_EMAIL: ${ADMIN_EMAIL:-admin@hrrl.local}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:?Set ADMIN_PASSWORD in .env}
+      ADMIN_NAME: ${ADMIN_NAME:-CISO Office}
+      UPLOAD_DIR: /app/uploads
+      TRUST_PROXY: 1
+    volumes:
+      - uploads:/app/uploads
+    depends_on:
+      mongo:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:3000/api/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+
+  web:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    restart: unless-stopped
+    ports:
+      - "${WEB_PORT:-8080}:80"
+    depends_on:
+      api:
+        condition: service_healthy
+
+volumes:
+  mongo-data:
+  uploads:

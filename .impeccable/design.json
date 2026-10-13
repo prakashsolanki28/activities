@@ -1,0 +1,1437 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-13T09:54:13Z",
+  "title": "Design System: HRRL Activities",
+  "extensions": {
+    "colorMeta": {
+      "marker": {
+        "role": "primary",
+        "displayName": "Marker Yellow",
+        "canonical": "#f2c230",
+        "tonalRamp": [
+          "oklch(15% 0.158 89.0)",
+          "oklch(26% 0.158 89.0)",
+          "oklch(38% 0.158 89.0)",
+          "oklch(49% 0.158 89.0)",
+          "oklch(61% 0.158 89.0)",
+          "oklch(72% 0.158 89.0)",
+          "oklch(84% 0.158 89.0)",
+          "oklch(95% 0.158 89.0)"
+        ]
+      },
+      "marker-hover": {
+        "role": "primary",
+        "displayName": "Marker Pressed",
+        "canonical": "#e6b31c",
+        "tonalRamp": [
+          "oklch(15% 0.157 87.1)",
+          "oklch(26% 0.157 87.1)",
+          "oklch(38% 0.157 87.1)",
+          "oklch(49% 0.157 87.1)",
+          "oklch(61% 0.157 87.1)",
+          "oklch(72% 0.157 87.1)",
+          "oklch(84% 0.157 87.1)",
+          "oklch(95% 0.157 87.1)"
+        ]
+      },
+      "marker-ink": {
+        "role": "primary",
+        "displayName": "Marker Ink",
+        "canonical": "#1a1c1e",
+        "tonalRamp": [
+          "oklch(15% 0.005 248.0)",
+          "oklch(26% 0.005 248.0)",
+          "oklch(38% 0.005 248.0)",
+          "oklch(49% 0.005 248.0)",
+          "oklch(61% 0.005 248.0)",
+          "oklch(72% 0.005 248.0)",
+          "oklch(84% 0.005 248.0)",
+          "oklch(95% 0.005 248.0)"
+        ]
+      },
+      "marker-wash": {
+        "role": "primary",
+        "displayName": "Marker Wash",
+        "canonical": "#fbefc4",
+        "tonalRamp": [
+          "oklch(15% 0.057 94.3)",
+          "oklch(26% 0.057 94.3)",
+          "oklch(38% 0.057 94.3)",
+          "oklch(49% 0.057 94.3)",
+          "oklch(61% 0.057 94.3)",
+          "oklch(72% 0.057 94.3)",
+          "oklch(84% 0.057 94.3)",
+          "oklch(95% 0.057 94.3)"
+        ]
+      },
+      "manila": {
+        "role": "secondary",
+        "displayName": "Manila",
+        "canonical": "#e8d5a8",
+        "tonalRamp": [
+          "oklch(15% 0.063 87.8)",
+          "oklch(26% 0.063 87.8)",
+          "oklch(38% 0.063 87.8)",
+          "oklch(49% 0.063 87.8)",
+          "oklch(61% 0.063 87.8)",
+          "oklch(72% 0.063 87.8)",
+          "oklch(84% 0.063 87.8)",
+          "oklch(95% 0.063 87.8)"
+        ]
+      },
+      "manila-wash": {
+        "role": "secondary",
+        "displayName": "Manila Wash",
+        "canonical": "#f4ebd3",
+        "tonalRamp": [
+          "oklch(15% 0.033 89.9)",
+          "oklch(26% 0.033 89.9)",
+          "oklch(38% 0.033 89.9)",
+          "oklch(49% 0.033 89.9)",
+          "oklch(61% 0.033 89.9)",
+          "oklch(72% 0.033 89.9)",
+          "oklch(84% 0.033 89.9)",
+          "oklch(95% 0.033 89.9)"
+        ]
+      },
+      "manila-ink": {
+        "role": "secondary",
+        "displayName": "Manila Ink",
+        "canonical": "#574220",
+        "tonalRamp": [
+          "oklch(15% 0.057 77.9)",
+          "oklch(26% 0.057 77.9)",
+          "oklch(38% 0.057 77.9)",
+          "oklch(49% 0.057 77.9)",
+          "oklch(61% 0.057 77.9)",
+          "oklch(72% 0.057 77.9)",
+          "oklch(84% 0.057 77.9)",
+          "oklch(95% 0.057 77.9)"
+        ]
+      },
+      "evidence-red": {
+        "role": "tertiary",
+        "displayName": "Evidence Red",
+        "canonical": "#c0392b",
+        "tonalRamp": [
+          "oklch(15% 0.174 29.7)",
+          "oklch(26% 0.174 29.7)",
+          "oklch(38% 0.174 29.7)",
+          "oklch(49% 0.174 29.7)",
+          "oklch(61% 0.174 29.7)",
+          "oklch(72% 0.174 29.7)",
+          "oklch(84% 0.174 29.7)",
+          "oklch(95% 0.174 29.7)"
+        ]
+      },
+      "red-ink": {
+        "role": "tertiary",
+        "displayName": "Red Ink",
+        "canonical": "#9a2b1f",
+        "tonalRamp": [
+          "oklch(15% 0.149 29.9)",
+          "oklch(26% 0.149 29.9)",
+          "oklch(38% 0.149 29.9)",
+          "oklch(49% 0.149 29.9)",
+          "oklch(61% 0.149 29.9)",
+          "oklch(72% 0.149 29.9)",
+          "oklch(84% 0.149 29.9)",
+          "oklch(95% 0.149 29.9)"
+        ]
+      },
+      "red-wash": {
+        "role": "tertiary",
+        "displayName": "Red Wash",
+        "canonical": "#f8e2de",
+        "tonalRamp": [
+          "oklch(15% 0.025 29.9)",
+          "oklch(26% 0.025 29.9)",
+          "oklch(38% 0.025 29.9)",
+          "oklch(49% 0.025 29.9)",
+          "oklch(61% 0.025 29.9)",
+          "oklch(72% 0.025 29.9)",
+          "oklch(84% 0.025 29.9)",
+          "oklch(95% 0.025 29.9)"
+        ]
+      },
+      "ledger-green": {
+        "role": "tertiary",
+        "displayName": "Ledger Green",
+        "canonical": "#1e7f4f",
+        "tonalRamp": [
+          "oklch(15% 0.116 156.4)",
+          "oklch(26% 0.116 156.4)",
+          "oklch(38% 0.116 156.4)",
+          "oklch(49% 0.116 156.4)",
+          "oklch(61% 0.116 156.4)",
+          "oklch(72% 0.116 156.4)",
+          "oklch(84% 0.116 156.4)",
+          "oklch(95% 0.116 156.4)"
+        ]
+      },
+      "green-ink": {
+        "role": "tertiary",
+        "displayName": "Green Ink",
+        "canonical": "#17663f",
+        "tonalRamp": [
+          "oklch(15% 0.098 156.6)",
+          "oklch(26% 0.098 156.6)",
+          "oklch(38% 0.098 156.6)",
+          "oklch(49% 0.098 156.6)",
+          "oklch(61% 0.098 156.6)",
+          "oklch(72% 0.098 156.6)",
+          "oklch(84% 0.098 156.6)",
+          "oklch(95% 0.098 156.6)"
+        ]
+      },
+      "green-wash": {
+        "role": "tertiary",
+        "displayName": "Green Wash",
+        "canonical": "#dcefe3",
+        "tonalRamp": [
+          "oklch(15% 0.026 158.2)",
+          "oklch(26% 0.026 158.2)",
+          "oklch(38% 0.026 158.2)",
+          "oklch(49% 0.026 158.2)",
+          "oklch(61% 0.026 158.2)",
+          "oklch(72% 0.026 158.2)",
+          "oklch(84% 0.026 158.2)",
+          "oklch(95% 0.026 158.2)"
+        ]
+      },
+      "data": {
+        "role": "tertiary",
+        "displayName": "Data Blue",
+        "canonical": "#3366a8",
+        "tonalRamp": [
+          "oklch(15% 0.119 255.9)",
+          "oklch(26% 0.119 255.9)",
+          "oklch(38% 0.119 255.9)",
+          "oklch(49% 0.119 255.9)",
+          "oklch(61% 0.119 255.9)",
+          "oklch(72% 0.119 255.9)",
+          "oklch(84% 0.119 255.9)",
+          "oklch(95% 0.119 255.9)"
+        ]
+      },
+      "slate": {
+        "role": "tertiary",
+        "displayName": "Slate",
+        "canonical": "#2f4a63",
+        "tonalRamp": [
+          "oklch(15% 0.054 247.5)",
+          "oklch(26% 0.054 247.5)",
+          "oklch(38% 0.054 247.5)",
+          "oklch(49% 0.054 247.5)",
+          "oklch(61% 0.054 247.5)",
+          "oklch(72% 0.054 247.5)",
+          "oklch(84% 0.054 247.5)",
+          "oklch(95% 0.054 247.5)"
+        ]
+      },
+      "graphite": {
+        "role": "neutral",
+        "displayName": "Graphite",
+        "canonical": "#1a1c1e",
+        "tonalRamp": [
+          "oklch(15% 0.005 248.0)",
+          "oklch(26% 0.005 248.0)",
+          "oklch(38% 0.005 248.0)",
+          "oklch(49% 0.005 248.0)",
+          "oklch(61% 0.005 248.0)",
+          "oklch(72% 0.005 248.0)",
+          "oklch(84% 0.005 248.0)",
+          "oklch(95% 0.005 248.0)"
+        ]
+      },
+      "graphite-2": {
+        "role": "neutral",
+        "displayName": "Graphite 2",
+        "canonical": "#25282b",
+        "tonalRamp": [
+          "oklch(15% 0.007 248.1)",
+          "oklch(26% 0.007 248.1)",
+          "oklch(38% 0.007 248.1)",
+          "oklch(49% 0.007 248.1)",
+          "oklch(61% 0.007 248.1)",
+          "oklch(72% 0.007 248.1)",
+          "oklch(84% 0.007 248.1)",
+          "oklch(95% 0.007 248.1)"
+        ]
+      },
+      "graphite-3": {
+        "role": "neutral",
+        "displayName": "Graphite 3",
+        "canonical": "#363a3e",
+        "tonalRamp": [
+          "oklch(15% 0.009 248.1)",
+          "oklch(26% 0.009 248.1)",
+          "oklch(38% 0.009 248.1)",
+          "oklch(49% 0.009 248.1)",
+          "oklch(61% 0.009 248.1)",
+          "oklch(72% 0.009 248.1)",
+          "oklch(84% 0.009 248.1)",
+          "oklch(95% 0.009 248.1)"
+        ]
+      },
+      "shell-fg": {
+        "role": "neutral",
+        "displayName": "Shell Text",
+        "canonical": "#eceee9",
+        "tonalRamp": [
+          "oklch(15% 0.007 124.5)",
+          "oklch(26% 0.007 124.5)",
+          "oklch(38% 0.007 124.5)",
+          "oklch(49% 0.007 124.5)",
+          "oklch(61% 0.007 124.5)",
+          "oklch(72% 0.007 124.5)",
+          "oklch(84% 0.007 124.5)",
+          "oklch(95% 0.007 124.5)"
+        ]
+      },
+      "shell-muted": {
+        "role": "neutral",
+        "displayName": "Shell Muted",
+        "canonical": "#a9afb2",
+        "tonalRamp": [
+          "oklch(15% 0.008 228.9)",
+          "oklch(26% 0.008 228.9)",
+          "oklch(38% 0.008 228.9)",
+          "oklch(49% 0.008 228.9)",
+          "oklch(61% 0.008 228.9)",
+          "oklch(72% 0.008 228.9)",
+          "oklch(84% 0.008 228.9)",
+          "oklch(95% 0.008 228.9)"
+        ]
+      },
+      "ground": {
+        "role": "neutral",
+        "displayName": "Concrete Ground",
+        "canonical": "#f4f5f2",
+        "tonalRamp": [
+          "oklch(15% 0.004 121.6)",
+          "oklch(26% 0.004 121.6)",
+          "oklch(38% 0.004 121.6)",
+          "oklch(49% 0.004 121.6)",
+          "oklch(61% 0.004 121.6)",
+          "oklch(72% 0.004 121.6)",
+          "oklch(84% 0.004 121.6)",
+          "oklch(95% 0.004 121.6)"
+        ]
+      },
+      "ground-2": {
+        "role": "neutral",
+        "displayName": "Concrete 2",
+        "canonical": "#eaece7",
+        "tonalRamp": [
+          "oklch(15% 0.007 124.5)",
+          "oklch(26% 0.007 124.5)",
+          "oklch(38% 0.007 124.5)",
+          "oklch(49% 0.007 124.5)",
+          "oklch(61% 0.007 124.5)",
+          "oklch(72% 0.007 124.5)",
+          "oklch(84% 0.007 124.5)",
+          "oklch(95% 0.007 124.5)"
+        ]
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "Surface White",
+        "canonical": "#ffffff",
+        "tonalRamp": [
+          "oklch(15% 0.000 89.9)",
+          "oklch(26% 0.000 89.9)",
+          "oklch(38% 0.000 89.9)",
+          "oklch(49% 0.000 89.9)",
+          "oklch(61% 0.000 89.9)",
+          "oklch(72% 0.000 89.9)",
+          "oklch(84% 0.000 89.9)",
+          "oklch(95% 0.000 89.9)"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "#17191b",
+        "tonalRamp": [
+          "oklch(15% 0.005 248.1)",
+          "oklch(26% 0.005 248.1)",
+          "oklch(38% 0.005 248.1)",
+          "oklch(49% 0.005 248.1)",
+          "oklch(61% 0.005 248.1)",
+          "oklch(72% 0.005 248.1)",
+          "oklch(84% 0.005 248.1)",
+          "oklch(95% 0.005 248.1)"
+        ]
+      },
+      "ink-2": {
+        "role": "neutral",
+        "displayName": "Ink 2",
+        "canonical": "#474f55",
+        "tonalRamp": [
+          "oklch(15% 0.014 240.2)",
+          "oklch(26% 0.014 240.2)",
+          "oklch(38% 0.014 240.2)",
+          "oklch(49% 0.014 240.2)",
+          "oklch(61% 0.014 240.2)",
+          "oklch(72% 0.014 240.2)",
+          "oklch(84% 0.014 240.2)",
+          "oklch(95% 0.014 240.2)"
+        ]
+      },
+      "ink-3": {
+        "role": "neutral",
+        "displayName": "Ink 3",
+        "canonical": "#5f676c",
+        "tonalRamp": [
+          "oklch(15% 0.013 235.0)",
+          "oklch(26% 0.013 235.0)",
+          "oklch(38% 0.013 235.0)",
+          "oklch(49% 0.013 235.0)",
+          "oklch(61% 0.013 235.0)",
+          "oklch(72% 0.013 235.0)",
+          "oklch(84% 0.013 235.0)",
+          "oklch(95% 0.013 235.0)"
+        ]
+      },
+      "line": {
+        "role": "neutral",
+        "displayName": "Line",
+        "canonical": "#dadcd6",
+        "tonalRamp": [
+          "oklch(15% 0.008 121.6)",
+          "oklch(26% 0.008 121.6)",
+          "oklch(38% 0.008 121.6)",
+          "oklch(49% 0.008 121.6)",
+          "oklch(61% 0.008 121.6)",
+          "oklch(72% 0.008 121.6)",
+          "oklch(84% 0.008 121.6)",
+          "oklch(95% 0.008 121.6)"
+        ]
+      },
+      "line-strong": {
+        "role": "neutral",
+        "displayName": "Line Strong",
+        "canonical": "#b8bdb5",
+        "tonalRamp": [
+          "oklch(15% 0.012 133.4)",
+          "oklch(26% 0.012 133.4)",
+          "oklch(38% 0.012 133.4)",
+          "oklch(49% 0.012 133.4)",
+          "oklch(61% 0.012 133.4)",
+          "oklch(72% 0.012 133.4)",
+          "oklch(84% 0.012 133.4)",
+          "oklch(95% 0.012 133.4)"
+        ]
+      },
+      "input": {
+        "role": "neutral",
+        "displayName": "Input",
+        "canonical": "#878e86",
+        "tonalRamp": [
+          "oklch(15% 0.014 130.8)",
+          "oklch(26% 0.014 130.8)",
+          "oklch(38% 0.014 130.8)",
+          "oklch(49% 0.014 130.8)",
+          "oklch(61% 0.014 130.8)",
+          "oklch(72% 0.014 130.8)",
+          "oklch(84% 0.014 130.8)",
+          "oklch(95% 0.014 130.8)"
+        ]
+      },
+      "accent": {
+        "role": "neutral",
+        "displayName": "Accent",
+        "canonical": "#eceee8",
+        "tonalRamp": [
+          "oklch(15% 0.008 121.6)",
+          "oklch(26% 0.008 121.6)",
+          "oklch(38% 0.008 121.6)",
+          "oklch(49% 0.008 121.6)",
+          "oklch(61% 0.008 121.6)",
+          "oklch(72% 0.008 121.6)",
+          "oklch(84% 0.008 121.6)",
+          "oklch(95% 0.008 121.6)"
+        ]
+      },
+      "brand": {
+        "role": "primary",
+        "displayName": "Brand Blue",
+        "canonical": "#0f6cbd",
+        "tonalRamp": [
+          "oklch(15% 0.149 251.6)",
+          "oklch(26% 0.149 251.6)",
+          "oklch(38% 0.149 251.6)",
+          "oklch(49% 0.149 251.6)",
+          "oklch(61% 0.149 251.6)",
+          "oklch(72% 0.149 251.6)",
+          "oklch(84% 0.149 251.6)",
+          "oklch(95% 0.149 251.6)"
+        ],
+        "world": "admin-console",
+        "cssVar": "--brand"
+      },
+      "brand-hover": {
+        "role": "primary",
+        "displayName": "Brand Hover",
+        "canonical": "#115ea3",
+        "tonalRamp": [
+          "oklch(15% 0.131 251.4)",
+          "oklch(26% 0.131 251.4)",
+          "oklch(38% 0.131 251.4)",
+          "oklch(49% 0.131 251.4)",
+          "oklch(61% 0.131 251.4)",
+          "oklch(72% 0.131 251.4)",
+          "oklch(84% 0.131 251.4)",
+          "oklch(95% 0.131 251.4)"
+        ],
+        "world": "admin-console",
+        "cssVar": "--brand-hover"
+      },
+      "brand-tint": {
+        "role": "primary",
+        "displayName": "Brand Tint",
+        "canonical": "#ebf3fc",
+        "tonalRamp": [
+          "oklch(15% 0.015 251.2)",
+          "oklch(26% 0.015 251.2)",
+          "oklch(38% 0.015 251.2)",
+          "oklch(49% 0.015 251.2)",
+          "oklch(61% 0.015 251.2)",
+          "oklch(72% 0.015 251.2)",
+          "oklch(84% 0.015 251.2)",
+          "oklch(95% 0.015 251.2)"
+        ],
+        "world": "admin-console",
+        "cssVar": "--brand-tint"
+      },
+      "brand-tint-2": {
+        "role": "primary",
+        "displayName": "Brand Tint 2",
+        "canonical": "#cfe4fa",
+        "tonalRamp": [
+          "oklch(15% 0.038 249.5)",
+          "oklch(26% 0.038 249.5)",
+          "oklch(38% 0.038 249.5)",
+          "oklch(49% 0.038 249.5)",
+          "oklch(61% 0.038 249.5)",
+          "oklch(72% 0.038 249.5)",
+          "oklch(84% 0.038 249.5)",
+          "oklch(95% 0.038 249.5)"
+        ],
+        "world": "admin-console",
+        "cssVar": "--brand-tint-2"
+      },
+      "ok": {
+        "role": "tertiary",
+        "displayName": "Ok",
+        "canonical": "#107c10",
+        "tonalRamp": [
+          "oklch(15% 0.165 142.7)",
+          "oklch(26% 0.165 142.7)",
+          "oklch(38% 0.165 142.7)",
+          "oklch(49% 0.165 142.7)",
+          "oklch(61% 0.165 142.7)",
+          "oklch(72% 0.165 142.7)",
+          "oklch(84% 0.165 142.7)",
+          "oklch(95% 0.165 142.7)"
+        ],
+        "world": "admin-console",
+        "cssVar": "--ok"
+      },
+      "ok-tint": {
+        "role": "tertiary",
+        "displayName": "Ok Tint",
+        "canonical": "#f1faf1",
+        "tonalRamp": [
+          "oklch(15% 0.015 145.5)",
+          "oklch(26% 0.015 145.5)",
+          "oklch(38% 0.015 145.5)",
+          "oklch(49% 0.015 145.5)",
+          "oklch(61% 0.015 145.5)",
+          "oklch(72% 0.015 145.5)",
+          "oklch(84% 0.015 145.5)",
+          "oklch(95% 0.015 145.5)"
+        ],
+        "world": "admin-console",
+        "cssVar": "--ok-tint"
+      },
+      "bad": {
+        "role": "tertiary",
+        "displayName": "Bad",
+        "canonical": "#c50f1f",
+        "tonalRamp": [
+          "oklch(15% 0.206 25.8)",
+          "oklch(26% 0.206 25.8)",
+          "oklch(38% 0.206 25.8)",
+          "oklch(49% 0.206 25.8)",
+          "oklch(61% 0.206 25.8)",
+          "oklch(72% 0.206 25.8)",
+          "oklch(84% 0.206 25.8)",
+          "oklch(95% 0.206 25.8)"
+        ],
+        "world": "admin-console",
+        "cssVar": "--bad"
+      },
+      "bad-tint": {
+        "role": "tertiary",
+        "displayName": "Bad Tint",
+        "canonical": "#fdf3f4",
+        "tonalRamp": [
+          "oklch(15% 0.011 10.3)",
+          "oklch(26% 0.011 10.3)",
+          "oklch(38% 0.011 10.3)",
+          "oklch(49% 0.011 10.3)",
+          "oklch(61% 0.011 10.3)",
+          "oklch(72% 0.011 10.3)",
+          "oklch(84% 0.011 10.3)",
+          "oklch(95% 0.011 10.3)"
+        ],
+        "world": "admin-console",
+        "cssVar": "--bad-tint"
+      },
+      "warn": {
+        "role": "tertiary",
+        "displayName": "Warn",
+        "canonical": "#bc4b09",
+        "tonalRamp": [
+          "oklch(15% 0.160 43.4)",
+          "oklch(26% 0.160 43.4)",
+          "oklch(38% 0.160 43.4)",
+          "oklch(49% 0.160 43.4)",
+          "oklch(61% 0.160 43.4)",
+          "oklch(72% 0.160 43.4)",
+          "oklch(84% 0.160 43.4)",
+          "oklch(95% 0.160 43.4)"
+        ],
+        "world": "admin-console",
+        "cssVar": "--warn"
+      },
+      "warn-tint": {
+        "role": "tertiary",
+        "displayName": "Warn Tint",
+        "canonical": "#fff9f5",
+        "tonalRamp": [
+          "oklch(15% 0.008 56.3)",
+          "oklch(26% 0.008 56.3)",
+          "oklch(38% 0.008 56.3)",
+          "oklch(49% 0.008 56.3)",
+          "oklch(61% 0.008 56.3)",
+          "oklch(72% 0.008 56.3)",
+          "oklch(84% 0.008 56.3)",
+          "oklch(95% 0.008 56.3)"
+        ],
+        "world": "admin-console",
+        "cssVar": "--warn-tint"
+      },
+      "admin-ground": {
+        "role": "neutral",
+        "displayName": "Admin Ground",
+        "canonical": "#f5f5f5",
+        "tonalRamp": [
+          "oklch(15% 0.000 89.9)",
+          "oklch(26% 0.000 89.9)",
+          "oklch(38% 0.000 89.9)",
+          "oklch(49% 0.000 89.9)",
+          "oklch(61% 0.000 89.9)",
+          "oklch(72% 0.000 89.9)",
+          "oklch(84% 0.000 89.9)",
+          "oklch(95% 0.000 89.9)"
+        ],
+        "world": "admin-console",
+        "cssVar": "--ground and --accent under .admin-ui"
+      },
+      "admin-ground-2": {
+        "role": "neutral",
+        "displayName": "Admin Ground 2",
+        "canonical": "#f0f0f0",
+        "tonalRamp": [
+          "oklch(15% 0.000 89.9)",
+          "oklch(26% 0.000 89.9)",
+          "oklch(38% 0.000 89.9)",
+          "oklch(49% 0.000 89.9)",
+          "oklch(61% 0.000 89.9)",
+          "oklch(72% 0.000 89.9)",
+          "oklch(84% 0.000 89.9)",
+          "oklch(95% 0.000 89.9)"
+        ],
+        "world": "admin-console",
+        "cssVar": "--ground-2 under .admin-ui"
+      },
+      "admin-ink": {
+        "role": "neutral",
+        "displayName": "Admin Ink",
+        "canonical": "#242424",
+        "tonalRamp": [
+          "oklch(15% 0.000 89.9)",
+          "oklch(26% 0.000 89.9)",
+          "oklch(38% 0.000 89.9)",
+          "oklch(49% 0.000 89.9)",
+          "oklch(61% 0.000 89.9)",
+          "oklch(72% 0.000 89.9)",
+          "oklch(84% 0.000 89.9)",
+          "oklch(95% 0.000 89.9)"
+        ],
+        "world": "admin-console",
+        "cssVar": "--ink and --ring under .admin-ui"
+      },
+      "admin-ink-2": {
+        "role": "neutral",
+        "displayName": "Admin Ink 2",
+        "canonical": "#424242",
+        "tonalRamp": [
+          "oklch(15% 0.000 89.9)",
+          "oklch(26% 0.000 89.9)",
+          "oklch(38% 0.000 89.9)",
+          "oklch(49% 0.000 89.9)",
+          "oklch(61% 0.000 89.9)",
+          "oklch(72% 0.000 89.9)",
+          "oklch(84% 0.000 89.9)",
+          "oklch(95% 0.000 89.9)"
+        ],
+        "world": "admin-console",
+        "cssVar": "--ink-2 under .admin-ui"
+      },
+      "admin-ink-3": {
+        "role": "neutral",
+        "displayName": "Admin Ink 3",
+        "canonical": "#616161",
+        "tonalRamp": [
+          "oklch(15% 0.000 89.9)",
+          "oklch(26% 0.000 89.9)",
+          "oklch(38% 0.000 89.9)",
+          "oklch(49% 0.000 89.9)",
+          "oklch(61% 0.000 89.9)",
+          "oklch(72% 0.000 89.9)",
+          "oklch(84% 0.000 89.9)",
+          "oklch(95% 0.000 89.9)"
+        ],
+        "world": "admin-console",
+        "cssVar": "--ink-3 under .admin-ui"
+      },
+      "admin-line": {
+        "role": "neutral",
+        "displayName": "Admin Line",
+        "canonical": "#e0e0e0",
+        "tonalRamp": [
+          "oklch(15% 0.000 89.9)",
+          "oklch(26% 0.000 89.9)",
+          "oklch(38% 0.000 89.9)",
+          "oklch(49% 0.000 89.9)",
+          "oklch(61% 0.000 89.9)",
+          "oklch(72% 0.000 89.9)",
+          "oklch(84% 0.000 89.9)",
+          "oklch(95% 0.000 89.9)"
+        ],
+        "world": "admin-console",
+        "cssVar": "--line under .admin-ui"
+      },
+      "admin-line-strong": {
+        "role": "neutral",
+        "displayName": "Admin Line Strong",
+        "canonical": "#d1d1d1",
+        "tonalRamp": [
+          "oklch(15% 0.000 89.9)",
+          "oklch(26% 0.000 89.9)",
+          "oklch(38% 0.000 89.9)",
+          "oklch(49% 0.000 89.9)",
+          "oklch(61% 0.000 89.9)",
+          "oklch(72% 0.000 89.9)",
+          "oklch(84% 0.000 89.9)",
+          "oklch(95% 0.000 89.9)"
+        ],
+        "world": "admin-console",
+        "cssVar": "--line-strong under .admin-ui"
+      },
+      "admin-input": {
+        "role": "neutral",
+        "displayName": "Admin Input",
+        "canonical": "#8a8a8a",
+        "tonalRamp": [
+          "oklch(15% 0.000 89.9)",
+          "oklch(26% 0.000 89.9)",
+          "oklch(38% 0.000 89.9)",
+          "oklch(49% 0.000 89.9)",
+          "oklch(61% 0.000 89.9)",
+          "oklch(72% 0.000 89.9)",
+          "oklch(84% 0.000 89.9)",
+          "oklch(95% 0.000 89.9)"
+        ],
+        "world": "admin-console",
+        "cssVar": "--input under .admin-ui"
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Employee page titles only (entry activity title, result headline). 1.875rem below 640px, 2.5rem above."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Admin page titles; review and no-evidence titles at 1.75rem, workspace title and result section headings at 1.25rem."
+      },
+      "title": {
+        "displayName": "Question Prompt",
+        "purpose": "The question prompt, the largest thing in the answer column."
+      },
+      "title-sm": {
+        "displayName": "Title Small",
+        "purpose": "Panel titles."
+      },
+      "body-lg": {
+        "displayName": "Body Large",
+        "purpose": "Prompts, section intros, public messages."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Option labels, learning points, fact lists."
+      },
+      "body-sm": {
+        "displayName": "Body Small",
+        "purpose": "Admin descriptions, empty states, table cells (20px leading)."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Field labels, meta rows, workspace tabs, sentence-case container labels."
+      },
+      "caption": {
+        "displayName": "Caption",
+        "purpose": "Hints, plate captions, legends."
+      },
+      "tag": {
+        "displayName": "Exhibit Tag Lettering",
+        "purpose": "Uppercase EXHIBIT A lettering of the exhibit tag only."
+      },
+      "code": {
+        "displayName": "Code",
+        "purpose": "Mono code chips; mono also carries employee IDs, resume codes, countdown, inline code."
+      },
+      "button": {
+        "displayName": "Button",
+        "purpose": "Button labels (lg 15px, xl 16px)."
+      },
+      "admin-title": {
+        "displayName": "Admin Title",
+        "purpose": "Console page titles (PageHeader), Responses stat values in tabular figures, the builder title card from 640px. 28px on 36px; rem stays 16px, so 1.75rem.",
+        "world": "admin-console"
+      },
+      "admin-title-sm": {
+        "displayName": "Admin Title Small",
+        "purpose": "The Sign in heading; the title-card title below 640px.",
+        "world": "admin-console"
+      },
+      "admin-subtitle": {
+        "displayName": "Admin Subtitle",
+        "purpose": "Activity name in the workspace header; Share and response drawer titles.",
+        "world": "admin-console"
+      },
+      "admin-subtitle-sm": {
+        "displayName": "Admin Subtitle Small",
+        "purpose": "Dialog titles and the section title field.",
+        "world": "admin-console"
+      },
+      "admin-card-title": {
+        "displayName": "Admin Card Title",
+        "purpose": "Card and panel headings, empty-state titles, the Preview dialog title.",
+        "world": "admin-console"
+      },
+      "admin-item": {
+        "displayName": "Admin Item",
+        "purpose": "Activity names in lists; the app-bar product name at -0.005em.",
+        "world": "admin-console"
+      },
+      "admin-body-lg": {
+        "displayName": "Admin Body Large",
+        "purpose": "Question prompts in builder and summary cards, the description field.",
+        "world": "admin-console"
+      },
+      "admin-body": {
+        "displayName": "Admin Body",
+        "purpose": "The 14px console base: table cells, message bars, menus, inputs, descriptions.",
+        "world": "admin-console"
+      },
+      "admin-body-strong": {
+        "displayName": "Admin Body Strong",
+        "purpose": "Setting labels, buttons, tabs, radio-card titles.",
+        "world": "admin-console"
+      },
+      "admin-label": {
+        "displayName": "Admin Label",
+        "purpose": "Field labels, pills, small buttons, back link, Section 1 of 3, Question 3.",
+        "world": "admin-console"
+      },
+      "admin-hint": {
+        "displayName": "Admin Hint",
+        "purpose": "Setting and card hints, the autosave state, phone meta rows.",
+        "world": "admin-console"
+      },
+      "admin-caption": {
+        "displayName": "Admin Caption",
+        "purpose": "Meta lines, stat notes, tooltips; field hints on 20px.",
+        "world": "admin-console"
+      },
+      "admin-caption-strong": {
+        "displayName": "Admin Caption Strong",
+        "purpose": "Status badges, table headers, count chips, chart captions.",
+        "world": "admin-console"
+      },
+      "admin-tick": {
+        "displayName": "Admin Tick",
+        "purpose": "Chart tick labels only.",
+        "world": "admin-console"
+      },
+      "admin-code": {
+        "displayName": "Admin Code",
+        "purpose": "Consolas stack, only for strings a person types: passwords, ID patterns (13px), number answers.",
+        "world": "admin-console"
+      }
+    },
+    "shadows": [
+      {
+        "name": "plate",
+        "value": "0 18px 40px -28px rgb(26 28 30 / 0.45)",
+        "purpose": "Evidence plate, phone evidence strip, certificate sheet: the exhibit lying on the table. CSS var --elev-plate, utility shadow-plate."
+      },
+      {
+        "name": "pop",
+        "value": "0 12px 28px -14px rgb(26 28 30 / 0.38), 0 2px 4px -2px rgb(26 28 30 / 0.12)",
+        "purpose": "Anything that floats: dialogs, popovers, menus, the response sheet, a dragged row. CSS var --elev-pop, utility shadow-pop."
+      },
+      {
+        "name": "field-keyline",
+        "value": "0 0 0 1px var(--graphite)",
+        "purpose": "Focused field: doubles the graphite border to 2px; evidence red variant when invalid."
+      },
+      {
+        "name": "selection-keyline",
+        "value": "inset 0 0 0 1px var(--graphite)",
+        "purpose": "Selected option row (ledger green or evidence red variants for right/wrong)."
+      },
+      {
+        "name": "region-keyline",
+        "value": "0 0 0 1px rgb(26 28 30 / 0.85), inset 0 0 0 1px rgb(26 28 30 / 0.5)",
+        "purpose": "Region marks on evidence: keeps the yellow stroke visible on any screenshot."
+      },
+      {
+        "name": "marker-drop-shadow",
+        "value": "drop-shadow(0 2px 1px rgb(0 0 0 / 0.25))",
+        "purpose": "Filter on tent markers standing on the evidence."
+      },
+      {
+        "name": "hotspot-halo",
+        "value": "0 0 0 3px rgb(255 255 255 / 0.9)",
+        "purpose": "White halo around the tapped hotspot point."
+      },
+      {
+        "name": "admin-card",
+        "value": "0 0 2px rgb(0 0 0 / 0.12), 0 1px 2px rgb(0 0 0 / 0.14)",
+        "purpose": "Admin console: every card rests on it (lists, stat row, summary and settings cards, builder cards, sign-in card, drawer answer cards). CSS var --elev-card, utility shadow-card."
+      },
+      {
+        "name": "admin-card-hover",
+        "value": "0 0 2px rgb(0 0 0 / 0.12), 0 4px 8px rgb(0 0 0 / 0.14)",
+        "purpose": "Admin console: a collapsed question card under the pointer, the one card that lifts."
+      },
+      {
+        "name": "admin-pop",
+        "value": "0 0 2px rgb(0 0 0 / 0.12), 0 8px 16px rgb(0 0 0 / 0.14)",
+        "purpose": "Admin console: menus, selects, dialogs, sheets, toasts. --elev-pop under .admin-ui, so shadow-pop follows."
+      },
+      {
+        "name": "admin-save-bar",
+        "value": "0 -4px 12px rgb(0 0 0 / 0.06)",
+        "purpose": "Admin console: the sticky settings save bar, casting upward."
+      },
+      {
+        "name": "admin-field-keyline",
+        "value": "0 0 0 1px var(--brand)",
+        "purpose": "Admin console: a focused field (border turns brand too), via the re-pointed --graphite."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-out-expo",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Easing for every keyframed entrance (CSS var --ease-out)."
+      },
+      {
+        "name": "region-draw",
+        "value": "520ms",
+        "purpose": "Region mark wipes in from its top-left corner via clip-path inset; staggered 90ms per flag."
+      },
+      {
+        "name": "marker-drop",
+        "value": "420ms",
+        "purpose": "Tent marker falls 14px, scales from 0.9 and fades in, 120ms after its region."
+      },
+      {
+        "name": "stamp-in",
+        "value": "260ms",
+        "purpose": "Rise 6px and fade in: evidence-log rows (200ms + 90ms each), next clue, wrong-try note, resume-code panel."
+      },
+      {
+        "name": "reveal-stagger",
+        "value": "90ms",
+        "purpose": "Per-item delay across region marks, markers and log rows."
+      },
+      {
+        "name": "state-transition",
+        "value": "150ms ease-out",
+        "purpose": "Colour, border and 1px press transitions on buttons and option rows."
+      },
+      {
+        "name": "overlay-enter",
+        "value": "200ms",
+        "purpose": "Dialogs and menus fade and scale in from 95%."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "0.01ms",
+        "purpose": "prefers-reduced-motion clamps all animations and transitions to 0.01ms with one iteration; fill-mode both lands entrances on their final frame."
+      },
+      {
+        "name": "admin-state",
+        "value": "150ms ease-out",
+        "purpose": "Admin console: colour and border shifts on buttons, pills, tabs and tiles; the 1px button press."
+      },
+      {
+        "name": "admin-card-lift",
+        "value": "150ms",
+        "purpose": "Admin console: a collapsed question card moves from the card shadow to card hover."
+      },
+      {
+        "name": "admin-sheet",
+        "value": "500ms in / 300ms out, ease-in-out",
+        "purpose": "Admin console: Share and response drawers slide from the right; dialogs and menus use overlay-enter."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "sm",
+        "value": "640px"
+      },
+      {
+        "name": "md",
+        "value": "768px"
+      },
+      {
+        "name": "lg",
+        "value": "1024px"
+      },
+      {
+        "name": "xl",
+        "value": "1280px"
+      }
+    ],
+    "worlds": [
+      {
+        "name": "Evidence Room",
+        "id": "evidence-room",
+        "scope": ":root defaults; re-applied by .evidence-ui inside admin previews",
+        "surfaces": "Employee entry, player, review, result, leaderboard, projector, certificate; the Preview dialog and the plate and markers of the red-flag map.",
+        "tokens": "Unprefixed keys in the DESIGN.md frontmatter."
+      },
+      {
+        "name": "Admin Console",
+        "id": "admin-console",
+        "scope": ".admin-ui on <html>, set by useAdminTheme() in frontend/app/lib/admin-theme.ts (admin layout and sign-in)",
+        "surfaces": "Every /admin/* route: Activities, the activity workspace (Questions, Responses, Settings, Share), Manage admins, Sign in.",
+        "tokens": "Frontmatter keys prefixed admin-, plus brand, brand-hover, brand-tint, brand-tint-2, ok, ok-tint, bad, bad-tint, warn, warn-tint.",
+        "base": ".admin-ui body is 14px; rem stays 16px.",
+        "fonts": {
+          "--font-ui": "Segoe UI Variable Text stack",
+          "--font-code": "Consolas stack"
+        },
+        "radii": {
+          "--r-xs": "2px",
+          "--r-sm": "4px",
+          "--r-md": "4px",
+          "--r-lg": "8px",
+          "--r-xl": "8px"
+        },
+        "repoints": {
+          "--graphite": "--brand",
+          "--graphite-2": "--brand-hover",
+          "--primary": "--brand",
+          "--primary-hover": "--brand-hover",
+          "--primary-foreground": "#ffffff",
+          "--slate": "--brand",
+          "--data": "--brand",
+          "--data-wash": "--brand-tint",
+          "--marker-wash": "--brand-tint",
+          "--red-ink": "--bad",
+          "--green-ink": "--ok",
+          "--manila-ink": "--warn",
+          "--manila-wash": "--warn-tint",
+          "--ground": "#f5f5f5",
+          "--ground-2": "#f0f0f0",
+          "--surface": "#ffffff",
+          "--ink": "#242424",
+          "--ink-2": "#424242",
+          "--ink-3": "#616161",
+          "--line": "#e0e0e0",
+          "--line-strong": "#d1d1d1",
+          "--accent": "#f5f5f5",
+          "--input": "#8a8a8a",
+          "--ring": "#242424",
+          "--elev-pop": "0 0 2px rgb(0 0 0 / 0.12), 0 8px 16px rgb(0 0 0 / 0.14)"
+        },
+        "notRepointed": "marker, manila, ledger green, evidence red, the washes, --destructive and the shell colours stay Evidence Room colours (marks on screenshots, the Preview).",
+        "toasts": ".admin-ui [data-sonner-toast]: white, ink text, line border, 8px radius, admin pop shadow; descriptions ink-3.",
+        "selection": "--brand-tint-2 behind ink."
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Marker yellow: the one primary action on a view (New activity, Check answer, Submit answers).",
+      "html": "<button class='ds-btn-primary'><svg width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'><path d='M5 12h14'/><path d='M12 5v14'/></svg>New activity</button>",
+      "css": ".ds-btn-primary{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:36px;padding:0 16px 0 12px;border:0;border-radius:2px;background:var(--marker,#f2c230);color:var(--marker-ink,#1a1c1e);font:600 14px/1 var(--font-sans, 'Atkinson Hyperlegible Next Variable', ui-sans-serif, system-ui, sans-serif);white-space:nowrap;cursor:pointer;transition:background-color 150ms ease-out,transform 150ms ease-out}.ds-btn-primary:hover{background:var(--marker-hover,#e6b31c)}.ds-btn-primary:active{transform:translateY(1px)}.ds-btn-primary:focus-visible{outline:2px solid var(--graphite,#1a1c1e);outline-offset:2px}.ds-btn-primary:disabled{opacity:.45;pointer-events:none}"
+    },
+    {
+      "name": "Ink Button",
+      "kind": "button",
+      "refersTo": "button-ink",
+      "description": "Graphite: moving on (Next, Continue, Finish) and strong secondary actions. Shown at the lg (44px) employee size.",
+      "html": "<button class='ds-btn-ink'>Next<svg width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'><path d='M5 12h14'/><path d='m12 5 7 7-7 7'/></svg></button>",
+      "css": ".ds-btn-ink{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:44px;min-width:160px;padding:0 16px 0 20px;border:0;border-radius:2px;background:var(--graphite,#1a1c1e);color:var(--shell-fg,#eceee9);font:600 15px/1 var(--font-sans, 'Atkinson Hyperlegible Next Variable', ui-sans-serif, system-ui, sans-serif);cursor:pointer;transition:background-color 150ms ease-out,transform 150ms ease-out}.ds-btn-ink:hover{background:var(--graphite-2,#25282b)}.ds-btn-ink:active{transform:translateY(1px)}.ds-btn-ink:focus-visible{outline:2px solid var(--graphite,#1a1c1e);outline-offset:2px}"
+    },
+    {
+      "name": "Outline Button",
+      "kind": "button",
+      "refersTo": "button-outline",
+      "description": "White with a Line Strong hairline: Previous, Copy, Employee page, plate zoom controls.",
+      "html": "<button class='ds-btn-outline'><svg width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'><path d='m12 19-7-7 7-7'/><path d='M19 12H5'/></svg>Previous</button>",
+      "css": ".ds-btn-outline{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:44px;padding:0 20px 0 16px;border:1px solid var(--line-strong,#b8bdb5);border-radius:2px;background:var(--surface,#fff);color:var(--ink,#17191b);font:600 15px/1 var(--font-sans, 'Atkinson Hyperlegible Next Variable', ui-sans-serif, system-ui, sans-serif);cursor:pointer;transition:background-color 150ms ease-out,border-color 150ms ease-out,transform 150ms ease-out}.ds-btn-outline:hover{border-color:var(--ink-3,#5f676c);background:var(--accent,#eceee8)}.ds-btn-outline:active{transform:translateY(1px)}.ds-btn-outline:focus-visible{outline:2px solid var(--graphite,#1a1c1e);outline-offset:2px}"
+    },
+    {
+      "name": "Text Field",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Label, white field with a 1px Input border, graphite border plus keyline on focus, red border plus keyline when invalid. Employee ID shown in mono at the 44px employee size.",
+      "html": "<div class='ds-field'><label class='ds-field-label' for='ds-emp'>Employee ID</label><input id='ds-emp' class='ds-input' placeholder='E609431' autocomplete='off'/><p class='ds-field-hint'>The ID printed on your badge.</p></div>",
+      "css": ".ds-field{display:grid;gap:6px;max-width:320px;font-family:var(--font-sans, 'Atkinson Hyperlegible Next Variable', ui-sans-serif, system-ui, sans-serif)}.ds-field-label{font-size:13px;font-weight:600;color:var(--ink,#17191b)}.ds-input{height:44px;width:100%;padding:4px 12px;border:1px solid var(--input,#878e86);border-radius:2px;background:var(--surface,#fff);color:var(--ink,#17191b);font:400 16px/1.2 var(--font-mono, 'Atkinson Hyperlegible Mono Variable', ui-monospace, monospace);letter-spacing:.025em;outline:none;transition:border-color 150ms,box-shadow 150ms}.ds-input::placeholder{color:var(--ink-3,#5f676c)}.ds-input:hover{border-color:var(--ink-3,#5f676c)}.ds-input:focus-visible{border-color:var(--graphite,#1a1c1e);box-shadow:0 0 0 1px var(--graphite,#1a1c1e)}.ds-input[aria-invalid='true']{border-color:var(--evidence-red,#c0392b);box-shadow:0 0 0 1px var(--evidence-red,#c0392b)}.ds-field-hint{margin:0;font-size:12px;line-height:20px;color:var(--ink-3,#5f676c)}"
+    },
+    {
+      "name": "Answer Option Rows",
+      "kind": "custom",
+      "refersTo": "option-row",
+      "description": "Answer choices: idle, selected (graphite border, marker wash, yellow dot), and revealed right / wrong with glyphs, never colour alone.",
+      "html": "<div class='ds-opts' role='radiogroup' aria-label='Answer'><label class='ds-opt'><input type='radio' name='ds-q' class='ds-opt-input'/><span class='ds-opt-ind'></span><span class='ds-opt-text'>The email contains the Microsoft logo</span><kbd class='ds-opt-kbd'>1</kbd></label><label class='ds-opt is-selected'><input type='radio' name='ds-q' class='ds-opt-input' checked/><span class='ds-opt-ind'><span class='ds-opt-dot'></span></span><span class='ds-opt-text'>The email threatens account suspension within two hours</span><kbd class='ds-opt-kbd'>2</kbd></label><div class='ds-opt is-right'><span class='ds-opt-ind'><svg width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='3' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'><path d='M20 6 9 17l-5-5'/></svg></span><span class='ds-opt-text'>Phishing</span></div><div class='ds-opt is-wrong'><span class='ds-opt-ind'><svg width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='3' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'><path d='M18 6 6 18'/><path d='m6 6 12 12'/></svg></span><span class='ds-opt-text'>Marketing email</span></div></div>",
+      "css": ".ds-opts{display:grid;gap:8px;max-width:460px;font-family:var(--font-sans, 'Atkinson Hyperlegible Next Variable', ui-sans-serif, system-ui, sans-serif)}.ds-opt{position:relative;display:flex;align-items:flex-start;gap:12px;min-height:48px;padding:12px 14px;border:1px solid var(--line-strong,#b8bdb5);border-radius:1px;background:var(--surface,#fff);color:var(--ink,#17191b);cursor:pointer;transition:background-color 150ms,border-color 150ms,box-shadow 150ms}.ds-opt:hover{border-color:var(--ink-3,#5f676c);background:#fbfbf9}.ds-opt-input{position:absolute;opacity:0;width:1px;height:1px}.ds-opt-ind{margin-top:2px;display:grid;place-items:center;width:20px;height:20px;flex-shrink:0;border:1.5px solid var(--ink-3,#5f676c);border-radius:9999px;background:var(--surface,#fff);color:#fff}.ds-opt-input:focus-visible+.ds-opt-ind{outline:2px solid var(--graphite,#1a1c1e);outline-offset:2px}.ds-opt-text{flex:1;font-size:15px;line-height:24px}.ds-opt-kbd{margin-top:2px;padding:0 6px;border:1px solid var(--line,#dadcd6);border-radius:1px;font:400 11px/18px var(--font-mono, 'Atkinson Hyperlegible Mono Variable', ui-monospace, monospace);color:var(--ink-3,#5f676c)}.ds-opt.is-selected{border-color:var(--graphite,#1a1c1e);background:var(--marker-wash,#fbefc4);box-shadow:inset 0 0 0 1px var(--graphite,#1a1c1e)}.ds-opt.is-selected .ds-opt-ind{border-color:var(--graphite,#1a1c1e);background:var(--graphite,#1a1c1e)}.ds-opt-dot{width:8px;height:8px;border-radius:9999px;background:var(--marker,#f2c230)}.ds-opt.is-right{cursor:default;border-color:var(--ledger-green,#1e7f4f);background:var(--green-wash,#dcefe3);box-shadow:inset 0 0 0 1px var(--ledger-green,#1e7f4f)}.ds-opt.is-right .ds-opt-ind{border-color:var(--ledger-green,#1e7f4f);background:var(--ledger-green,#1e7f4f)}.ds-opt.is-wrong{cursor:default;border-color:var(--evidence-red,#c0392b);background:var(--red-wash,#f8e2de);box-shadow:inset 0 0 0 1px var(--evidence-red,#c0392b)}.ds-opt.is-wrong .ds-opt-ind{border-color:var(--evidence-red,#c0392b);background:var(--evidence-red,#c0392b)}"
+    },
+    {
+      "name": "Exhibit Tag and Code Chips",
+      "kind": "chip",
+      "refersTo": "exhibit-tag",
+      "description": "Manila arrow-cut exhibit tag with a punched hole, plus mono code chips in manila and plain tones.",
+      "html": "<div class='ds-tags'><span class='ds-exhibit'><span class='ds-exhibit-hole'></span><span class='ds-exhibit-code'>Exhibit B</span><span class='ds-exhibit-title'>· Login page</span></span><span class='ds-code'>S2·Q04</span><span class='ds-code ds-code-plain'>CASE-014</span></div>",
+      "css": ".ds-tags{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-family:var(--font-sans, 'Atkinson Hyperlegible Next Variable', ui-sans-serif, system-ui, sans-serif)}.ds-exhibit{position:relative;display:inline-flex;align-items:center;gap:8px;padding:4px 10px 4px 24px;background:var(--manila,#e8d5a8);color:var(--manila-ink,#574220);font-size:12px;line-height:1;font-weight:700;clip-path:polygon(10px 0,100% 0,100% 100%,10px 100%,0 50%)}.ds-exhibit-hole{position:absolute;left:9px;top:50%;width:7px;height:7px;border-radius:9999px;background:rgb(26 28 30/.7);transform:translateY(-50%)}.ds-exhibit-code{letter-spacing:.08em;text-transform:uppercase;white-space:nowrap}.ds-exhibit-title{font-weight:600;opacity:.9;white-space:nowrap}.ds-code{display:inline-flex;align-items:center;padding:2px 6px;border-radius:1px;background:var(--manila-wash,#f4ebd3);color:var(--manila-ink,#574220);font:600 11px/16px var(--font-mono, 'Atkinson Hyperlegible Mono Variable', ui-monospace, monospace);letter-spacing:-.025em;white-space:nowrap}.ds-code-plain{background:var(--ground-2,#eaece7);color:var(--ink-2,#474f55)}"
+    },
+    {
+      "name": "Evidence Marker Tones",
+      "kind": "custom",
+      "refersTo": "evidence-marker",
+      "description": "The numbered tent marker in its five tones: marker (red flag), correct, missed, muted (no data), outline (awaiting review). Drops in on load.",
+      "html": "<div class='ds-tents'><svg class='ds-tent ds-tent-marker' viewBox='0 0 26 28' width='26' height='28.0' aria-hidden='true'><path class='ds-tent-side' d='M17 2.5 L23.5 26 L20 26 L15.5 2.5 Z'/><path class='ds-tent-face' d='M8.5 2.5 H17 L22 26 H2.5 Z'/><text x='12.4' y='19.6' text-anchor='middle' font-size='11.5' font-weight='800'>1</text></svg><svg class='ds-tent ds-tent-correct' viewBox='0 0 26 28' width='26' height='28.0' aria-hidden='true'><path class='ds-tent-side' d='M17 2.5 L23.5 26 L20 26 L15.5 2.5 Z'/><path class='ds-tent-face' d='M8.5 2.5 H17 L22 26 H2.5 Z'/><text x='12.4' y='19.6' text-anchor='middle' font-size='11.5' font-weight='800'>2</text></svg><svg class='ds-tent ds-tent-missed' viewBox='0 0 26 28' width='26' height='28.0' aria-hidden='true'><path class='ds-tent-side' d='M17 2.5 L23.5 26 L20 26 L15.5 2.5 Z'/><path class='ds-tent-face' d='M8.5 2.5 H17 L22 26 H2.5 Z'/><text x='12.4' y='19.6' text-anchor='middle' font-size='11.5' font-weight='800'>3</text></svg><svg class='ds-tent ds-tent-muted' viewBox='0 0 26 28' width='26' height='28.0' aria-hidden='true'><path class='ds-tent-side' d='M17 2.5 L23.5 26 L20 26 L15.5 2.5 Z'/><path class='ds-tent-face' d='M8.5 2.5 H17 L22 26 H2.5 Z'/><text x='12.4' y='19.6' text-anchor='middle' font-size='11.5' font-weight='800'>4</text></svg><svg class='ds-tent ds-tent-outline' viewBox='0 0 26 28' width='26' height='28.0' aria-hidden='true'><path class='ds-tent-side' d='M17 2.5 L23.5 26 L20 26 L15.5 2.5 Z'/><path class='ds-tent-face' d='M8.5 2.5 H17 L22 26 H2.5 Z'/><text x='12.4' y='19.6' text-anchor='middle' font-size='11.5' font-weight='800'>5</text></svg><svg class='ds-tent ds-tent-marker' viewBox='0 0 26 28' width='26' height='28.0' aria-hidden='true'><path class='ds-tent-side' d='M17 2.5 L23.5 26 L20 26 L15.5 2.5 Z'/><path class='ds-tent-face' d='M8.5 2.5 H17 L22 26 H2.5 Z'/><text x='12.4' y='19.6' text-anchor='middle' font-size='9.5' font-weight='800'>12</text></svg></div>",
+      "css": ".ds-tents{display:flex;align-items:flex-end;gap:8px}.ds-tent{overflow:visible;flex-shrink:0}.ds-tent text{font-family:var(--font-sans, 'Atkinson Hyperlegible Next Variable', ui-sans-serif, system-ui, sans-serif)}.ds-tent-face{stroke-width:.75;stroke-linejoin:round}.ds-tent-marker .ds-tent-face{fill:var(--marker,#f2c230);stroke:rgb(26 28 30/.55)}.ds-tent-marker .ds-tent-side{fill:#d6a815}.ds-tent-marker text{fill:var(--marker-ink,#1a1c1e)}.ds-tent-correct .ds-tent-face{fill:var(--ledger-green,#1e7f4f);stroke:rgb(0 0 0/.35)}.ds-tent-correct .ds-tent-side{fill:#17663f}.ds-tent-correct text{fill:#fff}.ds-tent-missed .ds-tent-face{fill:var(--evidence-red,#c0392b);stroke:rgb(0 0 0/.35)}.ds-tent-missed .ds-tent-side{fill:#9a2b1f}.ds-tent-missed text{fill:#fff}.ds-tent-muted .ds-tent-face{fill:var(--ground-2,#eaece7);stroke:var(--line-strong,#b8bdb5)}.ds-tent-muted .ds-tent-side{fill:#d5d8d0}.ds-tent-muted text{fill:var(--ink-3,#5f676c)}.ds-tent-outline .ds-tent-face{fill:var(--surface,#fff);stroke:var(--ink-3,#5f676c)}.ds-tent-outline .ds-tent-side{fill:var(--ground-2,#eaece7)}.ds-tent-outline text{fill:var(--ink,#17191b)}.ds-tents .ds-tent{filter:drop-shadow(0 2px 1px rgb(0 0 0/.25));animation:ds-marker-drop 420ms var(--ease-out, cubic-bezier(0.16, 1, 0.3, 1)) both}.ds-tents .ds-tent:nth-child(2){animation-delay:90ms}.ds-tents .ds-tent:nth-child(3){animation-delay:180ms}.ds-tents .ds-tent:nth-child(4){animation-delay:270ms}.ds-tents .ds-tent:nth-child(5){animation-delay:360ms}.ds-tents .ds-tent:nth-child(6){animation-delay:450ms}@keyframes ds-marker-drop{from{opacity:0;transform:translateY(-14px) scale(.9)}to{opacity:1;transform:translateY(0) scale(1)}}@media (prefers-reduced-motion: reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}"
+    },
+    {
+      "name": "Evidence Plate with Region Mark",
+      "kind": "custom",
+      "refersTo": "evidence-plate",
+      "description": "Signature reveal: white plate with the plate shadow, zoom control, a keylined yellow region that draws in and its numbered marker that drops onto it, and the caption.",
+      "html": "<figure class='ds-plate-wrap'><div class='ds-plate'><div class='ds-shot'><div class='ds-shot-bar'></div><div class='ds-shot-line' style='width:72%'></div><div class='ds-shot-line' style='width:54%'></div><div class='ds-shot-block'></div><div class='ds-shot-line' style='width:80%'></div><div class='ds-shot-line' style='width:64%'></div></div><span class='ds-region' style='left:6%;top:30%;width:60%;height:15%'><span class='ds-region-fill'></span><span class='ds-region-marker'><svg class='ds-tent ds-tent-marker' viewBox='0 0 26 28' width='22' height='23.69' aria-hidden='true'><path class='ds-tent-side' d='M17 2.5 L23.5 26 L20 26 L15.5 2.5 Z'/><path class='ds-tent-face' d='M8.5 2.5 H17 L22 26 H2.5 Z'/><text x='12.4' y='19.6' text-anchor='middle' font-size='11.5' font-weight='800'>1</text></svg></span></span><button class='ds-plate-btn' aria-label='Open full screen'><svg width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'><path d='M15 3h6v6'/><path d='M9 21H3v-6'/><path d='m21 3-7 7'/><path d='m3 21 7-7'/></svg></button></div><figcaption class='ds-plate-cap'><b>Sign-in page asking for your password</b> Zoom with + or a double-click; pinch on touch screens.</figcaption></figure>",
+      "css": ".ds-plate-wrap{margin:0;max-width:440px;font-family:var(--font-sans, 'Atkinson Hyperlegible Next Variable', ui-sans-serif, system-ui, sans-serif)}.ds-plate{position:relative;overflow:hidden;border:1px solid var(--line-strong,#b8bdb5);border-radius:1px;background:var(--surface,#fff);box-shadow:var(--elev-plate,0 18px 40px -28px rgb(26 28 30/.45))}.ds-shot{aspect-ratio:16/10;display:grid;align-content:start;gap:10px;padding:18px 20px}.ds-shot-bar{height:14px;background:var(--ground-2,#eaece7)}.ds-shot-line{height:8px;background:var(--line,#dadcd6)}.ds-shot-block{height:42px;margin:4px 0;background:var(--ground,#f4f5f2);border:1px solid var(--line,#dadcd6)}.ds-region{position:absolute}.ds-region-fill{position:absolute;inset:0;border:2px solid var(--marker,#f2c230);border-radius:1px;background:rgb(242 194 48/.12);box-shadow:0 0 0 1px rgb(26 28 30/.85),inset 0 0 0 1px rgb(26 28 30/.5);animation:ds-region-draw 520ms var(--ease-out, cubic-bezier(0.16, 1, 0.3, 1)) both;transition:background-color 150ms}.ds-region:hover .ds-region-fill{background:rgb(242 194 48/.3)}.ds-region-marker{position:absolute;left:0;bottom:100%;margin-bottom:4px;filter:drop-shadow(0 2px 1px rgb(0 0 0/.25));animation:ds-marker-drop 420ms var(--ease-out, cubic-bezier(0.16, 1, 0.3, 1)) 120ms both}.ds-region-marker .ds-tent{display:block}.ds-tent{overflow:visible;flex-shrink:0}.ds-tent text{font-family:var(--font-sans, 'Atkinson Hyperlegible Next Variable', ui-sans-serif, system-ui, sans-serif)}.ds-tent-face{stroke-width:.75;stroke-linejoin:round}.ds-tent-marker .ds-tent-face{fill:var(--marker,#f2c230);stroke:rgb(26 28 30/.55)}.ds-tent-marker .ds-tent-side{fill:#d6a815}.ds-tent-marker text{fill:var(--marker-ink,#1a1c1e)}.ds-tent-correct .ds-tent-face{fill:var(--ledger-green,#1e7f4f);stroke:rgb(0 0 0/.35)}.ds-tent-correct .ds-tent-side{fill:#17663f}.ds-tent-correct text{fill:#fff}.ds-tent-missed .ds-tent-face{fill:var(--evidence-red,#c0392b);stroke:rgb(0 0 0/.35)}.ds-tent-missed .ds-tent-side{fill:#9a2b1f}.ds-tent-missed text{fill:#fff}.ds-tent-muted .ds-tent-face{fill:var(--ground-2,#eaece7);stroke:var(--line-strong,#b8bdb5)}.ds-tent-muted .ds-tent-side{fill:#d5d8d0}.ds-tent-muted text{fill:var(--ink-3,#5f676c)}.ds-tent-outline .ds-tent-face{fill:var(--surface,#fff);stroke:var(--ink-3,#5f676c)}.ds-tent-outline .ds-tent-side{fill:var(--ground-2,#eaece7)}.ds-tent-outline text{fill:var(--ink,#17191b)}.ds-plate-btn{position:absolute;top:8px;right:8px;display:grid;place-items:center;width:32px;height:32px;border:1px solid var(--line-strong,#b8bdb5);border-radius:2px;background:rgb(255 255 255/.95);color:var(--ink,#17191b);cursor:pointer;transition:background-color 150ms,border-color 150ms}.ds-plate-btn:hover{border-color:var(--ink-3,#5f676c);background:var(--accent,#eceee8)}.ds-plate-btn:focus-visible{outline:2px solid var(--graphite,#1a1c1e);outline-offset:2px}.ds-plate-cap{margin-top:8px;font-size:12px;line-height:20px;color:var(--ink-3,#5f676c)}.ds-plate-cap b{font-weight:600;color:var(--ink-2,#474f55);margin-right:6px}@keyframes ds-region-draw{from{clip-path:inset(0 100% 100% 0)}to{clip-path:inset(0 0 0 0)}}@keyframes ds-marker-drop{from{opacity:0;transform:translateY(-14px) scale(.9)}to{opacity:1;transform:translateY(0) scale(1)}}@media (prefers-reduced-motion: reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}"
+    },
+    {
+      "name": "Panel with Status Badges",
+      "kind": "card",
+      "refersTo": "panel",
+      "description": "Admin panel: white, 1px Line ring, no shadow; 48px header with a 14px bold title; hairline-divided rows carrying code chips and status badges.",
+      "html": "<section class='ds-panel'><header class='ds-panel-head'><h2 class='ds-panel-title'>Running now</h2><a class='ds-panel-link' href='#'>All activities</a></header><a class='ds-panel-row' href='#'><span class='ds-panel-main'><span class='ds-panel-meta'><span class='ds-pcode'>CASE-001</span><span class='ds-status ds-status-live'><span class='ds-status-dot'></span>Live</span></span><span class='ds-panel-name'>Spot the Phish: Five Real-World Scenarios</span><span class='ds-panel-sub'>Open until you close it</span></span><span class='ds-panel-num'><strong>12</strong> submitted</span></a><a class='ds-panel-row' href='#'><span class='ds-panel-main'><span class='ds-panel-meta'><span class='ds-pcode'>CASE-002</span><span class='ds-status ds-status-scheduled'>Scheduled</span></span><span class='ds-panel-name'>HRRL Cybersecurity Treasure Hunt</span><span class='ds-panel-sub'>Opens in 2 days</span></span><span class='ds-panel-num'><strong>0</strong> submitted</span></a><a class='ds-panel-row' href='#'><span class='ds-panel-main'><span class='ds-panel-meta'><span class='ds-pcode'>CASE-003</span><span class='ds-status ds-status-draft'>Draft</span><span class='ds-status ds-status-closed'>Closed</span></span><span class='ds-panel-name'>Status badge set</span><span class='ds-panel-sub'>Draft and Closed tones</span></span><span class='ds-panel-num'></span></a></section>",
+      "css": ".ds-panel{max-width:620px;border-radius:1px;background:var(--surface,#fff);box-shadow:0 0 0 1px var(--line,#dadcd6);font-family:var(--font-sans, 'Atkinson Hyperlegible Next Variable', ui-sans-serif, system-ui, sans-serif);color:var(--ink,#17191b)}.ds-panel-head{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:48px;padding:10px 16px;border-bottom:1px solid var(--line,#dadcd6)}.ds-panel-title{margin:0;font-size:14px;line-height:20px;font-weight:700}.ds-panel-link{font-size:13px;font-weight:600;color:var(--slate,#2f4a63);text-decoration:none}.ds-panel-link:hover{text-decoration:underline}.ds-panel-link:focus-visible,.ds-panel-row:focus-visible{outline:2px solid var(--graphite,#1a1c1e);outline-offset:2px}.ds-panel-row{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:16px;padding:12px 16px;color:inherit;text-decoration:none;border-top:1px solid var(--line,#dadcd6)}.ds-panel-head+.ds-panel-row{border-top:0}.ds-panel-row:hover{background:#fafaf8}.ds-panel-main{display:grid;min-width:0}.ds-panel-meta{display:flex;align-items:center;gap:8px}.ds-panel-name{margin-top:4px;font-size:15px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ds-panel-sub{font-size:12px;line-height:16px;color:var(--ink-3,#5f676c)}.ds-panel-num{font-size:14px;color:var(--ink-2,#474f55);font-variant-numeric:tabular-nums}.ds-panel-num strong{color:var(--ink,#17191b)}.ds-pcode{padding:2px 6px;border-radius:1px;background:var(--manila-wash,#f4ebd3);color:var(--manila-ink,#574220);font:600 11px/16px var(--font-mono, 'Atkinson Hyperlegible Mono Variable', ui-monospace, monospace);letter-spacing:-.025em}.ds-status{display:inline-flex;align-items:center;gap:6px;height:22px;padding:0 8px;border-radius:1px;font-size:12px;font-weight:700;white-space:nowrap}.ds-status-live{background:var(--green-wash,#dcefe3);color:var(--green-ink,#17663f)}.ds-status-dot{width:6px;height:6px;border-radius:9999px;background:var(--ledger-green,#1e7f4f)}.ds-status-scheduled{background:var(--manila-wash,#f4ebd3);color:var(--manila-ink,#574220)}.ds-status-draft{background:var(--ground-2,#eaece7);color:var(--ink-2,#474f55);box-shadow:inset 0 0 0 1px var(--line-strong,#b8bdb5)}.ds-status-closed{background:var(--graphite,#1a1c1e);color:var(--shell-fg,#eceee9)}"
+    },
+    {
+      "name": "Admin Rail",
+      "kind": "nav",
+      "refersTo": "nav-rail",
+      "description": "Graphite 240px rail: type wordmark, 36px items; active item on Graphite 3 with a marker-yellow icon; focus turns marker yellow on the shell.",
+      "html": "<nav class='ds-rail' aria-label='Admin'><div class='ds-rail-brand'><b>HRRL</b><span>Activities</span></div><a class='ds-rail-item is-active' href='#' aria-current='page'><svg width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'><rect width='7' height='9' x='3' y='3' rx='1'/><rect width='7' height='5' x='14' y='3' rx='1'/><rect width='7' height='9' x='14' y='12' rx='1'/><rect width='7' height='5' x='3' y='16' rx='1'/></svg>Dashboard</a><a class='ds-rail-item' href='#'><svg width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'><path d='m6 14 1.5-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.54 6a2 2 0 0 1-1.95 1.5H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H18a2 2 0 0 1 2 2v2'/></svg>Activities</a><a class='ds-rail-item' href='#'><svg width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'><path d='M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2'/><circle cx='9' cy='7' r='4'/><path d='M22 21v-2a4 4 0 0 0-3-3.87'/><path d='M16 3.13a4 4 0 0 1 0 7.75'/></svg>Admins</a></nav>",
+      "css": ".ds-rail{display:flex;flex-direction:column;gap:4px;width:240px;padding:0 12px 16px;background:var(--graphite,#1a1c1e);font-family:var(--font-sans, 'Atkinson Hyperlegible Next Variable', ui-sans-serif, system-ui, sans-serif)}.ds-rail-brand{display:flex;align-items:center;gap:8px;height:64px;padding:0 8px;font-size:15px;line-height:1;color:var(--shell-fg,#eceee9)}.ds-rail-brand b{font-weight:800;letter-spacing:-.01em}.ds-rail-brand span{font-weight:500;color:var(--shell-muted,#a9afb2)}.ds-rail-item{display:flex;align-items:center;gap:10px;height:36px;padding:0 12px;border-radius:1px;font-size:14px;font-weight:600;color:var(--shell-muted,#a9afb2);text-decoration:none;transition:background-color 150ms,color 150ms}.ds-rail-item:hover{background:var(--graphite-2,#25282b);color:var(--shell-fg,#eceee9)}.ds-rail-item.is-active{background:var(--graphite-3,#363a3e);color:var(--shell-fg,#eceee9)}.ds-rail-item.is-active svg{color:var(--marker,#f2c230)}.ds-rail-item:focus-visible{outline:2px solid var(--marker,#f2c230);outline-offset:2px}"
+    },
+    {
+      "name": "Admin App Bar and Activity Tabs",
+      "kind": "nav",
+      "refersTo": "admin-app-bar",
+      "description": "Admin console: the 48px brand-blue app bar with the product name and account avatar, over the white activity header (back link, title, status, Preview and Share) and the centred tabs with a 3px brand underline.",
+      "html": "<div class='ds-ab'><header class='ds-ab-bar'><a class='ds-ab-name' href='#'>HRRL Activities</a><button class='ds-ab-avatar' aria-label='Account'>CO</button></header><div class='ds-ab-head'><a class='ds-ab-back' href='#'><svg width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'><path d='m12 19-7-7 7-7'/><path d='M19 12H5'/></svg>All activities</a><div class='ds-ab-row'><div class='ds-ab-tw'><h1 class='ds-ab-title'>Spot the Phish: Five Real-World Scenarios</h1><span class='ds-ab-badge'><span class='ds-ab-dot'></span>Open</span></div><div class='ds-ab-actions'><button class='ds-ab-btn ds-ab-outline'><svg width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'><path d='M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0'/><circle cx='12' cy='12' r='3'/></svg>Preview</button><button class='ds-ab-btn ds-ab-primary'><svg width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'><circle cx='18' cy='5' r='3'/><circle cx='6' cy='12' r='3'/><circle cx='18' cy='19' r='3'/><line x1='8.59' x2='15.42' y1='13.51' y2='17.49'/><line x1='15.41' x2='8.59' y1='6.51' y2='10.49'/></svg>Share</button></div></div><nav class='ds-ab-tabs' aria-label='Activity'><a class='ds-ab-tab is-active' href='#' aria-current='page'>Questions</a><a class='ds-ab-tab' href='#'>Responses<span class='ds-ab-count'>12</span></a><a class='ds-ab-tab' href='#'>Settings</a></nav></div></div>",
+      "css": ".ds-ab{max-width:760px;background:#f5f5f5;color:#242424;font-family:'Segoe UI Variable Text','Segoe UI Variable','Segoe UI',system-ui,-apple-system,'Helvetica Neue',Arial,sans-serif}.ds-ab-bar{display:flex;align-items:center;gap:16px;height:48px;padding:0 24px;background:var(--brand,#0f6cbd);color:#fff}.ds-ab-name{border-radius:2px;color:#fff;font-size:15px;font-weight:600;letter-spacing:-.005em;text-decoration:none}.ds-ab-name:focus-visible,.ds-ab-avatar:focus-visible{outline:2px solid #fff;outline-offset:2px}.ds-ab-avatar{margin-left:auto;display:grid;place-items:center;width:32px;height:32px;border:0;border-radius:9999px;background:rgb(255 255 255/.15);color:#fff;font:600 12px/1 'Segoe UI Variable Text','Segoe UI Variable','Segoe UI',system-ui,-apple-system,'Helvetica Neue',Arial,sans-serif;cursor:pointer;transition:background-color 150ms}.ds-ab-avatar:hover{background:rgb(255 255 255/.25)}.ds-ab-head{padding:16px 24px 0;background:#fff;border-bottom:1px solid #e0e0e0}.ds-ab-back{display:inline-flex;align-items:center;gap:6px;border-radius:4px;color:var(--brand,#0f6cbd);font-size:13px;font-weight:600;text-decoration:none}.ds-ab-back:hover{text-decoration:underline}.ds-ab-back:focus-visible,.ds-ab-tab:focus-visible{outline:2px solid var(--brand,#0f6cbd);outline-offset:2px}.ds-ab-row{margin-top:8px;display:flex;flex-wrap:wrap;align-items:center;gap:12px 16px}.ds-ab-tw{display:flex;flex:1 1 260px;align-items:center;gap:12px;min-width:0}.ds-ab-title{margin:0;min-width:0;overflow:hidden;font-size:20px;line-height:28px;font-weight:600;white-space:nowrap;text-overflow:ellipsis}.ds-ab-badge{display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 10px;border-radius:9999px;background:var(--ok-tint,#f1faf1);color:var(--ok,#107c10);box-shadow:inset 0 0 0 1px rgb(16 124 16/.3);font-size:12px;font-weight:600;white-space:nowrap}.ds-ab-dot{width:6px;height:6px;border-radius:9999px;background:currentColor}.ds-ab-actions{display:flex;gap:8px}.ds-ab-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:36px;padding:0 16px;border-radius:4px;font:600 14px/1 'Segoe UI Variable Text','Segoe UI Variable','Segoe UI',system-ui,-apple-system,'Helvetica Neue',Arial,sans-serif;white-space:nowrap;cursor:pointer;transition:background-color 150ms ease-out,border-color 150ms ease-out,transform 150ms ease-out;padding:0 16px 0 12px}.ds-ab-btn:active{transform:translateY(1px)}.ds-ab-btn:focus-visible{outline:2px solid #242424;outline-offset:2px}.ds-ab-outline{border:1px solid #d1d1d1;background:#fff;color:#242424}.ds-ab-outline:hover{border-color:#616161;background:#f5f5f5}.ds-ab-primary{border:0;background:var(--brand,#0f6cbd);color:#fff}.ds-ab-primary:hover{background:var(--brand-hover,#115ea3)}.ds-ab-tabs{margin-top:12px;display:flex;justify-content:center;gap:8px}.ds-ab-tab{position:relative;display:flex;align-items:center;gap:6px;height:44px;padding:0 12px;color:#616161;font-size:14px;font-weight:600;text-decoration:none;transition:color 150ms}.ds-ab-tab:hover,.ds-ab-tab.is-active{color:#242424}.ds-ab-tab.is-active::after{content:'';position:absolute;left:12px;right:12px;bottom:0;height:3px;border-radius:9999px;background:var(--brand,#0f6cbd)}.ds-ab-count{padding:0 8px;border-radius:9999px;background:#f0f0f0;color:#424242;font-size:12px;font-weight:600;font-variant-numeric:tabular-nums}",
+      "world": "admin-console"
+    },
+    {
+      "name": "Admin Primary Button",
+      "kind": "button",
+      "refersTo": "admin-button-primary",
+      "description": "Admin console: brand blue with white text, the one filled button in a region (New activity, Share, Publish results, Save).",
+      "html": "<button class='ds-a-primary'><svg width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'><path d='M5 12h14'/><path d='M12 5v14'/></svg>New activity</button>",
+      "css": ".ds-a-primary{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:36px;padding:0 16px;border-radius:4px;font:600 14px/1 'Segoe UI Variable Text','Segoe UI Variable','Segoe UI',system-ui,-apple-system,'Helvetica Neue',Arial,sans-serif;white-space:nowrap;cursor:pointer;transition:background-color 150ms ease-out,border-color 150ms ease-out,transform 150ms ease-out;padding:0 16px 0 12px;border:0;background:var(--brand,#0f6cbd);color:#fff}.ds-a-primary:hover{background:var(--brand-hover,#115ea3)}.ds-a-primary:active{transform:translateY(1px)}.ds-a-primary:focus-visible{outline:2px solid #242424;outline-offset:2px}.ds-a-primary:disabled{opacity:.45;pointer-events:none}",
+      "world": "admin-console"
+    },
+    {
+      "name": "Admin Outline Button",
+      "kind": "button",
+      "refersTo": "admin-button-outline",
+      "description": "Admin console: white with a 1px #d1d1d1 border; every secondary action (Preview, Download, Discard, Hide results, Add new question).",
+      "html": "<button class='ds-a-outline'><svg width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'><path d='M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4'/><path d='m7 10 5 5 5-5'/><path d='M12 15V3'/></svg>Download<svg class='ds-a-chev' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'><path d='m6 9 6 6 6-6'/></svg></button>",
+      "css": ".ds-a-outline{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:36px;padding:0 16px;border-radius:4px;font:600 14px/1 'Segoe UI Variable Text','Segoe UI Variable','Segoe UI',system-ui,-apple-system,'Helvetica Neue',Arial,sans-serif;white-space:nowrap;cursor:pointer;transition:background-color 150ms ease-out,border-color 150ms ease-out,transform 150ms ease-out;padding:0 12px;border:1px solid #d1d1d1;background:#fff;color:#242424}.ds-a-outline:hover{border-color:#616161;background:#f5f5f5}.ds-a-outline:active{transform:translateY(1px)}.ds-a-outline:focus-visible{outline:2px solid #242424;outline-offset:2px}.ds-a-chev{opacity:.7}",
+      "world": "admin-console"
+    },
+    {
+      "name": "Admin Text Field",
+      "kind": "input",
+      "refersTo": "admin-input",
+      "description": "Admin console: 13px semibold label, white 36px field with a 1px #8a8a8a border and 4px corners; the border turns brand blue with a 1px brand keyline on focus; 12px hint beneath.",
+      "html": "<div class='ds-af'><div class='ds-af-field'><label class='ds-af-label' for='ds-af-name'>Name</label><input id='ds-af-name' class='ds-af-input' placeholder='e.g. Spot the Phish: Week 2'/></div><div class='ds-af-field'><label class='ds-af-label' for='ds-af-msg'>Thank-you message <span class='ds-af-opt'>(optional)</span></label><textarea id='ds-af-msg' class='ds-af-input ds-af-area' aria-describedby='ds-af-hint'></textarea><p id='ds-af-hint' class='ds-af-hint'>Shown after they submit, e.g. your campaign line and how to report a suspicious message.</p></div></div>",
+      "css": ".ds-af{display:grid;gap:16px;max-width:400px;font-family:'Segoe UI Variable Text','Segoe UI Variable','Segoe UI',system-ui,-apple-system,'Helvetica Neue',Arial,sans-serif;color:#242424}.ds-af-field{display:grid;gap:6px}.ds-af-label{font-size:13px;line-height:20px;font-weight:600}.ds-af-opt{font-weight:400;color:#616161}.ds-af-input{height:36px;width:100%;box-sizing:border-box;padding:4px 12px;border:1px solid #8a8a8a;border-radius:4px;background:#fff;color:#242424;font:400 14px/20px 'Segoe UI Variable Text','Segoe UI Variable','Segoe UI',system-ui,-apple-system,'Helvetica Neue',Arial,sans-serif;outline:none;transition:border-color 150ms,box-shadow 150ms}.ds-af-area{height:auto;min-height:80px;padding:8px 12px;line-height:24px;resize:vertical}.ds-af-input::placeholder{color:#616161}.ds-af-input:hover{border-color:#616161}.ds-af-input:focus-visible{border-color:var(--brand,#0f6cbd);box-shadow:0 0 0 1px var(--brand,#0f6cbd)}.ds-af-hint{margin:0;font-size:12px;line-height:20px;color:#616161}",
+      "world": "admin-console"
+    },
+    {
+      "name": "Status Badges and Filter Pills",
+      "kind": "chip",
+      "refersTo": "admin-pill",
+      "description": "Admin console: round filter pills (selected in brand tint with a brand ring) and the four status badges in plain words, each led by a dot.",
+      "html": "<div class='ds-ap'><div class='ds-ap-pills' role='group' aria-label='Show'><button class='ds-ap-pill' aria-pressed='true'>All<span>5</span></button><button class='ds-ap-pill' aria-pressed='false'>Open<span>1</span></button><button class='ds-ap-pill' aria-pressed='false'>Scheduled<span>1</span></button><button class='ds-ap-pill' aria-pressed='false'>Drafts<span>2</span></button><button class='ds-ap-pill' aria-pressed='false'>Closed<span>1</span></button></div><div class='ds-ap-badges'><span class='ds-ap-badge ds-ap-draft'><i></i>Draft</span><span class='ds-ap-badge ds-ap-scheduled'><i></i>Scheduled</span><span class='ds-ap-badge ds-ap-open'><i></i>Open</span><span class='ds-ap-badge ds-ap-closed'><i></i>Closed</span></div></div>",
+      "css": ".ds-ap{display:grid;gap:16px;font-family:'Segoe UI Variable Text','Segoe UI Variable','Segoe UI',system-ui,-apple-system,'Helvetica Neue',Arial,sans-serif}.ds-ap-pills,.ds-ap-badges{display:flex;flex-wrap:wrap;gap:6px}.ds-ap-pill{height:32px;padding:0 14px;border:0;border-radius:9999px;background:#fff;color:#424242;box-shadow:inset 0 0 0 1px #d1d1d1;font:600 13px/1 'Segoe UI Variable Text','Segoe UI Variable','Segoe UI',system-ui,-apple-system,'Helvetica Neue',Arial,sans-serif;cursor:pointer;transition:background-color 150ms,color 150ms}.ds-ap-pill span{margin-left:6px;font-weight:400;opacity:.8;font-variant-numeric:tabular-nums}.ds-ap-pill:hover{background:#f0f0f0}.ds-ap-pill[aria-pressed='true']{background:var(--brand-tint,#ebf3fc);color:var(--brand,#0f6cbd);box-shadow:inset 0 0 0 1px var(--brand,#0f6cbd)}.ds-ap-pill:focus-visible{outline:2px solid var(--brand,#0f6cbd);outline-offset:2px}.ds-ap-badge{display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 10px;border-radius:9999px;font-size:12px;font-weight:600;white-space:nowrap}.ds-ap-badge i{width:6px;height:6px;border-radius:9999px}.ds-ap-draft{background:#f0f0f0;color:#424242}.ds-ap-draft i{background:#616161}.ds-ap-scheduled{background:var(--warn-tint,#fff9f5);color:var(--warn,#bc4b09);box-shadow:inset 0 0 0 1px rgb(188 75 9/.3)}.ds-ap-scheduled i{background:var(--warn,#bc4b09)}.ds-ap-open{background:var(--ok-tint,#f1faf1);color:var(--ok,#107c10);box-shadow:inset 0 0 0 1px rgb(16 124 16/.3)}.ds-ap-open i{background:var(--ok,#107c10)}.ds-ap-closed{background:#f0f0f0;color:#424242}.ds-ap-closed i{background:#424242}",
+      "world": "admin-console"
+    },
+    {
+      "name": "Message Bars",
+      "kind": "custom",
+      "refersTo": "admin-message-info",
+      "description": "Admin console: the Microsoft 365 message bar in its four intents, full fills with an intent icon and an optional action; the results release state lives in one.",
+      "html": "<div class='ds-mbs'><div class='ds-mb ds-mb-info' role='status'><svg class='ds-mb-icon' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'><circle cx='12' cy='12' r='10'/><path d='M12 16v-4'/><path d='M12 8h.01'/></svg><div class='ds-mb-text'>Results stay hidden until you publish them. Employees see “Submitted” until then.</div><button class='ds-mb-btn ds-mb-primary'>Publish results</button></div><div class='ds-mb ds-mb-warning' role='status'><svg class='ds-mb-icon' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'><path d='m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3'/><path d='M12 9v4'/><path d='M12 17h.01'/></svg><div class='ds-mb-text'>You changed a correct answer after people responded. Their scores still use the old answer.</div><button class='ds-mb-btn ds-mb-outline'>Update scores</button></div><div class='ds-mb ds-mb-success' role='status'><svg class='ds-mb-icon' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'><circle cx='12' cy='12' r='10'/><path d='m9 12 2 2 4-4'/></svg><div class='ds-mb-text'>Results published. Employees can see their scores, and anyone who submits now sees theirs straight away.</div><button class='ds-mb-btn ds-mb-outline'>Hide results</button></div><div class='ds-mb ds-mb-error' role='alert'><svg class='ds-mb-icon' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'><circle cx='12' cy='12' r='10'/><line x1='12' x2='12' y1='8' y2='12'/><line x1='12' x2='12.01' y1='16' y2='16'/></svg><div class='ds-mb-text'>Someone else saved this activity while you were editing, so your latest changes were not saved.</div><button class='ds-mb-btn ds-mb-outline'>Load latest</button></div></div>",
+      "css": ".ds-mbs{display:grid;gap:12px;max-width:720px;font-family:'Segoe UI Variable Text','Segoe UI Variable','Segoe UI',system-ui,-apple-system,'Helvetica Neue',Arial,sans-serif}.ds-mb{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;padding:10px 12px;border-radius:4px;box-shadow:0 0 0 1px rgb(0 0 0/.05);color:#242424;font-size:14px;line-height:20px}.ds-mb-icon{flex-shrink:0}.ds-mb-text{flex:1;min-width:0}.ds-mb-info{background:var(--brand-tint,#ebf3fc)}.ds-mb-info .ds-mb-icon{color:var(--brand,#0f6cbd)}.ds-mb-warning{background:var(--warn-tint,#fff9f5)}.ds-mb-warning .ds-mb-icon{color:var(--warn,#bc4b09)}.ds-mb-success{background:var(--ok-tint,#f1faf1)}.ds-mb-success .ds-mb-icon{color:var(--ok,#107c10)}.ds-mb-error{background:var(--bad-tint,#fdf3f4)}.ds-mb-error .ds-mb-icon{color:var(--bad,#c50f1f)}.ds-mb-btn{display:inline-flex;align-items:center;height:32px;padding:0 12px;border-radius:4px;font:600 13px/1 'Segoe UI Variable Text','Segoe UI Variable','Segoe UI',system-ui,-apple-system,'Helvetica Neue',Arial,sans-serif;white-space:nowrap;cursor:pointer;transition:background-color 150ms,border-color 150ms}.ds-mb-btn:focus-visible{outline:2px solid #242424;outline-offset:2px}.ds-mb-primary{border:0;background:var(--brand,#0f6cbd);color:#fff}.ds-mb-primary:hover{background:var(--brand-hover,#115ea3)}.ds-mb-outline{border:1px solid #d1d1d1;background:#fff;color:#242424}.ds-mb-outline:hover{border-color:#616161;background:#f5f5f5}",
+      "world": "admin-console"
+    },
+    {
+      "name": "Activity List (stacked rows on phones)",
+      "kind": "card",
+      "refersTo": "admin-list-row",
+      "description": "Admin console: the activity list in one white card. Narrower than 640px it is stacked rows (title, wrapping meta row, the ⋯ menu always visible); from 640px it is a table with 12px semibold headers and hairline rows. A container query stands in for the sm breakpoint here.",
+      "html": "<div class='ds-al'><div class='ds-al-card'><ul class='ds-al-rows'><li><div class='ds-al-main'><a class='ds-al-name ds-al-clamp' href='#'>Spot the Phish: Five Real-World Scenarios</a><div class='ds-al-meta'><span class='ds-al-badge ds-al-open'><i></i>Open</span><span class='ds-al-count'>12 responses</span><span class='ds-al-warn'>Not published yet</span></div></div><button class='ds-al-more' aria-label='More actions'><svg width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'><circle cx='12' cy='12' r='1'/><circle cx='19' cy='12' r='1'/><circle cx='5' cy='12' r='1'/></svg></button></li><li><div class='ds-al-main'><a class='ds-al-name ds-al-clamp' href='#'>HRRL Cybersecurity Treasure Hunt</a><div class='ds-al-meta'><span class='ds-al-badge ds-al-scheduled'><i></i>Scheduled</span><span class='ds-al-count'>0 responses</span><span class='ds-al-muted'>Held until you publish</span></div></div><button class='ds-al-more' aria-label='More actions'><svg width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'><circle cx='12' cy='12' r='1'/><circle cx='19' cy='12' r='1'/><circle cx='5' cy='12' r='1'/></svg></button></li></ul><table class='ds-al-table'><thead><tr><th>Name</th><th class='ds-al-w32'>Status</th><th class='ds-al-num ds-al-w28'>Responses</th><th class='ds-al-w44'>Results</th><th class='ds-al-w32'>Last edited</th><th class='ds-al-w12'><span class='ds-al-sr'>Actions</span></th></tr></thead><tbody><tr><td class='ds-al-namecell'><a class='ds-al-name' href='#'>Spot the Phish: Five Real-World Scenarios</a><span class='ds-al-sub'>10 questions · Open until 31 Oct, 5:00 pm</span></td><td><span class='ds-al-badge ds-al-open'><i></i>Open</span></td><td class='ds-al-num'><a class='ds-al-link' href='#'>12</a></td><td class='ds-al-warn ds-al-res'>Not published yet</td><td class='ds-al-when'>2 hours ago</td><td><button class='ds-al-more' aria-label='More actions'><svg width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'><circle cx='12' cy='12' r='1'/><circle cx='19' cy='12' r='1'/><circle cx='5' cy='12' r='1'/></svg></button></td></tr><tr><td class='ds-al-namecell'><a class='ds-al-name' href='#'>HRRL Cybersecurity Treasure Hunt</a><span class='ds-al-sub'>11 questions · Opens 20 Oct, 10:00 am</span></td><td><span class='ds-al-badge ds-al-scheduled'><i></i>Scheduled</span></td><td class='ds-al-num'><span class='ds-al-zero'>0</span></td><td class='ds-al-muted ds-al-res'>Held until you publish</td><td class='ds-al-when'>Yesterday</td><td><button class='ds-al-more' aria-label='More actions'><svg width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'><circle cx='12' cy='12' r='1'/><circle cx='19' cy='12' r='1'/><circle cx='5' cy='12' r='1'/></svg></button></td></tr></tbody></table></div></div>",
+      "css": ".ds-al{container-type:inline-size;max-width:900px;font-family:'Segoe UI Variable Text','Segoe UI Variable','Segoe UI',system-ui,-apple-system,'Helvetica Neue',Arial,sans-serif;color:#242424}.ds-al-card{border-radius:8px;background:#fff;box-shadow:0 0 2px rgb(0 0 0/.12),0 1px 2px rgb(0 0 0/.14);overflow:hidden}.ds-al-rows{margin:0;padding:0;list-style:none}.ds-al-rows li{display:flex;align-items:flex-start;gap:8px;padding:12px 8px 12px 16px}.ds-al-rows li+li{border-top:1px solid #e0e0e0}.ds-al-main{flex:1;min-width:0}.ds-al-name{color:#242424;font-size:15px;line-height:20px;font-weight:600;text-decoration:none}.ds-al-name:hover{color:var(--brand,#0f6cbd);text-decoration:underline}.ds-al-name:focus-visible,.ds-al-link:focus-visible{outline:2px solid var(--brand,#0f6cbd);outline-offset:2px}.ds-al-clamp{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.ds-al-meta{margin-top:6px;display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px;font-size:13px}.ds-al-count{color:#424242;font-variant-numeric:tabular-nums}.ds-al-warn{color:var(--warn,#bc4b09);font-weight:600}.ds-al-muted{color:#616161}.ds-al-badge{display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 10px;border-radius:9999px;font-size:12px;font-weight:600;white-space:nowrap}.ds-al-badge i{width:6px;height:6px;border-radius:9999px;background:currentColor}.ds-al-open{background:var(--ok-tint,#f1faf1);color:var(--ok,#107c10);box-shadow:inset 0 0 0 1px rgb(16 124 16/.3)}.ds-al-scheduled{background:var(--warn-tint,#fff9f5);color:var(--warn,#bc4b09);box-shadow:inset 0 0 0 1px rgb(188 75 9/.3)}.ds-al-more{display:grid;place-items:center;flex-shrink:0;width:32px;height:32px;border:0;border-radius:4px;background:transparent;color:#424242;cursor:pointer;transition:background-color 150ms,color 150ms}.ds-al-more:hover{background:#f5f5f5;color:#242424}.ds-al-more:focus-visible{outline:2px solid #242424;outline-offset:2px}.ds-al-table{display:none;width:100%;border-collapse:collapse;font-size:14px;font-variant-numeric:tabular-nums}.ds-al-table th{height:40px;padding:0 12px;border-bottom:1px solid #e0e0e0;text-align:left;color:#616161;font-size:12px;font-weight:600;white-space:nowrap}.ds-al-table td{padding:10px 12px;vertical-align:middle;border-top:1px solid #e0e0e0}.ds-al-table tbody tr:first-child td{border-top:0}.ds-al-table th:first-child,.ds-al-table td:first-child{padding-left:16px}.ds-al-table th:last-child,.ds-al-table td:last-child{padding-right:16px}.ds-al-table tbody tr:hover{background:#f5f5f5}.ds-al-namecell{max-width:0}.ds-al-namecell .ds-al-name{display:block;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}.ds-al-sub{display:block;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;color:#616161;font-size:12px;line-height:16px}.ds-al-num{text-align:right}.ds-al-link{color:var(--brand,#0f6cbd);font-weight:600;text-decoration:none}.ds-al-link:hover{text-decoration:underline}.ds-al-zero,.ds-al-when{color:#616161;white-space:nowrap}.ds-al-res{font-size:13px;white-space:nowrap}.ds-al-w12{width:48px}.ds-al-w28{width:112px}.ds-al-w32{width:128px}.ds-al-w44{width:176px}.ds-al-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}@container (min-width:640px){.ds-al-rows{display:none}.ds-al-table{display:table}}",
+      "world": "admin-console"
+    },
+    {
+      "name": "Question Builder Cards",
+      "kind": "custom",
+      "refersTo": "admin-question-card",
+      "description": "Admin console signature: the autosave line, the title card with its 8px brand band and 28px title, a section card with its grey header strip, a collapsed question card (lifts on hover, correct option filled green) and the open card ringed in brand blue, then Add new question.",
+      "html": "<div class='ds-qb'><p class='ds-qb-save' aria-live='polite'><svg class='ds-qb-ok' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'><circle cx='12' cy='12' r='10'/><path d='m9 12 2 2 4-4'/></svg>All changes saved</p><section class='ds-qb-card ds-qb-tc'><div class='ds-qb-band'></div><div class='ds-qb-tcb'><p class='ds-qb-title'>Spot the Phish: Five Real-World Scenarios</p><p class='ds-qb-desc'>Look at each screenshot and decide what gives it away.</p></div></section><section class='ds-qb-card'><div class='ds-qb-sh'><span>Section 1 of 5</span><button class='ds-qb-icon' aria-label='Section 1 options'><svg width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'><circle cx='12' cy='12' r='1'/><circle cx='19' cy='12' r='1'/><circle cx='5' cy='12' r='1'/></svg></button></div><p class='ds-qb-st'>The account-suspension email</p></section><button class='ds-qb-card ds-qb-q' type='button'><span class='ds-qb-qh'><span class='ds-qb-n'>1.</span><span class='ds-qb-p'>What is the first red flag in this email?<span class='ds-qb-req' aria-label='required'> *</span></span><span class='ds-qb-type'><svg width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'><circle cx='12' cy='12' r='10'/><circle cx='12' cy='12' r='1'/></svg>Single choice</span></span><span class='ds-qb-opts'><span class='ds-qb-opt'><span class='ds-qb-ind'></span>The company logo at the top</span><span class='ds-qb-opt is-correct'><span class='ds-qb-ind'><svg width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='3' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'><path d='M20 6 9 17l-5-5'/></svg></span>The sender address does not match the company</span><span class='ds-qb-opt'><span class='ds-qb-ind'></span>The greeting uses your name</span></span></button><section class='ds-qb-card ds-qb-open'><p class='ds-qb-ql'>Question 2</p><div class='ds-qb-pf'>Which two details would you check before clicking the link?</div><div class='ds-qb-foot'><span class='ds-qb-pts'>Points <span class='ds-qb-box'>1</span></span><span class='ds-qb-pts'><span class='ds-qb-switch' role='switch' aria-checked='true'></span>Required</span></div></section><button class='ds-qb-add' type='button'><svg width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'><path d='M5 12h14'/><path d='M12 5v14'/></svg>Add new question</button></div>",
+      "css": ".ds-qb{display:grid;gap:12px;max-width:640px;padding:16px;background:#f5f5f5;font-family:'Segoe UI Variable Text','Segoe UI Variable','Segoe UI',system-ui,-apple-system,'Helvetica Neue',Arial,sans-serif;color:#242424}.ds-qb-save{margin:0;justify-self:end;display:flex;align-items:center;gap:6px;color:#616161;font-size:13px}.ds-qb-ok{color:var(--ok,#107c10)}.ds-qb-card{display:block;width:100%;box-sizing:border-box;border-radius:8px;background:#fff;box-shadow:0 0 2px rgb(0 0 0/.12),0 1px 2px rgb(0 0 0/.14);text-align:left;font:inherit;color:inherit;border:0}.ds-qb-tc{overflow:hidden}.ds-qb-band{height:8px;background:var(--brand,#0f6cbd)}.ds-qb-tcb{display:grid;gap:8px;padding:20px 24px 24px}.ds-qb-title{margin:0;padding:4px 0;border-bottom:1px solid transparent;font-size:28px;line-height:36px;font-weight:600}.ds-qb-title:hover{border-color:#d1d1d1}.ds-qb-desc{margin:0;color:#424242;font-size:15px;line-height:24px}.ds-qb-sh{display:flex;align-items:center;gap:8px;padding:8px 8px 8px 20px;border-radius:8px 8px 0 0;background:#f0f0f0;color:#424242;font-size:13px;font-weight:600}.ds-qb-icon{margin-left:auto;display:grid;place-items:center;width:32px;height:32px;border:0;border-radius:4px;background:transparent;color:#424242;cursor:pointer}.ds-qb-icon:hover{background:#f5f5f5;color:#242424}.ds-qb-st{margin:0;padding:12px 20px 20px;font-size:18px;line-height:28px;font-weight:600}.ds-qb-q{padding:20px 24px;cursor:pointer;transition:box-shadow 150ms}.ds-qb-q:hover{box-shadow:0 0 2px rgb(0 0 0/.12),0 4px 8px rgb(0 0 0/.14)}.ds-qb-q:focus-visible,.ds-qb-add:focus-visible{outline:2px solid #242424;outline-offset:2px}.ds-qb-qh{display:flex;align-items:flex-start;gap:8px}.ds-qb-n{font-size:15px;font-weight:600}.ds-qb-p{flex:1;min-width:0;font-size:15px;line-height:24px}.ds-qb-req{color:var(--bad,#c50f1f)}.ds-qb-type{display:flex;flex-shrink:0;align-items:center;gap:6px;color:#616161;font-size:12px}.ds-qb-opts{margin-top:12px;display:grid;gap:6px}.ds-qb-opt{display:flex;align-items:center;gap:10px;color:#424242;font-size:14px}.ds-qb-ind{display:grid;place-items:center;flex-shrink:0;width:16px;height:16px;box-sizing:border-box;border:1px solid #616161;border-radius:9999px;color:#fff}.ds-qb-opt.is-correct{color:#242424;font-weight:600}.ds-qb-opt.is-correct .ds-qb-ind{border-color:var(--ok,#107c10);background:var(--ok,#107c10)}.ds-qb-open{box-shadow:0 0 0 2px var(--brand,#0f6cbd),0 0 2px rgb(0 0 0/.12),0 1px 2px rgb(0 0 0/.14)}.ds-qb-ql{margin:0;padding:16px 24px 0;color:#616161;font-size:13px;font-weight:600}.ds-qb-pf{margin:12px 24px 20px;min-height:48px;box-sizing:border-box;padding:10px 12px;border-bottom:1px solid #d1d1d1;background:#f5f5f5;font-size:15px;line-height:24px}.ds-qb-foot{display:flex;flex-wrap:wrap;align-items:center;gap:8px 20px;padding:12px 24px;border-top:1px solid #e0e0e0}.ds-qb-pts{display:flex;align-items:center;gap:8px;color:#424242;font-size:13px}.ds-qb-box{display:inline-flex;align-items:center;width:64px;height:32px;box-sizing:border-box;padding:0 12px;border:1px solid #8a8a8a;border-radius:4px;background:#fff;color:#242424;font-size:14px}.ds-qb-switch{position:relative;width:36px;height:20px;border-radius:9999px;background:var(--brand,#0f6cbd)}.ds-qb-switch::after{content:'';position:absolute;top:2px;left:18px;width:16px;height:16px;border-radius:9999px;background:#fff;box-shadow:0 1px 2px rgb(0 0 0/.25)}.ds-qb-add{justify-self:start;display:inline-flex;align-items:center;gap:8px;height:36px;padding:0 16px 0 12px;border:1px solid #d1d1d1;border-radius:4px;background:#fff;color:#242424;font:600 14px/1 'Segoe UI Variable Text','Segoe UI Variable','Segoe UI',system-ui,-apple-system,'Helvetica Neue',Arial,sans-serif;cursor:pointer;transition:background-color 150ms,border-color 150ms}.ds-qb-add:hover{border-color:#616161;background:#f5f5f5}",
+      "world": "admin-console"
+    },
+    {
+      "name": "Response Summary Bars",
+      "kind": "custom",
+      "refersTo": "admin-bar",
+      "description": "Admin console: one question in the Responses summary. The correct answer is a green bar with a check and semibold label; every other bar is brand blue; counts and percentages are tabular. Narrower than 640px the bar drops to its own line.",
+      "html": "<section class='ds-rb'><div class='ds-rb-head'><p class='ds-rb-q'>1. What is the first red flag in this email?</p><span class='ds-rb-n'><svg width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'><circle cx='12' cy='12' r='10'/><circle cx='12' cy='12' r='1'/></svg>42 responses</span></div><p class='ds-rb-pct'><b>64%</b> answered correctly</p><ul class='ds-rb-bars'><li class='ds-rb-row'><span class='ds-rb-label'><span class='ds-rb-gap'></span><span class='ds-rb-txt'>The company logo at the top</span></span><span class='ds-rb-track'><span class='ds-rb-fill' style='width:22%'></span></span><span class='ds-rb-val'>6<span> · 14%</span></span></li><li class='ds-rb-row is-correct'><span class='ds-rb-label'><svg class='ds-rb-check' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='3' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'><path d='M20 6 9 17l-5-5'/></svg><span class='ds-rb-txt'>The sender address does not match the company</span><span class='ds-rb-sr'>(correct answer)</span></span><span class='ds-rb-track'><span class='ds-rb-fill' style='width:100%'></span></span><span class='ds-rb-val'>27<span> · 64%</span></span></li><li class='ds-rb-row'><span class='ds-rb-label'><span class='ds-rb-gap'></span><span class='ds-rb-txt'>The greeting uses your name</span></span><span class='ds-rb-track'><span class='ds-rb-fill' style='width:33%'></span></span><span class='ds-rb-val'>9<span> · 21%</span></span></li></ul></section>",
+      "css": ".ds-rb{container-type:inline-size;max-width:720px;box-sizing:border-box;padding:16px 20px 20px;border-radius:8px;background:#fff;box-shadow:0 0 2px rgb(0 0 0/.12),0 1px 2px rgb(0 0 0/.14);font-family:'Segoe UI Variable Text','Segoe UI Variable','Segoe UI',system-ui,-apple-system,'Helvetica Neue',Arial,sans-serif;color:#242424}.ds-rb-head{display:flex;align-items:flex-start;gap:12px}.ds-rb-q{flex:1;min-width:0;margin:0;font-size:15px;line-height:24px;font-weight:600}.ds-rb-n{display:flex;flex-shrink:0;align-items:center;gap:6px;color:#616161;font-size:12px}.ds-rb-pct{margin:4px 0 0;color:#424242;font-size:13px}.ds-rb-pct b{color:var(--warn,#bc4b09);font-weight:600}.ds-rb-bars{margin:16px 0 0;padding:0;list-style:none;display:grid;gap:8px}.ds-rb-row{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:4px 12px;font-size:13px}.ds-rb-label{display:flex;align-items:center;gap:6px;min-width:0;color:#424242}.ds-rb-gap{width:14px;flex-shrink:0}.ds-rb-check{flex-shrink:0;color:var(--ok,#107c10)}.ds-rb-row.is-correct .ds-rb-label{color:#242424;font-weight:600}.ds-rb-txt{min-width:0}.ds-rb-track{position:relative;order:3;grid-column:span 2;height:10px;border-radius:0 4px 4px 0;background:#f0f0f0}.ds-rb-fill{position:absolute;top:0;bottom:0;left:0;border-radius:0 4px 4px 0;background:var(--brand,#0f6cbd)}.ds-rb-row.is-correct .ds-rb-fill{background:var(--ok,#107c10)}.ds-rb-val{text-align:right;color:#424242;font-variant-numeric:tabular-nums;white-space:nowrap}.ds-rb-val span{color:#616161}.ds-rb-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}@container (min-width:640px){.ds-rb-row{grid-template-columns:minmax(0,1fr) minmax(6rem,16rem) 5.5rem}.ds-rb-track{order:0;grid-column:auto}.ds-rb-txt{overflow:hidden;white-space:nowrap;text-overflow:ellipsis}}",
+      "world": "admin-console"
+    },
+    {
+      "name": "Setting Rows and Radio Cards",
+      "kind": "custom",
+      "refersTo": "admin-radio-card",
+      "description": "Admin console: a settings section card. Results release as radio cards (chosen card in brand tint with a brand ring), then setting rows with the label and hint on the left and the control on the right, and the sticky save bar that appears only with unsaved changes.",
+      "html": "<form class='ds-st' onsubmit='return false'><section class='ds-st-card'><h2 class='ds-st-h'>Results</h2><fieldset class='ds-st-fs'><legend>When can employees see their results?</legend><div class='ds-st-radios'><label class='ds-st-radio'><input type='radio' name='ds-st-rel' checked/><span class='ds-st-dot'></span><span class='ds-st-rt'><b>After I publish them (recommended)</b><span>Employees see “Submitted”. You choose when to show scores, from the Responses tab.</span></span></label><label class='ds-st-radio'><input type='radio' name='ds-st-rel'/><span class='ds-st-dot'></span><span class='ds-st-rt'><b>Right away</b><span>Each person sees their result as soon as they submit.</span></span></label><label class='ds-st-radio'><input type='radio' name='ds-st-rel'/><span class='ds-st-dot'></span><span class='ds-st-rt'><b>Never</b><span>Only admins see results. Employees just see a thank-you.</span></span></label></div></fieldset><label class='ds-st-row'><span class='ds-st-lab'><b>Show their score</b><span>Turn off to show only which answers were right. The leaderboard needs scores.</span></span><button type='button' class='ds-st-switch' role='switch' aria-checked='true' aria-label='Show their score'></button></label><div class='ds-st-row'><span class='ds-st-lab'><b>Pass mark</b><span>Used for the pass rate on the Responses tab.</span></span><span class='ds-st-num'><input value='60' inputmode='numeric' aria-label='Pass mark'/>%</span></div></section><div class='ds-st-save'><span>You have unsaved changes</span><button type='button' class='ds-st-btn ds-st-outline'>Discard</button><button type='submit' class='ds-st-btn ds-st-primary'>Save</button></div></form>",
+      "css": ".ds-st{display:grid;gap:20px;max-width:640px;padding:16px 16px 0;background:#f5f5f5;font-family:'Segoe UI Variable Text','Segoe UI Variable','Segoe UI',system-ui,-apple-system,'Helvetica Neue',Arial,sans-serif;color:#242424}.ds-st-card{padding:16px 20px 4px;border-radius:8px;background:#fff;box-shadow:0 0 2px rgb(0 0 0/.12),0 1px 2px rgb(0 0 0/.14)}.ds-st-h{margin:0;padding-bottom:4px;font-size:16px;line-height:24px;font-weight:600}.ds-st-fs{margin:0;padding:16px 0;border:0;border-bottom:1px solid #e0e0e0}.ds-st-fs legend{padding:0;font-size:14px;line-height:20px;font-weight:600}.ds-st-radios{margin-top:12px;display:grid;gap:8px}.ds-st-radio{position:relative;display:flex;align-items:flex-start;gap:12px;padding:10px 12px;border-radius:4px;box-shadow:inset 0 0 0 1px #d1d1d1;cursor:pointer;transition:background-color 150ms,box-shadow 150ms}.ds-st-radio:hover{background:#f5f5f5}.ds-st-radio input{position:absolute;opacity:0;width:1px;height:1px}.ds-st-radio:has(input:checked){background:var(--brand-tint,#ebf3fc);box-shadow:inset 0 0 0 1px var(--brand,#0f6cbd)}.ds-st-dot{margin-top:2px;display:grid;place-items:center;flex-shrink:0;width:16px;height:16px;box-sizing:border-box;border:1px solid #8a8a8a;border-radius:9999px;background:#fff}.ds-st-radio input:checked+.ds-st-dot::after{content:'';width:8px;height:8px;border-radius:9999px;background:var(--brand,#0f6cbd)}.ds-st-radio input:focus-visible+.ds-st-dot{outline:2px solid #242424;outline-offset:2px}.ds-st-rt b{display:block;font-size:14px;line-height:20px;font-weight:600}.ds-st-rt span,.ds-st-lab span{display:block;margin-top:2px;color:#616161;font-size:13px;line-height:20px}.ds-st-row{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 24px;padding:16px 0;cursor:pointer}.ds-st-row+.ds-st-row{border-top:1px solid #e0e0e0}.ds-st-lab{flex:1 1 256px;min-width:0}.ds-st-lab b{display:block;font-size:14px;line-height:20px;font-weight:600}.ds-st-switch{position:relative;width:36px;height:20px;padding:0;border:0;border-radius:9999px;background:#d1d1d1;cursor:pointer;transition:background-color 150ms}.ds-st-switch[aria-checked='true']{background:var(--brand,#0f6cbd)}.ds-st-switch::after{content:'';position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:9999px;background:#fff;box-shadow:0 1px 2px rgb(0 0 0/.25);transition:transform 150ms}.ds-st-switch[aria-checked='true']::after{transform:translateX(16px)}.ds-st-switch:focus-visible{outline:2px solid #242424;outline-offset:2px}.ds-st-num{display:flex;align-items:center;gap:8px;color:#424242;font-size:14px}.ds-st-num input{width:96px;height:36px;box-sizing:border-box;padding:4px 12px;border:1px solid #8a8a8a;border-radius:4px;color:#242424;font:400 14px/20px 'Segoe UI Variable Text','Segoe UI Variable','Segoe UI',system-ui,-apple-system,'Helvetica Neue',Arial,sans-serif;outline:none}.ds-st-num input:focus-visible{border-color:var(--brand,#0f6cbd);box-shadow:0 0 0 1px var(--brand,#0f6cbd)}.ds-st-save{margin:0 -16px;display:flex;flex-wrap:wrap;align-items:center;gap:12px;padding:12px 16px;border-top:1px solid #e0e0e0;background:#fff;box-shadow:0 -4px 12px rgb(0 0 0/.06)}.ds-st-save>span{flex:1;font-size:14px;font-weight:600}.ds-st-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:36px;padding:0 16px;border-radius:4px;font:600 14px/1 'Segoe UI Variable Text','Segoe UI Variable','Segoe UI',system-ui,-apple-system,'Helvetica Neue',Arial,sans-serif;white-space:nowrap;cursor:pointer;transition:background-color 150ms ease-out,border-color 150ms ease-out,transform 150ms ease-out}.ds-st-btn:active{transform:translateY(1px)}.ds-st-btn:focus-visible{outline:2px solid #242424;outline-offset:2px}.ds-st-outline{border:1px solid #d1d1d1;background:#fff;color:#242424}.ds-st-outline:hover{border-color:#616161;background:#f5f5f5}.ds-st-primary{border:0;background:var(--brand,#0f6cbd);color:#fff}.ds-st-primary:hover{background:var(--brand-hover,#115ea3)}",
+      "world": "admin-console"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Evidence Room",
+    "overview": "Each scenario is an exhibit laid on a table under good light. The employee inspects it, decides, and then sees exactly where the red flags were: numbered yellow tent markers drop onto the screenshot itself, and an evidence log beside it says what each one shows. The admin sees the same markers toned by how often the workforce missed them. Everything in the system serves that inspection: a graphite frame that recedes, a cool concrete ground, white work surfaces, and colour held back until it means something.\n\nThe density is operational, not promotional. These are work surfaces for refinery staff on phones and shared desktops and for a security team at office desktops: hairlines instead of shadowed cards, 1 to 2px corners, one sans family whose weights carry the hierarchy, and a mono for anything that has to be read character by character. Motion is spent on the reveal, where it carries the lesson; everywhere else a state change is a 150ms colour shift.\n\nThe world refuses the category default for quiz apps: a centred quiz card with a percentage progress bar, confetti and a blue SaaS shell. It also refuses decoration: no gradients, no glass panels, no side-stripe callouts, no kicker labels above headings.",
+    "keyCharacteristics": [
+      "Graphite shell, concrete ground, white work surfaces.",
+      "Marker yellow is reserved for the one primary action, the current selection and the evidence markers.",
+      "Manila is paper: codes, exhibit tags and notes you carry with you.",
+      "Red and green mean outcome state only, and travel with a glyph and a word.",
+      "Atkinson Hyperlegible Next for everything; Atkinson Hyperlegible Mono for codes, IDs and addresses.",
+      "1 to 2px corners, 1px hairlines, exactly two shadows.",
+      "The tent marker and the exhibit tag are the signature devices."
+    ],
+    "rules": [
+      {
+        "name": "The Marker Rule",
+        "body": "Marker yellow means act here, you are here, or look here. One yellow button per view; everything else that moves the user on is graphite. It is never a panel background, never decoration, and never text on a light surface, where it falls to 1.7:1.",
+        "section": "colors"
+      },
+      {
+        "name": "The Paper Rule",
+        "body": "Manila is the paper in the evidence room: tags, code chips, the resume-code slip, the next clue, caution notes. It labels and informs; it is never a button.",
+        "section": "colors"
+      },
+      {
+        "name": "The State Pair Rule",
+        "body": "Red and green mean outcome and nothing else, and they never travel alone. The verdict is a filled disc with a check or cross plus a word; chosen options carry a check or cross glyph; a missed correct option is labelled Correct answer.",
+        "section": "colors"
+      },
+      {
+        "name": "The One Data Hue Rule",
+        "body": "Charts use Data Blue for measured values, Line Strong for values below a threshold and Ledger Green only for good. No other chart hues.",
+        "section": "colors"
+      },
+      {
+        "name": "The Mono Evidence Rule",
+        "body": "Anything a person may need to read character by character is set in Atkinson Hyperlegible Mono: question and activity codes, employee IDs, resume codes, addresses and URLs quoted in prompts, the countdown, numbered keyboard hints.",
+        "section": "typography"
+      },
+      {
+        "name": "The Weight Ladder Rule",
+        "body": "One family; hierarchy comes from weight and size: 800 for headings and the wordmark, 700 for titles and statuses, 600 for labels and buttons, 400 for reading. No second display face.",
+        "section": "typography"
+      },
+      {
+        "name": "The Title-First Rule",
+        "body": "A heading stands at the top of its block. Codes, statuses and counts sit in a meta row beneath it; nothing sits above it as a kicker. Uppercase tracked lettering belongs to the exhibit tag alone.",
+        "section": "typography"
+      },
+      {
+        "name": "The Tabular Rule",
+        "body": "Numbers that get compared (tables, times, scores, counts, chart ticks) use tabular numerals.",
+        "section": "typography"
+      },
+      {
+        "name": "The Two Shadows Rule",
+        "body": "Only the plate and things that float get shadows. Panels, option rows, notes and cards separate from the ground by tone and a 1px ring.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Keyline Rule",
+        "body": "Anything drawn on top of a screenshot carries its own graphite keyline or halo, because the evidence underneath can be any colour.",
+        "section": "elevation"
+      },
+      {
+        "name": "The One Blue Rule",
+        "body": "Brand blue means act here or you are here: the filled button, the selected pill or radio card, the active tab, the card being edited. Each region carries at most one filled button (New activity on the list, Share in the activity header, Publish results in its message bar, Save in the save bar, the confirm button in a dialog); everything else is outline or ghost.",
+        "section": "colors",
+        "world": "admin-console"
+      },
+      {
+        "name": "The Status Pair Rule (console)",
+        "body": "Green, amber and red mark status and answers, never decoration, and never alone: badges carry a dot and a word, correct answers a check, wrong ones a cross and a word, the autosave state an icon and a sentence.",
+        "section": "colors",
+        "world": "admin-console"
+      },
+      {
+        "name": "The Re-point Rule",
+        "body": "Console code names the console tokens (brand, ok, bad, warn, the neutrals) or a shared token that `.admin-ui` re-points. It reaches for marker, manila, ledger green or evidence red only for marks drawn on a screenshot.",
+        "section": "colors",
+        "world": "admin-console"
+      },
+      {
+        "name": "The One Weight Rule",
+        "body": "Semibold (600) carries every heading, label, button and emphasis; regular (400) carries reading. The Evidence Room's 700 and 800 ladder does not apply in the console.",
+        "section": "typography",
+        "world": "admin-console"
+      },
+      {
+        "name": "The Plain Words Rule",
+        "body": "The console shows people's words, not the system's. Questions are numbered 1, 2, 3 straight through the activity, in the builder, the summary, the drawer and the red-flag map; sections are Section 1, Section 2; statuses read Draft, Scheduled, Open and Closed. No question codes, exhibit letters, CASE numbers or code chips, and mono only for strings a person types.",
+        "section": "typography",
+        "world": "admin-console"
+      },
+      {
+        "name": "The No Sideways Page Rule",
+        "body": "A console page never scrolls horizontally. Lists stack below 640px with the ⋯ menu visible; grid columns are `minmax(0, 1fr)` (the Responses page, the question list, answer previews, bar rows, the red-flag map); flex children carry `min-w-0` and titles truncate or clamp; header actions, filters, message-bar actions and setting rows wrap, a setting's control dropping beneath its label. A table wider than the screen scrolls inside its own card, never the page.",
+        "section": "layout",
+        "world": "admin-console"
+      },
+      {
+        "name": "The One Column Rule",
+        "body": "Building and settings are one centred column (800px and 760px), like a form. No outline pane, side preview or second column; Preview is a dialog.",
+        "section": "layout",
+        "world": "admin-console"
+      },
+      {
+        "name": "The Lift Rule",
+        "body": "Cards rest on the card shadow and floating layers on pop; nothing else casts a shadow except the save bar and the switch thumb. Only a collapsed question card lifts on hover.",
+        "section": "elevation",
+        "world": "admin-console"
+      }
+    ],
+    "dos": [
+      "**Do** give each view one marker-yellow action (#f2c230 with #1a1c1e text): New activity, Continue on entry, Check answer, Submit answers, View certificate. Moving on (Next, Continue, Finish) is the graphite ink button.",
+      "**Do** set codes, employee IDs, resume codes and quoted addresses in Atkinson Hyperlegible Mono, and compared numbers in tabular numerals.",
+      "**Do** put evidence on the white plate with the plate shadow, zoom controls and the full-screen viewer, and collapse it to the 144px tap strip on phones until the reveal.",
+      "**Do** reveal red flags as numbered tent markers on the evidence with a matching numbered evidence log, linked by hover in both directions.",
+      "**Do** pair red and green with a glyph and a word: the verdict disc with a check or cross, plus Correct or Not quite.",
+      "**Do** keep text at Ink 3 (#5f676c) or darker on light surfaces and Shell Muted (#a9afb2) or lighter on graphite.",
+      "**Do** keep employee touch targets at 44px or more: option rows 48px, primary buttons lg (44px) or xl (48px), review cells 44px, rating squares 48px.",
+      "**Do** separate surfaces by tone and 1px hairlines: white panels with a 1px Line ring on the concrete ground.",
+      "**Do** use the 2px graphite focus outline with a 2px offset on light surfaces, and mark graphite regions `.on-shell` so focus turns marker yellow.",
+      "**Do** keep reveal motion on ease-out-expo with the 90ms stagger, and let the global reduced-motion clamp land every animation on its final frame.",
+      "**Do** give each console region one filled Brand Blue button (#0f6cbd, white text): New activity, Share, Publish results, Save, Open now; everything else is outline or ghost.",
+      "**Do** put console content in white 8px cards on the card shadow over the #f5f5f5 ground, with no card borders.",
+      "**Do** keep building and settings in one centred column (800px Questions, 760px Settings) and list pages at 1120px.",
+      "**Do** number questions 1, 2, 3 straight through the activity, call sections Section 1, Section 2, and show status as Draft, Scheduled, Open and Closed badges with a dot.",
+      "**Do** keep \"Publish\" for results only: activities are opened (Open now, Schedule), closed (Close now, Reopen) and taken back to draft.",
+      "**Do** state where results stand in a message bar at the top of Responses, and confirm Publish results and Hide results in a dialog.",
+      "**Do** pair console status colour with a word or glyph: badge dot and word, a check and Correct, a cross and Wrong, a check on the correct answer's bar.",
+      "**Do** draw the correct answer's bar in Ok green with a check and every other bar in Brand Blue; score columns below the pass mark are Admin Line Strong.",
+      "**Do** turn console lists into stacked rows below 640px with the ⋯ menu visible, and give grid columns `minmax(0, 1fr)` so no page scrolls sideways.",
+      "**Do** lay settings out as rows, label and hint on the left and the control on the right, and show the save bar only while something is unsaved.",
+      "**Do** set console page titles and stat values at 28px semibold (36px line), body at 14px, and every emphasis at 600."
+    ],
+    "donts": [
+      "**Don't** use marker yellow as a panel background, as decoration, or as text on a light surface, where it is 1.7:1.",
+      "**Don't** use manila for actions, or red and green for anything except outcome state and errors.",
+      "**Don't** put a kicker or eyebrow above a heading; meta (code chip, status, counts) goes beneath the title.",
+      "**Don't** use gradients, glass panels or decorative blur. The only blur is a small legibility blur behind 95%-opaque sticky controls.",
+      "**Don't** use side-stripe or left-border callouts; notes are full washes or ringed white cards, and quoted messages are fully bordered boxes.",
+      "**Don't** round surfaces past 2px or chart data ends past 4px, and don't use pills except for dots, radio indicators and the switch.",
+      "**Don't** add chart hues beyond Data Blue, Line Strong and Ledger Green; the leftover --chart-2 to --chart-5 variables are not part of the system.",
+      "**Don't** use the stock shadcn Badge, Tabs, Checkbox or chart tooltip as shipped; they still carry pill and soft-shadow defaults. Use StatusBadge, CodeChip, the workspace tab bar and the option row.",
+      "**Don't** build the category default: a centred quiz card, a percentage progress bar, confetti, or a blue SaaS shell.",
+      "**Don't** render phishing evidence as live HTML or invent an HRRL logo; evidence is an image on the plate and the brand is the type wordmark.",
+      "**Don't** bring Evidence Room furniture into the console chrome: no graphite rail, marker-yellow buttons, manila tags, exhibit letters, CASE codes, S1·Q01 code chips or tent markers outside the red-flag map and the Preview.",
+      "**Don't** use Microsoft logos, product names or trademarks in the console, or a stand-in logo; the product name is set in type.",
+      "**Don't** add a second column, outline pane or side preview to the builder; Preview is a dialog.",
+      "**Don't** use Brand Blue for anything but the app bar, actions, selection, the active tab, links, focus and chart data; never as a panel fill or heading colour.",
+      "**Don't** use green, amber or red in the console without a word or glyph, or for anything but status, answers and errors.",
+      "**Don't** let a console page scroll sideways, or hide the row menu on phones.",
+      "**Don't** border console cards, or add shadows beyond card, card hover, pop and the save bar.",
+      "**Don't** set console text in mono except strings people type (passwords, ID patterns, number answers)."
+    ],
+    "worlds": [
+      {
+        "id": "evidence-room",
+        "name": "Evidence Room",
+        "northStar": "The Evidence Room",
+        "note": "overview, keyCharacteristics and the rules, dos and donts without a world tag belong to this world."
+      },
+      {
+        "id": "admin-console",
+        "name": "Admin Console",
+        "northStar": "The Familiar Form",
+        "overview": "The console is a sibling of the tools the CISO office already works in all day: Outlook, Teams and Microsoft Forms. An admin builds an activity the way they build a form (a title card, one column of numbered question cards, Add new question), shares a link, reads Responses as a summary of simple bars, and presses Publish results when ready. Nothing in it should need learning; the familiarity is the design.\n\nIt is Fluent-style and quiet: white cards on a soft two-layer shadow over a light grey page, a 48px brand-blue app bar carrying the product name, Segoe UI Variable at a 14px base, 4px controls and 8px cards. Brand blue marks the primary action, the current selection and the active tab; green, amber and red mark status and always travel with a word or a glyph. The words are plain: no internal codes, exhibit tags or code chips. The Evidence Room appears inside the console only where an employee's view is the subject, in the Preview dialog and the red-flag map.\n\nIt refuses the previous admin look (dark graphite rail, yellow buttons, CASE codes and S1·Q01 chips, manila tags, the three-pane builder), and it borrows Microsoft's design language only, never a Microsoft logo, product name or trademark.",
+        "keyCharacteristics": [
+          "Brand-blue app bar, light grey page, white cards.",
+          "One centred column for building (800px) and settings (760px); lists at 1120px.",
+          "Brand blue for the primary action, selection, the active tab, links and chart data only.",
+          "Green, amber and red for status, always with a dot, check, cross or word.",
+          "Segoe UI Variable at 14px; semibold carries all emphasis; 28px is the top step.",
+          "4px controls, 8px cards, fully round pills and badges.",
+          "Lists become stacked rows on phones; no page scrolls sideways."
+        ],
+        "note": "Rules tagged world: admin-console; the dos and donts appended after the Evidence Room lists are the console’s (each names the console)."
+      }
+    ]
+  }
+}
