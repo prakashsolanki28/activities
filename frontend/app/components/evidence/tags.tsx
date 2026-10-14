@@ -5,6 +5,11 @@ export const exhibitLetter = (index: number) =>
 
 /** Manila exhibit tag with a punched hole: labels a scenario or challenge. */
 export function ExhibitTag({ index, title, className, tone = 'manila' }: { index: number; title?: string; className?: string; tone?: 'manila' | 'shell' }) {
+  return <PaperTag lead={`Exhibit ${exhibitLetter(index)}`} title={title} className={className} tone={tone} />;
+}
+
+/** The arrow-cut, hole-punched paper tag: uppercase lead lettering, then an optional title. */
+export function PaperTag({ lead, title, className, tone = 'manila' }: { lead: string; title?: string; className?: string; tone?: 'manila' | 'shell' }) {
   return (
     <span
       className={cn(
@@ -18,7 +23,7 @@ export function ExhibitTag({ index, title, className, tone = 'manila' }: { index
         aria-hidden
         className={cn('absolute top-1/2 left-[9px] size-[7px] -translate-y-1/2 rounded-full', tone === 'manila' ? 'bg-graphite/70' : 'bg-graphite')}
       />
-      <span className="tracking-[0.08em] whitespace-nowrap uppercase">Exhibit {exhibitLetter(index)}</span>
+      <span className="tracking-[0.08em] whitespace-nowrap uppercase">{lead}</span>
       {title ? <span className="min-w-0 truncate font-semibold tracking-normal normal-case opacity-90">· {title}</span> : null}
     </span>
   );

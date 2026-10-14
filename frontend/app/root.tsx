@@ -10,7 +10,7 @@ import './app.css';
 export const meta: Route.MetaFunction = () => [
   { title: 'HRRL Activities' },
   { name: 'description', content: 'Cybersecurity awareness activities from the HRRL CISO Office.' },
-  { name: 'theme-color', content: '#1a1c1e' },
+  { name: 'theme-color', content: '#ffffff' },
 ];
 
 export function Layout({ children }: { children: React.ReactNode }) {

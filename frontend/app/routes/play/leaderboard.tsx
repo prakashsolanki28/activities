@@ -6,7 +6,7 @@ import { ArrowLeft, Clock3, MonitorPlay } from 'lucide-react';
 import type { LeaderboardEntry, LeaderboardResponse } from '@hrrl/shared';
 import type { Route } from './+types/leaderboard';
 import { Button } from '~/components/ui/button';
-import { Wordmark } from '~/components/brand';
+import { CisoLockup, HrrlLockup } from '~/components/brand';
 import { EvidenceMarker } from '~/components/evidence/marker';
 import { CodeChip } from '~/components/evidence/tags';
 import { PublicMessage, PublicShell } from '~/components/play/public-shell';
@@ -52,9 +52,9 @@ export default function Leaderboard() {
   return (
     <PublicShell
       right={
-        <Button asChild variant="shell" size="sm">
+        <Button asChild variant="outline" size="sm">
           <Link to={`/a/${slug}/leaderboard?display=1`}>
-            <MonitorPlay /> Projector view
+            <MonitorPlay /> <span className="sr-only sm:not-sr-only">Projector view</span>
           </Link>
         </Button>
       }
@@ -132,39 +132,44 @@ function BoardTable({ entries }: { entries: LeaderboardEntry[] }) {
   );
 }
 
-/** Big-screen board for live events: graphite, large type, refreshes itself, QR to join. */
+/** Big-screen board for live events: white co-brand masthead over a graphite board, large type, refreshes itself, QR to join. */
 function ProjectorBoard({ data, slug }: { data?: LeaderboardResponse; slug: string }) {
   const joinUrl = typeof window === 'undefined' ? '' : `${window.location.origin}/a/${slug}`;
   const top = data?.entries.slice(0, 10) ?? [];
   return (
-    <div className="on-shell min-h-dvh bg-graphite px-[4vw] py-[4vh] text-shell-fg">
-      <div className="flex items-start justify-between gap-8">
-        <div>
-          <Wordmark sub="CISO Office" />
-          <h1 className="mt-6 max-w-[24ch] text-[clamp(2rem,4vw,4rem)] leading-[1.05] font-extrabold tracking-[-0.02em]">{data?.activity.title ?? 'Leaderboard'}</h1>
-          <p className="mt-3 text-[clamp(1rem,1.4vw,1.4rem)] text-shell-muted">{data ? `${data.participants} submitted · updates every 15 seconds` : 'Loading…'}</p>
-        </div>
-        {joinUrl ? (
-          <div className="hidden shrink-0 rounded-xs bg-surface p-3 text-center text-ink md:block">
-            <QRCodeSVG value={joinUrl} size={148} level="M" bgColor="#ffffff" fgColor="#1a1c1e" />
-            <p className="mt-2 text-xs font-bold">Scan to take part</p>
+    <div className="flex min-h-dvh flex-col bg-graphite">
+      <header className="flex items-center justify-between gap-8 bg-surface px-[4vw] py-[2.2vh]">
+        <HrrlLockup className="h-[clamp(64px,9vh,120px)]" />
+        <CisoLockup className="h-[clamp(44px,6.5vh,84px)]" />
+      </header>
+      <div className="on-shell flex-1 px-[4vw] py-[4vh] text-shell-fg">
+        <div className="flex items-start justify-between gap-8">
+          <div>
+            <h1 className="max-w-[24ch] text-[clamp(2rem,4vw,4rem)] leading-[1.05] font-extrabold tracking-[-0.02em]">{data?.activity.title ?? 'Leaderboard'}</h1>
+            <p className="mt-3 text-[clamp(1rem,1.4vw,1.4rem)] text-shell-muted">{data ? `${data.participants} submitted · updates every 15 seconds` : 'Loading…'}</p>
           </div>
-        ) : null}
+          {joinUrl ? (
+            <div className="hidden shrink-0 rounded-xs bg-surface p-3 text-center text-ink md:block">
+              <QRCodeSVG value={joinUrl} size={148} level="M" bgColor="#ffffff" fgColor="#1a1c1e" />
+              <p className="mt-2 text-xs font-bold">Scan to take part</p>
+            </div>
+          ) : null}
+        </div>
+        <ol className="mt-[5vh] grid gap-[1.2vh]">
+          {top.map((e) => (
+            <li
+              key={`${e.rank}-${e.employeeIdMasked}`}
+              className={cn('grid grid-cols-[4rem_1fr_auto_auto] items-center gap-6 rounded-xs px-5 py-[1.4vh]', e.rank <= 3 ? 'bg-graphite-2 ring-1 ring-graphite-3' : '')}
+            >
+              {e.rank <= 3 ? <EvidenceMarker n={e.rank} size={40} /> : <span className="pl-3 font-mono text-[clamp(1.2rem,1.8vw,1.8rem)] font-bold text-shell-muted">{e.rank}</span>}
+              <span className="truncate text-[clamp(1.3rem,2.2vw,2.2rem)] font-bold">{e.name}</span>
+              <span className="font-mono text-[clamp(1rem,1.5vw,1.5rem)] text-shell-muted tabular-nums">{formatDuration(e.durationSec)}</span>
+              <span className="min-w-[5ch] text-right text-[clamp(1.4rem,2.4vw,2.4rem)] font-extrabold text-marker tabular-nums">{formatPct(e.pct)}</span>
+            </li>
+          ))}
+          {data && !top.length ? <li className="text-[clamp(1.2rem,2vw,2rem)] text-shell-muted">Waiting for the first submission…</li> : null}
+        </ol>
       </div>
-      <ol className="mt-[5vh] grid gap-[1.2vh]">
-        {top.map((e) => (
-          <li
-            key={`${e.rank}-${e.employeeIdMasked}`}
-            className={cn('grid grid-cols-[4rem_1fr_auto_auto] items-center gap-6 rounded-xs px-5 py-[1.4vh]', e.rank <= 3 ? 'bg-graphite-2 ring-1 ring-graphite-3' : '')}
-          >
-            {e.rank <= 3 ? <EvidenceMarker n={e.rank} size={40} /> : <span className="pl-3 font-mono text-[clamp(1.2rem,1.8vw,1.8rem)] font-bold text-shell-muted">{e.rank}</span>}
-            <span className="truncate text-[clamp(1.3rem,2.2vw,2.2rem)] font-bold">{e.name}</span>
-            <span className="font-mono text-[clamp(1rem,1.5vw,1.5rem)] text-shell-muted tabular-nums">{formatDuration(e.durationSec)}</span>
-            <span className="min-w-[5ch] text-right text-[clamp(1.4rem,2.4vw,2.4rem)] font-extrabold text-marker tabular-nums">{formatPct(e.pct)}</span>
-          </li>
-        ))}
-        {data && !top.length ? <li className="text-[clamp(1.2rem,2vw,2rem)] text-shell-muted">Waiting for the first submission…</li> : null}
-      </ol>
     </div>
   );
 }

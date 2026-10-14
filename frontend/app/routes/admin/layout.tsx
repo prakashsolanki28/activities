@@ -20,7 +20,7 @@ export default function AdminLayout() {
   if (!me.data) {
     return (
       <div className="min-h-dvh bg-ground" aria-busy="true">
-        <div className="h-12 bg-brand" />
+        <div className="h-14 border-b border-line bg-surface sm:h-16" />
       </div>
     );
   }

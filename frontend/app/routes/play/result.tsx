@@ -78,9 +78,9 @@ function ResultView({ state, slug }: { state: AttemptState; slug: string }) {
     <PublicShell
       right={
         leaderboardVisible ? (
-          <Button asChild variant="shell" size="sm">
+          <Button asChild variant="outline" size="sm">
             <Link to={`/a/${slug}/leaderboard`}>
-              <ListOrdered /> Leaderboard
+              <ListOrdered /> <span className="sr-only sm:not-sr-only">Leaderboard</span>
             </Link>
           </Button>
         ) : null

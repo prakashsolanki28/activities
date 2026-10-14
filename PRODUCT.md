@@ -45,12 +45,12 @@ Built around real-looking evidence: each scenario carries a screenshot (fake ema
 
 ## Brand Commitments
 
-- **Admin console follows Microsoft 365 / Microsoft Forms conventions** (chosen by the user, 13 Oct 2026). HRRL admins work in Outlook, Teams and Forms all day; the console should feel like a sibling of those tools: white workspace, one-column question cards, plain words, no internal codes. Use the design language only; never Microsoft logos, product names or trademarks. The employee-facing screens keep their own "Evidence Room" look.
+- **Admin console follows Microsoft 365 / Microsoft Forms conventions** (chosen by the user, 13 Oct 2026). HRRL admins work in Outlook, Teams and Forms all day; the console should feel like a sibling of those tools: white workspace, one-column question cards, plain words, no internal codes. Use the design language only; never Microsoft logos, product names or trademarks. The app bar is white and carries the HRRL and CISO Office logos (chosen by the user, 14 Oct 2026). The employee-facing screens keep their own "Evidence Room" look.
 - **Results are held by default.** Employees see "Submitted" until an admin publishes results; per activity, results can instead show right away or never (admins only).
 
-- Organisation name as used in the source material: "HRRL" / "Hindustan Refinery Limited (HRRL)"; CISO Office runs the programme.
+- Organisation: **HPCL Rajasthan Refinery Limited (HRRL)**, as set in its official logo (the source material's "Hindustan Refinery Limited" is wrong). The CISO Office runs the programme.
 - Campaign mantra from the source material: STOP → THINK → VERIFY → REPORT.
-- No official HRRL logo file has been provided; do not fabricate one.
+- **Official logos** (provided 14 Oct 2026): the HRRL bilingual lockup `frontend/public/logo/hrrl.png` and the CISO Office lockup `frontend/public/logo/ciso-office.png`. Derived cuts sit beside them: `hrrl-emblem.png` (the arch emblem alone, its frame filled white), `hrrl-lockup.png` and `ciso-office-lockup.png` (trimmed). Use them as supplied; never redraw, recolour or re-letter them. Both have black lettering on transparency, so they sit on white. Wherever HRRL appears on white it is the full logo, emblem and bilingual name together, exactly as supplied (asked for by the user, 14 Oct 2026); the emblem alone appears only on the graphite player bar, where the black lettering cannot sit.
 
 ## Evidence on Hand
 

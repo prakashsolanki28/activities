@@ -15,7 +15,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '~/components/ui/alert-dialog';
-import { Wordmark } from '~/components/brand';
+import { HrrlEmblem } from '~/components/brand';
 import { EvidenceLog, EvidencePlate } from '~/components/evidence/plate';
 import { CodeChip, ExhibitTag } from '~/components/evidence/tags';
 import { Prompt } from '~/components/evidence/prompt';
@@ -343,7 +343,7 @@ function PlayerView({ state, token, slug }: { state: AttemptState; token: string
       <header className="on-shell sticky top-0 z-30 bg-graphite">
         <div className="mx-auto flex h-14 max-w-[1440px] items-center gap-3 px-4 sm:px-6">
           <Link to={`/a/${slug}`} className="hidden shrink-0 rounded-xs sm:block" aria-label="Activity details">
-            <Wordmark sub="" />
+            <HrrlEmblem className="h-8" alt="" />
           </Link>
           {reviewing ? (
             <span className="text-sm font-bold text-shell-fg">Review</span>

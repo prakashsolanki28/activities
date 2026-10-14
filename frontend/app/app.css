@@ -404,3 +404,18 @@
 .animate-stamp-in {
   animation: stamp-in 260ms var(--ease-out) both;
 }
+
+/* The awareness-month track fills cell by cell up to today. */
+@keyframes track-fill {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.animate-track-fill {
+  transform-origin: left center;
+  animation: track-fill 380ms var(--ease-out) both;
+}

@@ -429,12 +429,13 @@ components:
     rounded: "{rounded.xl}"
     width: "24px"
   admin-app-bar:
-    backgroundColor: "{colors.brand}"
-    textColor: "{colors.surface}"
+    backgroundColor: "{colors.surface}"
+    textColor: "{colors.admin-ink}"
     typography: "{typography.admin-item}"
     padding: "0 24px"
-    height: "48px"
+    height: "64px"
   admin-avatar:
+    backgroundColor: "{colors.brand}"
     textColor: "{colors.surface}"
     typography: "{typography.admin-caption-strong}"
     rounded: "{rounded.full}"
@@ -681,13 +682,13 @@ The world refuses the category default for quiz apps: a centred quiz card with a
 
 The console is a sibling of the tools the CISO office already works in all day: Outlook, Teams and Microsoft Forms. An admin builds an activity the way they build a form (a title card, one column of numbered question cards, Add new question), shares a link, reads Responses as a summary of simple bars, and presses Publish results when ready. Nothing in it should need learning; the familiarity is the design.
 
-It is Fluent-style and quiet: white cards on a soft two-layer shadow over a light grey page, a 48px brand-blue app bar carrying the product name, Segoe UI Variable at a 14px base, 4px controls and 8px cards. Brand blue marks the primary action, the current selection and the active tab; green, amber and red mark status and always travel with a word or a glyph. The words are plain: no internal codes, exhibit tags or code chips. The Evidence Room appears inside the console only where an employee's view is the subject, in the Preview dialog and the red-flag map.
+It is Fluent-style and quiet: white cards on a soft two-layer shadow over a light grey page, a 64px white app bar carrying the full HRRL logo, the CISO Office logo and the product name, Segoe UI Variable at a 14px base, 4px controls and 8px cards. Brand blue marks the primary action, the current selection and the active tab; green, amber and red mark status and always travel with a word or a glyph. The words are plain: no internal codes, exhibit tags or code chips. The Evidence Room appears inside the console only where an employee's view is the subject, in the Preview dialog and the red-flag map.
 
 It refuses the previous admin look (dark graphite rail, yellow buttons, CASE codes and S1·Q01 chips, manila tags, the three-pane builder), and it borrows Microsoft's design language only, never a Microsoft logo, product name or trademark.
 
 **Key Characteristics:**
 
-- Brand-blue app bar, light grey page, white cards.
+- White co-brand app bar (full HRRL logo, CISO Office logo, Activities), light grey page, white cards.
 - One centred column for building (800px) and settings (760px); lists at 1120px.
 - Brand blue for the primary action, selection, the active tab, links and chart data only.
 - Green, amber and red for status, always with a dot, check, cross or word.
@@ -752,7 +753,7 @@ A true-grey Fluent palette (zero chroma) with one brand blue and three status hu
 
 #### Primary
 
-- **Brand Blue** (#0f6cbd): the app bar; the filled primary button; the active tab's underline; the ring and text of a selected pill or radio card; the 2px ring of the question card being edited; the title card's top band; links (All activities, Change in Settings, Add an introduction, Fix); the icons of the question-type grid; switches when on; every chart bar and column that is not the correct answer. White on it is 5.4:1; as text on Brand Tint it is 4.8:1.
+- **Brand Blue** (#0f6cbd): the filled primary button; the account avatar; the active tab's underline; the ring and text of a selected pill or radio card; the 2px ring of the question card being edited; the title card's top band; links (All activities, Change in Settings, Add an introduction, Fix); the icons of the question-type grid; switches when on; every chart bar and column that is not the correct answer. White on it is 5.4:1; as text on Brand Tint it is 4.8:1.
 - **Brand Hover** (#115ea3): the primary button under the pointer (white 6.7:1).
 - **Brand Tint** (#ebf3fc): selected pills and radio cards, the info message bar, a hovered question-type tile, the hovered row of the red-flag list, the image drop zone while dragging.
 - **Brand Tint 2** (#cfe4fa): text selection.
@@ -820,7 +821,7 @@ Marker, manila, ledger green, evidence red, the washes, `--destructive` and the 
 
 **The Mono Evidence Rule.** Anything a person may need to read character by character is set in Atkinson Hyperlegible Mono: question and activity codes, employee IDs, resume codes, addresses and URLs quoted in prompts, the countdown, numbered keyboard hints.
 
-**The Weight Ladder Rule.** One family; hierarchy comes from weight and size: 800 for headings and the wordmark, 700 for titles and statuses, 600 for labels and buttons, 400 for reading. No second display face.
+**The Weight Ladder Rule.** One family; hierarchy comes from weight and size: 800 for headings, 700 for titles and statuses, 600 for labels and buttons, 400 for reading. No second display face.
 
 **The Title-First Rule.** A heading stands at the top of its block. Codes, statuses and counts sit in a meta row beneath it; nothing sits above it as a kicker. Uppercase tracked lettering belongs to the exhibit tag alone.
 
@@ -870,22 +871,22 @@ The spatial model is a frame and a table: a graphite frame on one edge (a 240px 
 - **Activity workspace.** A white header band (title, code chip, status, counts) with the tab bar underneath. The builder is three panes at 1280px: a 296px outline, the editor, and a 360 to 420px live employee preview.
 - **Player.** A centred container of max 1440px with 16px gutters (24px from 640px). With evidence, the grid is minmax(0, 1.6fr) for the plate and minmax(380px, 1fr) for the question from 1024px, 40px apart; the plate column is sticky 88px from the top and the plate is capped at min(70vh, 760px). Without evidence the question column centres at 672px.
 - **Player on a phone.** The plate collapses to a 144px tappable strip above the question until the reveal; the primary action sits in a fixed bottom bar (95% concrete with a hairline top border) and the page reserves 112px beneath the content for it.
-- **Public pages.** Entry, result and messages use a 56px graphite header, a 1152px container with 16 or 24px gutters and 32 or 48px vertical padding, and a footer line carrying the campaign mantra. The review screen and result body hold to 768px.
-- **Projector.** Full-bleed graphite, padded by 4vw and 4vh, with fluid type and a QR card for joining.
-- **Certificate.** An A4 landscape sheet (aspect 297 / 210, max 1000px) with a graphite header band, printed edge to edge.
+- **Public pages.** Entry, result, leaderboard and messages use the white co-brand header (56px, 64px from 640px, a hairline beneath; see Brand Marks; its right-hand button shows only its icon below 640px), a 1152px container with 16 or 24px gutters and 32 or 48px vertical padding, and a footer line carrying the campaign mantra. The review screen and result body hold to 768px.
+- **Projector.** A white masthead with the full HRRL logo on the left (clamp(64px, 9vh, 120px) tall) and the CISO Office logo on the right, over a full-bleed graphite board padded by 4vw and 4vh, with fluid type and a QR card for joining.
+- **Certificate.** An A4 landscape sheet (aspect 297 / 210, max 1000px), printed edge to edge. Its header is white over a hairline: the full HRRL logo at 28% of the sheet's width on the left, Certificate of completion over Cybersecurity Awareness in the middle, the CISO Office logo at 15% on the right. Below 640px the sheet drops its A4 proportions and takes its content's height: the logos grow to 54% and 30% and the title wraps beneath them.
 
 ### Admin Console
 
 The Microsoft 365 page model: a sticky app bar over a light grey page, and centred single columns of white cards. Spacing stays on Tailwind's 4px base (rem is never resized): 16px page gutters on phones and 32px from 640px, 20px card side padding, 20px between stacked cards, 24px between builder sections. There is no side navigation.
 
-- **App bar.** Sticky, 48px, Brand Blue, 16px gutters (24px from 640px): the product name on the left (it is the way home), a CISO Office label from 640px, the account avatar on the right. The account menu holds Manage admins and Sign out. While the session loads, the bare 48px bar sits on the ground.
+- **App bar.** Sticky, 56px (64px from 640px), white with a bottom hairline, 16px gutters (24px from 640px): the co-brand (full HRRL logo, hairline, CISO Office logo) and, from 768px, a second hairline and the product name Activities, all one link home; the account avatar on the right. The account menu holds Manage admins and Sign out. While the session loads, the bare bar sits on the ground.
 - **List pages** (Activities, Manage admins). Max 1120px, 32px top and bottom. The PageHeader (title and description left, actions right, wrapping beneath on narrow screens), 24px, the filter pills with a 288px search on the right (full width on phones), 16px, then one card holding the list.
 - **Activity header.** A white band with a bottom hairline over the same 1120px container: the back link, then the title with its status badge and Preview and Share on the right (the title takes its own row on phones), then the tabs Questions, Responses and Settings, centred.
 - **Questions tab.** One column, max 800px with 16px gutters (24px from 640px), 20px top and 96px bottom. The first line is the autosave state, right-aligned; then any message bars, the title card, and for each section its section card, the question cards 12px apart and Add new question; 24px between sections.
 - **Settings tab.** One column, max 760px with 16/32px gutters, section cards 20px apart. The save bar is sticky at the bottom and exists only while something is unsaved or invalid (a 24px spacer holds its place otherwise).
 - **Responses tab.** Max 1120px, 24px top, 20px between the results message bar, the stat row card, the view pills and the content. Summary cards stack in one column; the red-flag map splits minmax(0, 1.5fr) for the plate and minmax(16rem, 1fr) for the list from 1024px.
 - **Drawers.** Share is a right sheet up to 440px; a response opens a right sheet up to 576px on the ground colour with a white header. Both fill the width on phones.
-- **Sign-in.** A 440px card centred on the ground with 32px padding (44px sides from 640px).
+- **Sign-in.** A 440px card centred on the ground with 32px padding (44px sides from 640px): the HRRL logo on top of the card, and a Powered by CISO Office footer at the bottom of the page, outside the card (see Brand Marks).
 - **Preview.** A dialog up to 1100px wide and 92dvh tall; inside it the employee view runs at max 760px on the ground, in the Evidence Room.
 
 **Narrow widths.** Below 640px (`sm`) every list (activities, admins) renders as stacked rows instead of a table: the title (15px semibold, at most two lines), a wrapping meta row beneath it (status badge, response count and results state; or email, role and date added), and the ⋯ menu, a 32px ghost icon button, always visible and top-aligned at the right. From 640px the table takes over inside an `overflow-x-auto` wrapper with a minimum width (760px for activities, 640px for admins), so between 640px and that width the table scrolls inside its card. The individual-responses table has no stacked form and always scrolls inside its card (minimum 820px).
@@ -994,8 +995,21 @@ Answer indicators keep their form: single choice is a circle, multiple choice a 
 
 - **Admin rail:** Graphite. Items are 36px tall, 14px semibold, 1px corners; inactive Shell Muted, hover Graphite 2 with Shell Text, active Graphite 3 with Shell Text and a yellow icon.
 - **Workspace tabs:** 40px tall, 13px semibold Ink 3; the active tab turns Ink with a 3px yellow underline inset 8px from each side. Counts sit in small Concrete 2 chips.
-- **Player bar:** Graphite, 56px: wordmark (from 640px), exhibit tag in its shell tone, the mono guide words (S1·Q01–Q10, from 768px), the answered count, the countdown. Beneath it the **progress track**: one 6px cell per question, 3px apart, 8px between sections, each section as wide as its question count. Current is yellow, correct green, wrong red, answered Shell Muted, unanswered Graphite 3. In free navigation each cell is a button that grows to 10px on hover.
-- **Wordmark:** HRRL in 15px extrabold at -0.01em beside a 15px medium Shell Muted sub-label (Activities or CISO Office). There is no logo.
+- **Player bar:** Graphite, 56px: the filled HRRL emblem at 32px (from 640px, linking to the activity page), exhibit tag in its shell tone, the mono guide words (S1·Q01–Q10, from 768px), the answered count, the countdown. Beneath it the **progress track**: one 6px cell per question, 3px apart, 8px between sections, each section as wide as its question count. Current is yellow, correct green, wrong red, answered Shell Muted, unanswered Graphite 3. In free navigation each cell is a button that grows to 10px on hover.
+- **Brand:** the HRRL and CISO Office logos; see Brand Marks.
+
+### Brand Marks
+
+Both worlds carry the official logos of HPCL Rajasthan Refinery Limited (HRRL) and of the CISO Office that runs the programme, rendered by `components/brand.tsx` from `public/logo/`.
+
+- **Files:** `hrrl-lockup.png` (the arch emblem with the Hindi and English name, 942 by 260), `hrrl-emblem.png` (the emblem alone, 211 by 260, its frame filled white), `ciso-office-lockup.png` (shield, rule and CISO OFFICE, 527 by 167). The supplied `hrrl.png` and `ciso-office.png` are the masters; the cuts are trims of them, never redrawings.
+- **Co-brand** (`CoBrand`): the full HRRL logo, a 1px Line Strong rule and the CISO Office logo with 12px gaps. HRRL, the parent, stands one step taller: 36 and 32px on phones (about 256px wide), 48 and 40px from 640px (about 325px). Parent organisation first, the programme beside it. It is the admin app bar and the public header.
+- **Sign-in page:** the full HRRL logo alone at the top of the card (56px, 64px from 640px); outside the card, at the foot of the page and centred, Powered by (12px Ink 3) beside the CISO Office logo at 36px. That footer sits on the Admin Ground (#f5f5f5), the one near-white ground a logo may sit on.
+- **Signature:** the full HRRL logo on the left and the CISO Office logo on the right, at the edges of a wide surface and at 72px or more, where the bilingual name reads comfortably. It is the certificate header and the projector masthead.
+- **Clear space:** half the emblem's width around each mark; nothing else enters the cluster.
+- **Alt text:** HPCL Rajasthan Refinery Limited for the HRRL marks, CISO Office for the CISO mark; an emblem inside a labelled link takes empty alt.
+
+**The White Ground Rule.** Both logos are full colour with black lettering on transparency, so they sit on white (Surface) only: never on graphite, Brand Blue, a wash or a screenshot, and never recoloured, outlined, shadowed, boxed in a tile, stretched or re-lettered. HRRL always appears as the full logo, emblem and name together; the one exception is the filled emblem, whose own frame carries its white field, and which alone may sit on graphite, in the player bar.
 
 ### Evidence Marker (signature)
 
@@ -1063,9 +1077,9 @@ The console's kit lives in `components/admin/ui.tsx` (PageHeader, StatusBadge, C
 
 #### App Bar
 
-- **Bar:** Brand Blue, 48px, sticky. The product name, HRRL Activities, in 15px semibold white, links home; a CISO Office label follows from 640px. No logo.
-- **Account:** a 32px round avatar with the person's initials (12px semibold white on a 15% white fill, 25% on hover) opens the account menu: name, email and role, then Manage admins and Sign out.
-- **Focus:** a 2px white outline offset 2px, so it shows on the blue.
+- **Bar:** white, 56px (64px from 640px), sticky, a bottom hairline. The co-brand (HRRL emblem, rule, CISO Office logo; see Brand Marks), then from 768px a 28px rule and the product name, Activities, in 15px semibold Ink: one link home, named HRRL Activities home.
+- **Account:** a 32px round Brand Blue avatar with the person's initials (12px semibold white, Brand Hover under the pointer) opens the account menu: name, email and role, then Manage admins and Sign out.
+- **Focus:** the base 2px Brand Blue outline; the home link offsets it 4px to clear the logos.
 
 #### Buttons
 
@@ -1184,7 +1198,7 @@ A right sheet: Share in 20px semibold with the status badge and a status sentenc
 - **Don't** add chart hues beyond Data Blue, Line Strong and Ledger Green; the leftover --chart-2 to --chart-5 variables are not part of the system.
 - **Don't** use the stock shadcn Badge, Tabs, Checkbox or chart tooltip as shipped; they still carry pill and soft-shadow defaults. Use StatusBadge, CodeChip, the workspace tab bar and the option row.
 - **Don't** build the category default: a centred quiz card, a percentage progress bar, confetti, or a blue SaaS shell.
-- **Don't** render phishing evidence as live HTML or invent an HRRL logo; evidence is an image on the plate and the brand is the type wordmark.
+- **Don't** render phishing evidence as live HTML, or draw, retype or recolour the HRRL and CISO Office logos; evidence is an image on the plate, and the brand is the supplied logo files under the White Ground Rule.
 
 ### Admin Console
 
@@ -1207,9 +1221,9 @@ These bind `/admin/*`. The lists above bind the employee surfaces and `.evidence
 #### Don't:
 
 - **Don't** bring Evidence Room furniture into the console chrome: no graphite rail, marker-yellow buttons, manila tags, exhibit letters, CASE codes, S1·Q01 code chips or tent markers outside the red-flag map and the Preview.
-- **Don't** use Microsoft logos, product names or trademarks in the console, or a stand-in logo; the product name is set in type.
+- **Don't** use Microsoft logos, product names or trademarks in the console; the only logos are HRRL's and the CISO Office's, and the product name is set in type.
 - **Don't** add a second column, outline pane or side preview to the builder; Preview is a dialog.
-- **Don't** use Brand Blue for anything but the app bar, actions, selection, the active tab, links, focus and chart data; never as a panel fill or heading colour.
+- **Don't** use Brand Blue for anything but the account avatar, actions, selection, the active tab, links, focus and chart data; never as a panel fill or heading colour.
 - **Don't** use green, amber or red in the console without a word or glyph, or for anything but status, answers and errors.
 - **Don't** let a console page scroll sideways, or hide the row menu on phones.
 - **Don't** border console cards, or add shadows beyond card, card hover, pop and the save bar.

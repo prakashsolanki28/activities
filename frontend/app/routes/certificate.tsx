@@ -2,6 +2,7 @@ import { useParams } from 'react-router';
 import { useQuery } from '@tanstack/react-query';
 import { Printer } from 'lucide-react';
 import type { Route } from './+types/certificate';
+import { CisoLockup, HrrlLockup } from '~/components/brand';
 import { Button } from '~/components/ui/button';
 import { EvidenceMarker } from '~/components/evidence/marker';
 import { PublicMessage } from '~/components/play/public-shell';
@@ -29,15 +30,17 @@ export default function Certificate() {
           <Printer /> Print or save as PDF
         </Button>
       </div>
-      <article className="mx-auto flex aspect-[297/210] max-w-[1000px] flex-col bg-surface shadow-plate print:h-[210mm] print:w-[297mm] print:max-w-none print:shadow-none">
-        <header className="flex items-center justify-between bg-graphite px-[5%] py-[2.4%] text-shell-fg">
-          <span className="flex items-baseline gap-2.5">
-            <span className="text-lg font-extrabold">HRRL</span>
-            <span className="text-lg font-medium text-shell-muted">CISO Office</span>
+      {/* A4 proportions from 640px and in print; on a phone the sheet takes its content's height. */}
+      <article className="mx-auto flex max-w-[1000px] flex-col bg-surface shadow-plate sm:aspect-[297/210] print:h-[210mm] print:w-[297mm] print:max-w-none print:shadow-none">
+        <header className="flex flex-wrap items-center justify-between gap-x-[3%] gap-y-4 border-b border-line px-[5%] py-5 sm:flex-nowrap sm:py-[2.6%]">
+          <HrrlLockup className="h-auto w-[54%] sm:w-[28%]" />
+          <span className="order-last w-full text-center sm:order-none sm:w-auto">
+            <span className="block text-[15px] leading-5 font-bold text-ink">Certificate of completion</span>
+            <span className="block text-[13px] leading-5 text-ink-3">Cybersecurity Awareness</span>
           </span>
-          <span className="text-sm font-semibold text-shell-muted">Certificate of completion · Cybersecurity Awareness</span>
+          <CisoLockup className="h-auto w-[30%] sm:w-[15%]" />
         </header>
-        <div className="flex flex-1 flex-col justify-center px-[7%]">
+        <div className="flex flex-1 flex-col justify-center px-[7%] py-8 sm:py-0">
           <h1 className="text-[clamp(2rem,5.2vw,3.6rem)] leading-[1.05] font-extrabold tracking-[-0.02em] text-ink">{c.name}</h1>
           <p className="mt-[2.5%] max-w-[60ch] text-[clamp(1rem,1.7vw,1.25rem)] leading-relaxed text-ink-2">
             completed <strong className="text-ink">{c.activityTitle}</strong> on {formatDate(c.submittedAt)}, scoring <strong className="text-ink">{formatPct(c.pct)}</strong>.
