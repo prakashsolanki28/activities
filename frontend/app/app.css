@@ -418,4 +418,11 @@
 .animate-track-fill {
   transform-origin: left center;
   animation: track-fill 380ms var(--ease-out) both;
+  animation-delay: var(--track-delay, 0ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-track-fill {
+    animation: none;
+  }
 }

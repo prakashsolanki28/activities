@@ -55,7 +55,14 @@ function useMonthState(): MonthState {
 export default function Home() {
   const month = useMonthState();
   const [picked, setPicked] = useState<number | null>(null);
+  const [live, setLive] = useState('');
   const day = picked !== null && picked <= month.today ? picked : Math.max(1, month.today);
+  const pick = (d: number | null, announce: boolean) => {
+    setPicked(d);
+    const shown = d ?? Math.max(1, month.today);
+    const lesson = LESSONS[shown - 1];
+    setLive(announce ? `${formatLessonDay(shown)}. ${lesson.kind === 'quote' ? lesson.text : lesson.title}` : '');
+  };
 
   return (
     <div className="flex min-h-dvh flex-col bg-ground">
@@ -74,28 +81,27 @@ export default function Home() {
           />
           {/* Graphite scrim: dense behind the heading, thinning so the refinery stays in view on the right. */}
           <div aria-hidden className="absolute inset-0 -z-10 bg-[linear-gradient(90deg,rgb(26_28_30/0.9)_0%,rgb(26_28_30/0.74)_48%,rgb(26_28_30/0.4)_100%)]" />
-          <div className="mx-auto grid max-w-6xl gap-8 px-4 pt-10 pb-28 sm:px-6 sm:pt-14 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end lg:gap-12 lg:pt-20 lg:pb-36">
-            <div className="min-w-0">
-              <h1
-                id="month-title"
-                className="max-w-[16ch] text-[2rem] leading-[1.08] font-extrabold tracking-[-0.02em] text-balance text-white sm:text-5xl lg:text-[3.5rem]"
-              >
-                National Cyber Security Awareness Month
-              </h1>
-              <p className="mt-4 text-[17px] leading-7 text-shell-fg">October 2026 · HRRL CISO Office</p>
-              <MonthTrack month={month} />
-            </div>
-            <DayCount month={month} />
+          {/* A second scrim from the foot keeps the full-width track and its labels legible over the bright right-hand steelwork. */}
+          <div aria-hidden className="absolute inset-0 -z-10 bg-[linear-gradient(0deg,rgb(26_28_30/0.9)_0%,rgb(26_28_30/0.7)_38%,rgb(26_28_30/0)_68%)]" />
+          <div className="mx-auto max-w-6xl px-4 pt-10 pb-28 sm:px-6 sm:pt-14 lg:pt-20 lg:pb-36">
+            <h1
+              id="month-title"
+              className="max-w-[16ch] text-[2rem] leading-[1.08] font-extrabold tracking-[-0.02em] text-balance text-white sm:text-5xl lg:max-w-[20ch] lg:text-[3.5rem]"
+            >
+              National Cyber Security Awareness Month
+            </h1>
+            <p className="mt-4 text-[17px] leading-7 text-shell-fg">October 2026 · HRRL CISO Office</p>
+            <MonthTrack month={month} />
           </div>
         </section>
 
         <div className="mx-auto w-full max-w-6xl px-4 sm:px-6">
           <section
             aria-label="Lessons of the month"
-            className="relative -mt-20 grid rounded-xs bg-surface shadow-plate ring-1 ring-line-strong lg:-mt-24 lg:grid-cols-[minmax(0,1.45fr)_minmax(0,1fr)]"
+            className="relative -mx-2 -mt-20 grid rounded-xs bg-surface shadow-plate ring-1 ring-line-strong sm:mx-0 lg:-mt-24 lg:grid-cols-[minmax(0,1.45fr)_minmax(0,1fr)]"
           >
-            <LessonPanel day={day} month={month} onPick={setPicked} />
-            <MonthGrid day={day} month={month} onPick={setPicked} />
+            <LessonPanel day={day} month={month} live={live} onPick={pick} />
+            <MonthGrid day={day} month={month} onPick={pick} />
           </section>
 
           <section aria-labelledby="steps-title" className="mt-16 sm:mt-20">
@@ -151,48 +157,38 @@ export default function Home() {
   );
 }
 
-/** The month as the player's progress track: one cell per day, today lit. */
+/** The month as the player's progress track: one cell per day, a tent marker standing on today. */
 function MonthTrack({ month }: { month: MonthState }) {
+  const caption =
+    month.phase === 'before' ? 'Starts on Thursday 1 October' : month.phase === 'after' ? `All ${MONTH.days} days are open` : `Day ${month.today} of ${MONTH.days}`;
   return (
-    <div className="mt-8 max-w-xl" aria-hidden>
-      <div className="flex gap-[3px]">
-        {DAYS.map((d) => (
-          <span
-            key={d}
-            className={cn(
-              'h-1.5 flex-1 rounded-[1px]',
-              d < month.today && 'animate-track-fill bg-shell-fg/75',
-              d === month.today && 'animate-track-fill bg-marker',
-              d > month.today && 'bg-white/20',
-            )}
-            style={d <= month.today ? { animationDelay: `${d * 22}ms` } : undefined}
-          />
-        ))}
+    <div className="mt-14">
+      <div className="flex gap-[3px]" aria-hidden>
+        {DAYS.map((d) => {
+          const isToday = month.phase === 'during' && d === month.today;
+          return (
+            <span key={d} className="relative h-3 flex-1 rounded-[1px] bg-white/40">
+              {d <= month.today ? (
+                <span
+                  className={cn('absolute inset-0 animate-track-fill rounded-[1px]', isToday ? 'bg-marker' : 'bg-shell-fg/80')}
+                  style={{ '--track-delay': `${d * 22}ms` } as React.CSSProperties}
+                />
+              ) : null}
+              {isToday ? <EvidenceMarker n={d} size={24} className="absolute bottom-full left-1/2 mb-1.5 -translate-x-1/2 animate-marker-drop" /> : null}
+            </span>
+          );
+        })}
       </div>
-      <div className="mt-2 flex justify-between text-xs text-shell-muted">
+      <div className="mt-3 flex items-baseline justify-between gap-4 text-xs leading-5 text-shell-fg">
         <span>1 Oct</span>
         <span>31 Oct</span>
       </div>
+      <p className="mt-1 text-[15px] leading-6 font-semibold text-shell-fg">{caption}</p>
     </div>
   );
 }
 
-function DayCount({ month }: { month: MonthState }) {
-  const caption =
-    month.phase === 'before'
-      ? 'of 31 lessons open. The first opens on Thursday 1 October.'
-      : month.phase === 'after'
-        ? 'of 31 lessons. The month is over; every lesson stays open.'
-        : `of ${MONTH.days} lessons open`;
-  return (
-    <p className="flex items-baseline gap-3 lg:flex-col lg:items-end lg:gap-1 lg:text-right">
-      <span className="text-[3.5rem] leading-none font-extrabold tracking-[-0.03em] text-marker tabular-nums lg:text-[6.5rem]">{month.today}</span>
-      <span className="max-w-[24ch] text-[15px] leading-6 font-semibold text-shell-fg">{caption}</span>
-    </p>
-  );
-}
-
-function LessonPanel({ day, month, onPick }: { day: number; month: MonthState; onPick: (d: number | null) => void }) {
+function LessonPanel({ day, month, live, onPick }: { day: number; month: MonthState; live: string; onPick: (d: number | null, announce: boolean) => void }) {
   const lesson = LESSONS[day - 1];
   const open = day <= month.today;
   const isToday = month.phase === 'during' && day === month.today;
@@ -201,32 +197,30 @@ function LessonPanel({ day, month, onPick }: { day: number; month: MonthState; o
       <div className="flex items-start justify-between gap-4">
         <div className="min-w-0">
           <h2 id="lesson-day" className="text-lg leading-6 font-bold text-ink">
-            {isToday ? 'Today' : `Lesson ${day}`} · {formatLessonDay(day)}
+            {isToday ? `Today · ${formatLessonDay(day)}` : formatLessonDay(day)}
           </h2>
-          <div className="mt-2.5 flex flex-wrap items-center gap-x-3 gap-y-2 text-[13px] text-ink-3">
+          <div className="mt-2.5">
             {lesson.kind === 'tip' ? (
-              <PaperTag lead={`Step ${stepNumber(lesson.step)}`} title={STEPS[stepNumber(lesson.step) - 1].label} />
+              <PaperTag caps={false} lead={`Step ${stepNumber(lesson.step)}`} title={STEPS[stepNumber(lesson.step) - 1].label} />
             ) : (
-              <span className="inline-flex items-center gap-1.5 font-semibold text-ink-2">
-                <Quote className="size-3.5" aria-hidden /> Expert quote
-              </span>
+              <PaperTag caps={false} lead="Expert quote" />
             )}
-            <span className="tabular-nums">
-              Lesson {day} of {MONTH.days}
-            </span>
           </div>
         </div>
         <div className="flex shrink-0 gap-2">
-          <Button variant="outline" size="icon-lg" aria-label="Previous day" disabled={day <= 1 || !open} onClick={() => onPick(day - 1)}>
+          <Button variant="outline" size="icon-lg" aria-label="Previous day" disabled={day <= 1 || !open} onClick={() => onPick(day - 1, true)}>
             <ArrowLeft />
           </Button>
-          <Button variant="outline" size="icon-lg" aria-label="Next day" disabled={day >= month.today} onClick={() => onPick(day + 1)}>
+          <Button variant="outline" size="icon-lg" aria-label="Next day" disabled={day >= month.today} onClick={() => onPick(day + 1, true)}>
             <ArrowRight />
           </Button>
         </div>
       </div>
 
-      <div aria-live="polite" className="mt-8 flex-1">
+      <p aria-live="polite" className="sr-only">
+        {live}
+      </p>
+      <div className="mt-8 flex-1">
         <div key={day} className="animate-stamp-in">
           {!open ? (
             <p className="max-w-[44ch] text-[17px] leading-7 text-ink-2">The first lesson opens on Thursday 1 October. Come back then, and every day after.</p>
@@ -241,12 +235,25 @@ function LessonPanel({ day, month, onPick }: { day: number; month: MonthState; o
       {month.phase === 'during' && !isToday ? (
         <button
           type="button"
-          onClick={() => onPick(null)}
-          className="mt-8 self-start rounded-xs text-sm font-semibold text-slate underline underline-offset-4 hover:text-ink"
+          onClick={() => onPick(null, true)}
+          className="mt-6 inline-flex min-h-11 items-center self-start rounded-xs text-sm font-semibold text-slate underline underline-offset-4 hover:text-ink"
         >
           Back to today’s lesson
         </button>
       ) : null}
+
+      <ol aria-label="The four steps" className="mt-6 flex flex-wrap items-center gap-x-3 gap-y-2 border-t border-line pt-5 text-[13px] leading-5 font-semibold sm:gap-x-2">
+        {STEPS.map((s, i) => {
+          const active = open && lesson.kind === 'tip' && lesson.step === s.id;
+          return (
+            <li key={s.id} aria-current={active ? 'step' : undefined} className={cn('inline-flex items-center gap-1.5', active ? 'text-ink' : 'text-ink-3')}>
+              <EvidenceMarker n={i + 1} size={18} tone={active ? 'marker' : 'muted'} />
+              {s.label}
+              {i < STEPS.length - 1 ? <ArrowRight aria-hidden className="ml-0.5 hidden size-3.5 text-line-strong sm:block" /> : null}
+            </li>
+          );
+        })}
+      </ol>
     </article>
   );
 }
@@ -292,12 +299,12 @@ function TipLesson({ lesson }: { lesson: Extract<Lesson, { kind: 'tip' }> }) {
   );
 }
 
-function MonthGrid({ day, month, onPick }: { day: number; month: MonthState; onPick: (d: number | null) => void }) {
+function MonthGrid({ day, month, onPick }: { day: number; month: MonthState; onPick: (d: number | null, announce: boolean) => void }) {
   const refs = useRef<(HTMLButtonElement | null)[]>([]);
   const go = (to: number) => {
     const d = Math.min(Math.max(1, to), month.today);
     if (d < 1) return;
-    onPick(d);
+    onPick(d, false);
     refs.current[d - 1]?.focus();
   };
   const onKeyDown = (e: React.KeyboardEvent) => {
@@ -310,12 +317,12 @@ function MonthGrid({ day, month, onPick }: { day: number; month: MonthState; onP
   };
 
   return (
-    <div className="min-w-0 border-t border-line p-6 sm:p-8 lg:border-t-0 lg:border-l lg:p-10">
-      <h2 id="calendar-title" className="text-sm leading-5 font-bold text-ink">
+    <div className="min-w-0 border-t border-line px-2 py-6 sm:p-8 lg:border-t-0 lg:border-l lg:p-10">
+      <h2 id="calendar-title" className="px-2 text-sm leading-5 font-bold text-ink sm:px-0">
         October 2026
       </h2>
-      <div role="grid" aria-labelledby="calendar-title" className="mt-5 grid gap-1.5">
-        <div role="row" className="grid grid-cols-7 gap-1.5">
+      <div role="grid" aria-labelledby="calendar-title" className="mt-5 grid gap-0.5 sm:gap-1.5">
+        <div role="row" className="grid grid-cols-7 gap-0.5 sm:gap-1.5">
           {WEEKDAYS.map(([short, long]) => (
             <span key={short} role="columnheader" aria-label={long} className="text-center text-xs leading-5 font-semibold text-ink-3">
               {short}
@@ -323,7 +330,7 @@ function MonthGrid({ day, month, onPick }: { day: number; month: MonthState; onP
           ))}
         </div>
         {WEEKS.map((week, w) => (
-          <div key={w} role="row" className="grid grid-cols-7 gap-1.5">
+          <div key={w} role="row" className="grid grid-cols-7 gap-0.5 sm:gap-1.5">
             {week.map((d, i) => {
               if (d === null) return <span key={`blank-${i}`} role="gridcell" />;
               const open = d <= month.today;
@@ -341,7 +348,7 @@ function MonthGrid({ day, month, onPick }: { day: number; month: MonthState; onP
                     disabled={!open}
                     aria-current={isToday ? 'date' : undefined}
                     aria-label={`${formatLessonDay(d)}${isToday ? ', today' : ''}${!open ? ', opens on the day' : quote ? ', expert quote' : ''}`}
-                    onClick={() => onPick(d)}
+                    onClick={() => onPick(d, true)}
                     onKeyDown={onKeyDown}
                     className={cn(
                       'relative flex h-12 w-full items-center justify-center rounded-xs border text-[15px] font-semibold tabular-nums transition-colors duration-150',
@@ -360,7 +367,7 @@ function MonthGrid({ day, month, onPick }: { day: number; month: MonthState; onP
           </div>
         ))}
       </div>
-      <ul className="mt-5 flex flex-wrap gap-x-4 gap-y-2 text-xs leading-5 text-ink-3">
+      <ul className="mt-5 flex flex-wrap gap-x-4 gap-y-2 px-2 text-xs leading-5 text-ink-3 sm:px-0">
         <li className="inline-flex items-center gap-1.5">
           <span aria-hidden className="size-3 rounded-[1px] bg-marker" /> Today
         </li>
@@ -374,7 +381,7 @@ function MonthGrid({ day, month, onPick }: { day: number; month: MonthState; onP
           <Quote aria-hidden className="size-3" /> Expert quote
         </li>
       </ul>
-      <p className="mt-3 text-xs leading-5 text-ink-3">
+      <p className="mt-3 px-2 text-xs leading-5 text-ink-3 sm:px-0">
         {month.phase === 'after' ? 'Every lesson stays open.' : 'A new lesson opens every day at midnight, India time.'}
       </p>
     </div>

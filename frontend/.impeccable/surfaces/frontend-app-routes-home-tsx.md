@@ -15,7 +15,7 @@ Scope: the root page, National Cyber Security Awareness Month, October 2026. Vis
 
 Memorable moment: the month drawn as the player's progress track, 31 cells across the refinery photo with today lit marker yellow, and the October sheet lying on the photo.
 
-Unresolved: quote attributions to be confirmed by the CISO Office; Hindi copy not in scope.
+Unresolved: quote attributions to be confirmed by the CISO Office; the approved reporting channel's address (email, extension or button) is not known yet, so the page says "through the approved channel"; Hindi copy not in scope.
 
 ## Direction contract
 

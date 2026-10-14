@@ -8,8 +8,20 @@ export function ExhibitTag({ index, title, className, tone = 'manila' }: { index
   return <PaperTag lead={`Exhibit ${exhibitLetter(index)}`} title={title} className={className} tone={tone} />;
 }
 
-/** The arrow-cut, hole-punched paper tag: uppercase lead lettering, then an optional title. */
-export function PaperTag({ lead, title, className, tone = 'manila' }: { lead: string; title?: string; className?: string; tone?: 'manila' | 'shell' }) {
+/** The arrow-cut, hole-punched paper tag: lead lettering (uppercase on exhibit tags only), then an optional title. */
+export function PaperTag({
+  lead,
+  title,
+  className,
+  tone = 'manila',
+  caps = true,
+}: {
+  lead: string;
+  title?: string;
+  className?: string;
+  tone?: 'manila' | 'shell';
+  caps?: boolean;
+}) {
   return (
     <span
       className={cn(
@@ -23,7 +35,7 @@ export function PaperTag({ lead, title, className, tone = 'manila' }: { lead: st
         aria-hidden
         className={cn('absolute top-1/2 left-[9px] size-[7px] -translate-y-1/2 rounded-full', tone === 'manila' ? 'bg-graphite/70' : 'bg-graphite')}
       />
-      <span className="tracking-[0.08em] whitespace-nowrap uppercase">{lead}</span>
+      <span className={cn('whitespace-nowrap', caps && 'tracking-[0.08em] uppercase')}>{lead}</span>
       {title ? <span className="min-w-0 truncate font-semibold tracking-normal normal-case opacity-90">· {title}</span> : null}
     </span>
   );

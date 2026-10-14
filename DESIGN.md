@@ -816,6 +816,7 @@ Marker, manila, ledger green, evidence red, the washes, `--destructive` and the 
 - **Caption** (400, 12px, 20px): hints, plate captions, legends. Chart tick labels drop to 11px.
 - **Tag** (700, 12px, 0.08em, uppercase): only the EXHIBIT A lettering of the exhibit tag.
 - **Code** (Mono 600, 11px, 16px, -0.025em): code chips. Mono also runs at body sizes for employee IDs, at 28px with 0.18em tracking for the resume code, at 14px bold in the countdown, and at 0.9em for inline code in prompts.
+- **Campaign display** (home page only): the H1 in 800 at 2rem on phones, 3rem from 640px and 3.5rem from 1024px (-0.02em, balanced, 20ch at the widest); the day's quote in 700 at 1.5rem, 1.875rem and 2.125rem (1.28, hanging opening mark); a tip's title in 800 at 1.625rem, 2rem and 2.25rem. Nothing on the page goes above 3.5rem: the month track carries the count, never a hero numeral.
 
 ### Named Rules
 
@@ -874,6 +875,7 @@ The spatial model is a frame and a table: a graphite frame on one edge (a 240px 
 - **Public pages.** Entry, result, leaderboard and messages use the white co-brand header (56px, 64px from 640px, a hairline beneath; see Brand Marks; its right-hand button shows only its icon below 640px), a 1152px container with 16 or 24px gutters and 32 or 48px vertical padding, and a footer line carrying the campaign mantra. The review screen and result body hold to 768px.
 - **Projector.** A white masthead with the full HRRL logo on the left (clamp(64px, 9vh, 120px) tall) and the CISO Office logo on the right, over a full-bleed graphite board padded by 4vw and 4vh, with fluid type and a QR card for joining.
 - **Certificate.** An A4 landscape sheet (aspect 297 / 210, max 1000px), printed edge to edge. Its header is white over a hairline: the full HRRL logo at 28% of the sheet's width on the left, Certificate of completion over Cybersecurity Awareness in the middle, the CISO Office logo at 15% on the right. Below 640px the sheet drops its A4 proportions and takes its content's height: the logos grow to 54% and 30% and the title wraps beneath them.
+- **Home (Cyber Security Awareness Month).** The white co-brand header, then a full-bleed photo band of the refinery (pt 40/56/80px, pb 112/144px) holding the H1, the meta line and the month track in the 1152px container; the October sheet overlaps the band's foot by 80px (96px from 1024px) and splits minmax(0, 1.45fr) / minmax(0, 1fr) from 1024px (lesson, then calendar, stacked below). Below 640px the sheet widens 8px past the gutters on each side so calendar cells clear 44px at 360px. Then Four steps for every message (four columns from 1024px, two from 640px), Take part beside the graphite Report block, and the mantra footer; sections sit 64px apart (80px from 640px).
 
 ### Admin Console
 
@@ -903,7 +905,7 @@ Flat by default and tonal by structure. Surfaces separate from the ground by whi
 
 ### Shadow Vocabulary
 
-- **Plate** (`box-shadow: 0 18px 40px -28px rgb(26 28 30 / 0.45)`): the evidence plate, the phone evidence strip and the certificate sheet. A long, tight shadow under the lower edge: the exhibit is lying on the table.
+- **Plate** (`box-shadow: 0 18px 40px -28px rgb(26 28 30 / 0.45)`): the evidence plate, the phone evidence strip, the certificate sheet and the home page's October sheet. A long, tight shadow under the lower edge: the exhibit is lying on the table.
 - **Pop** (`box-shadow: 0 12px 28px -14px rgb(26 28 30 / 0.38), 0 2px 4px -2px rgb(26 28 30 / 0.12)`): anything that floats: dialogs, alert dialogs, popovers, select and dropdown menus, the response sheet, a row being dragged.
 - **Field keyline** (`box-shadow: 0 0 0 1px var(--graphite)`, or `var(--evidence-red)` when invalid): thickens a focused field's border to 2px without a glow.
 - **Selection keyline** (`box-shadow: inset 0 0 0 1px` in graphite, ledger green or evidence red): doubles the border of a selected, right or wrong option row.
@@ -971,6 +973,7 @@ Answer indicators keep their form: single choice is a circle, multiple choice a 
 - **Exhibit Tag:** Manila with Manila Ink, the arrow-cut silhouette and punched hole, 4px by 10px padding with 24px on the hole side. EXHIBIT A in 12px bold uppercase at 0.08em, then the exhibit title in semibold sentence case after a middle dot. On the player bar it switches to Graphite 3 with Shell Text.
 - **Code Chip:** Atkinson Hyperlegible Mono 11px semibold, 1px corners, 2px by 6px padding. Manila Wash for codes (CASE-014, S2·Q07), Concrete 2 when plain, Graphite 3 on the shell.
 - **Status Badge:** 22px tall, 1px corners, 12px bold. Draft is Concrete 2 with an inset Line Strong ring; Scheduled is Manila Wash; Live is Green Wash with a 6px Ledger Green dot; Closed is Graphite.
+- **Paper Tag (sentence case):** the exhibit tag's silhouette with a sentence-case lead (`PaperTag caps={false}`): Step 3 · Verify on a tip, Expert quote on a quote. Uppercase tracked lettering stays the exhibit tag's alone.
 
 ### Cards / Containers
 
@@ -1010,6 +1013,17 @@ Both worlds carry the official logos of HPCL Rajasthan Refinery Limited (HRRL) a
 - **Alt text:** HPCL Rajasthan Refinery Limited for the HRRL marks, CISO Office for the CISO mark; an emblem inside a labelled link takes empty alt.
 
 **The White Ground Rule.** Both logos are full colour with black lettering on transparency, so they sit on white (Surface) only: never on graphite, Brand Blue, a wash or a screenshot, and never recoloured, outlined, shadowed, boxed in a tile, stretched or re-lettered. HRRL always appears as the full logo, emblem and name together; the one exception is the filled emblem, whose own frame carries its white field, and which alone may sit on graphite, in the player bar.
+
+### Awareness Month (home)
+
+The root page for National Cyber Security Awareness Month, October 2026: one lesson a day, 31 in all (`lib/awareness-month.ts`: seven attributed expert quotes and 24 CISO Office tips, each tip tagged to one step of STOP → THINK → VERIFY → REPORT). Dates run in India time; the page rechecks every minute so a lobby screen rolls over at midnight.
+
+- **Photo band:** the refinery aerial (`public/campaign/refinery-{960,1600,2560}.webp`, resized from the supplied `banner.png`) under two graphite scrims, one dense on the left behind the heading (0.9 to 0.4 alpha) and one rising from the foot (0.9 to 0 at 68%), so the right-hand steelwork stays in view while the track and its labels hold 10:1. The band is `.on-shell`.
+- **Month track (signature):** the player's progress track drawn as the month: 31 cells, 12px tall, 3px apart, across the full container width. Passed days are Shell Text at 80%, today Marker Yellow with a 24px tent marker numbered with the day standing on it, later days white at 40% (3:1 or more on the photo). End labels 1 Oct and 31 Oct in 12px Shell Text; the caption beneath reads Day 14 of 31 (Starts on Thursday 1 October before the month, All 31 days are open after it). Each passed cell fills from the left on load, 22ms apart, over an always-visible empty cell; reduced motion shows it filled.
+- **October sheet:** a white plate (1px corners, a Line Strong ring, the Plate shadow) lying across the band's foot.
+- **Lesson panel:** the date as an 18px bold heading (Today · Wednesday, 14 October on the day), a sentence-case paper tag, 44px outline Previous and Next buttons, then the lesson: a quote with an author line (15px semibold) and source (13px Ink 3) after a 32px hairline, or a tip title over 17px body. Helpline numbers and addresses set in mono. A Back to today's lesson link (44px tall) appears on other days, and a four-step strip closes the panel: numbered tent markers, the lesson's own step in the marker tone and Ink, the rest muted; arrows between steps from 640px.
+- **Calendar:** a Monday-first ARIA grid, 48px cells (45px wide at 360px), 15px semibold tabular numerals. Open days are white with a Line Strong border; today is Marker Yellow with Marker Ink; the chosen day takes Marker Wash with the graphite border and inset keyline; later days are dashed (not yet) and disabled. Quote days carry a 10px quote glyph. Arrow keys, Home and End move a roving focus through open days without announcing; Previous, Next, Back to today and activating a cell announce the lesson through a hidden polite live region. A legend and A new lesson opens every day at midnight, India time sit beneath.
+- **Report block:** a Graphite block: the approved-channel line, then the national cyber-crime helpline 1930 as a 36px mono Marker Yellow `tel:` link beside a cybercrime.gov.in link.
 
 ### Evidence Marker (signature)
 
@@ -1198,6 +1212,7 @@ A right sheet: Share in 20px semibold with the status badge and a status sentenc
 - **Don't** add chart hues beyond Data Blue, Line Strong and Ledger Green; the leftover --chart-2 to --chart-5 variables are not part of the system.
 - **Don't** use the stock shadcn Badge, Tabs, Checkbox or chart tooltip as shipped; they still carry pill and soft-shadow defaults. Use StatusBadge, CodeChip, the workspace tab bar and the option row.
 - **Don't** build the category default: a centred quiz card, a percentage progress bar, confetti, or a blue SaaS shell.
+- **Don't** put a hero numeral or a row of equal quote cards on the awareness-month page; the month track carries the count and the October sheet carries the lessons.
 - **Don't** render phishing evidence as live HTML, or draw, retype or recolour the HRRL and CISO Office logos; evidence is an image on the plate, and the brand is the supplied logo files under the White Ground Rule.
 
 ### Admin Console
