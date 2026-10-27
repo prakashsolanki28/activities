@@ -8,6 +8,26 @@ import { ScoreTable } from './score-table';
 type V<K extends DisplayView['kind']> = Extract<DisplayView, { kind: K }>;
 type Teams = Map<string, Team>;
 
+const VH = 0.5625; // 1vh expressed in vw on a 16:9 screen
+
+/**
+ * Largest font size (in vw) at which `lens` (one text block per entry, each wrapping inside `wVw` wide) fit in `hVh`
+ * of height, never larger than `std`. Solves a*f^2 + b*f = H, where a is the wrapped-text area per unit of font size
+ * and b the per-block padding/leading. Short standard content hits `std`, so only long content shrinks.
+ */
+function fitVw(lens: number[], wVw: number, hVh: number, std: number, gap = 0.7) {
+  const H = hVh * VH;
+  const a = (lens.reduce((n, l) => n + l + 14, 0) * 0.47 * 1.2) / wVw;
+  const b = lens.length * gap;
+  const f = a > 0 ? (-b + Math.sqrt(b * b + 4 * a * H)) / (2 * a) : std;
+  return Math.max(Math.min(f, std), 0.5);
+}
+
+/** Font-size style for a size from `fitVw`, bounded by the viewport height as well as its width. */
+const sizeStyle = (f: number, minRem = 0.6) => ({ fontSize: `clamp(${minRem}rem, min(${f.toFixed(3)}vw, ${(f / VH).toFixed(3)}vh), 5rem)` });
+
+const maxLen = (xs: string[]) => xs.reduce((n, x) => Math.max(n, x.length), 0);
+
 const H1 = 'text-[clamp(2.4rem,5.4vw,6rem)] leading-[1.02] font-extrabold tracking-[-0.02em]';
 const LEAD = 'text-[clamp(1.1rem,2vw,2.3rem)] leading-snug text-shell-muted';
 const EYEBROW = 'text-[clamp(0.9rem,1.5vw,1.7rem)] font-bold tracking-[0.12em] text-marker uppercase';
@@ -103,7 +123,7 @@ function Swatch({ choice, state }: { choice: CardChoice; state: 'plain' | 'win' 
   return (
     <div
       className={cn(
-        'flex flex-1 items-center justify-center gap-[0.8vw] rounded-xs px-[1vw] py-[1.8vh] text-[clamp(1.2rem,2.4vw,2.8rem)] font-extrabold uppercase transition-all',
+        'flex flex-1 items-center justify-center gap-[0.8vw] rounded-xs px-[1vw] py-[1.4vh] text-[clamp(1.1rem,2.4vw,2.8rem)] font-extrabold uppercase transition-all',
         m.solid,
         state === 'win' && 'scale-[1.04] ring-[0.5vh] ring-white',
         state === 'dim' && 'opacity-30',
@@ -120,24 +140,30 @@ function Swatch({ choice, state }: { choice: CardChoice; state: 'plain' | 'win' 
 
 function R1({ view, teams }: { view: V<'r1-challenge'>; teams: Teams }) {
   const open = view.answer !== undefined;
+  const sitLen = view.situation.length;
+  const sitSize = sizeStyle(fitVw([sitLen], 88, open ? 15 : 34, open ? 3 : 4.4, 0), 1);
+  const expLen = (view.explanation ?? '').length;
+  const expSize = sizeStyle(fitVw([expLen], 90, 15, 1.8, 0), 0.8);
   return (
-    <div className="flex h-full flex-col justify-between gap-[3vh]">
-      <div className="flex flex-col gap-[2.4vh]">
+    <div className="flex h-full min-h-0 flex-col justify-between gap-[2vh]">
+      <div className="flex min-h-0 flex-col gap-[2vh]">
         <p className={EYEBROW}>
           Challenge {view.number} / {view.total}
         </p>
-        <p className={cn('max-w-[28ch] text-[clamp(2rem,4.4vw,5rem)] leading-[1.1] font-extrabold tracking-[-0.015em]', open && 'text-[clamp(1.6rem,3vw,3.6rem)]')} data-testid="situation">
+        <p className={cn('leading-[1.1] font-extrabold tracking-[-0.015em]', sitLen <= 110 && 'max-w-[28ch]')} style={sitSize} data-testid="situation">
           {view.situation}
         </p>
         {open ? (
           <div className="flex flex-col gap-[2vh]" data-testid="r1-answer">
-            <p className="max-w-[60ch] text-[clamp(1.1rem,1.8vw,2.1rem)] leading-snug">{view.explanation}</p>
-            <ul className="flex flex-wrap gap-[0.8vw]">
+            <p className={cn('leading-snug', expLen <= 200 && 'max-w-[60ch]')} style={expSize}>
+              {view.explanation}
+            </p>
+            <ul className="flex flex-wrap gap-[0.8vw] text-[clamp(0.8rem,1.5vw,1.8rem)]">
               {Object.entries(view.teamAnswers ?? {}).map(([id, choice]) => {
                 const t = teams.get(id);
                 const right = choice === view.answer;
                 return (
-                  <li key={id} className="flex items-center gap-[0.7vw] rounded-xs bg-graphite-2 px-[1vw] py-[0.9vh] text-[clamp(0.95rem,1.5vw,1.8rem)] ring-1 ring-graphite-3">
+                  <li key={id} className="flex items-center gap-[0.7vw] rounded-xs bg-graphite-2 px-[1vw] py-[0.9vh] text-[1em] ring-1 ring-graphite-3">
                     <TeamLabel team={t} />
                     <span className="font-bold text-shell-muted">{choice ? CARD_LABELS[choice] : 'No card'}</span>
                     <span className={cn('text-[1.3em] leading-none font-extrabold', right ? 'text-[#4cd08b]' : 'text-[#ff7b6b]')} aria-label={right ? 'Correct' : 'Wrong'}>
@@ -160,19 +186,26 @@ function R1({ view, teams }: { view: V<'r1-challenge'>; teams: Teams }) {
 }
 
 function R2({ view, team }: { view: V<'r2-team'>; team?: Team }) {
+  const card = view.card;
+  const titleStyle = card ? sizeStyle(fitVw([card.title.length], 90, 15, 5.4, 0), 1.2) : undefined;
+  const listRows = card ? Math.max(card.warningSigns.length, card.safeResponse.length) : 0;
+  const listLen = card ? Math.max(maxLen(card.warningSigns), maxLen(card.safeResponse)) : 0;
+  const listStyle = card ? sizeStyle(fitVw(Array(listRows).fill(listLen), 38, 36, 1.7, 1.3), 0.6) : undefined;
   return (
-    <div className="flex h-full flex-col justify-between gap-[3vh]">
-      {view.card ? (
-        <div className="flex flex-col gap-[2.4vh]" data-testid="r2-card">
+    <div className="flex h-full min-h-0 flex-col justify-between gap-[2vh]">
+      {card ? (
+        <div className="flex min-h-0 flex-col gap-[2vh]" data-testid="r2-card">
           <div>
             <p className={EYEBROW}>
               {team?.emoji} {team?.name} · The scenario
             </p>
-            <h2 className={cn(H1, 'mt-[1vh]')}>{view.card.title}</h2>
+            <h2 className="mt-[1vh] leading-[1.02] font-extrabold tracking-[-0.02em]" style={titleStyle}>
+              {card.title}
+            </h2>
           </div>
-          <div className="grid grid-cols-2 gap-[2vw]">
-            <ListBlock title="Warning signs" items={view.card.warningSigns} tone="danger" />
-            <ListBlock title="Safe response" items={view.card.safeResponse} tone="safe" />
+          <div className="grid grid-cols-2 gap-[2vw]" style={listStyle}>
+            <ListBlock title="Warning signs" items={card.warningSigns} tone="danger" />
+            <ListBlock title="Safe response" items={card.safeResponse} tone="safe" />
           </div>
         </div>
       ) : (
@@ -194,11 +227,11 @@ function R2({ view, team }: { view: V<'r2-team'>; team?: Team }) {
 
 function ListBlock({ title, items, tone }: { title: string; items: string[]; tone: 'safe' | 'danger' }) {
   return (
-    <section className={cn('rounded-xs bg-graphite-2 p-[1.6vw] ring-1 ring-graphite-3 border-t-[0.8vh]', tone === 'safe' ? 'border-ledger' : 'border-evidence')}>
-      <h3 className="text-[clamp(1rem,1.7vw,2rem)] font-extrabold tracking-[0.06em] uppercase">{title}</h3>
-      <ul className="mt-[1.2vh] flex flex-col gap-[1.2vh] text-[clamp(1rem,1.7vw,2rem)] leading-snug">
+    <section className={cn('min-w-0 rounded-xs bg-graphite-2 p-[0.9em] ring-1 ring-graphite-3 border-t-[0.8vh]', tone === 'safe' ? 'border-ledger' : 'border-evidence')}>
+      <h3 className="text-[1em] font-extrabold tracking-[0.06em] uppercase">{title}</h3>
+      <ul className="mt-[0.5em] flex flex-col gap-[0.5em] leading-snug">
         {items.map((s) => (
-          <li key={s} className="flex gap-[0.8vw]">
+          <li key={s} className="flex gap-[0.5em]">
             <span aria-hidden className={cn('font-extrabold', tone === 'safe' ? 'text-[#4cd08b]' : 'text-[#ff7b6b]')}>
               {tone === 'safe' ? '✓' : '⚠'}
             </span>
@@ -211,21 +244,29 @@ function ListBlock({ title, items, tone }: { title: string; items: string[]; ton
 }
 
 function R3Auction({ view }: { view: V<'r3-auction'> }) {
+  const n = view.actions.length;
+  const cols = n > 4 ? 2 : 1;
+  const rows = Math.ceil(n / cols);
+  const actionFont = sizeStyle(fitVw(Array(rows).fill(maxLen(view.actions.map((a) => a.label))), cols === 2 ? 28 : 70, 36, 1.9, 0.5), 0.6);
   return (
-    <div className="flex h-full flex-col justify-between gap-[3vh]">
+    <div className="flex h-full min-h-0 flex-col justify-between gap-[2vh]">
       <div className="flex items-end justify-between gap-[3vw]">
         <div>
           <p className={EYEBROW}>{view.scenario.title}</p>
-          <p className="mt-[1vh] max-w-[30ch] text-[clamp(1.6rem,3.2vw,3.8rem)] leading-[1.1] font-extrabold">{view.scenario.text}</p>
+          <p className="mt-[1vh] max-w-[34ch] text-[clamp(1.3rem,2.7vw,3.2rem)] leading-[1.1] font-extrabold">{view.scenario.text}</p>
         </div>
-        <p className="shrink-0 rounded-xs bg-marker px-[1.6vw] py-[1.4vh] text-[clamp(1.1rem,2.2vw,2.6rem)] font-extrabold text-marker-ink">Budget: {view.budget} Cyber Coins</p>
+        <p className="shrink-0 rounded-xs bg-marker px-[1.6vw] py-[1.2vh] text-[clamp(1.1rem,2.2vw,2.6rem)] font-extrabold text-marker-ink">Budget: {view.budget} Cyber Coins</p>
       </div>
-      <ul className="grid gap-[1.2vh]" aria-label="Actions for auction">
+      <ul
+        className={cn('grid min-h-0 flex-1 gap-[1.2vh] [grid-auto-rows:1fr]', cols === 2 ? 'grid-cols-2 gap-x-[1.2vw]' : 'grid-cols-1')}
+        style={actionFont}
+        aria-label="Actions for auction"
+      >
         {view.actions.map((a, i) => (
-          <li key={a.id} className="flex items-center gap-[1.4vw] rounded-xs bg-graphite-2 px-[1.4vw] py-[1.6vh] ring-1 ring-graphite-3">
-            <span className="flex size-[3.2vw] min-w-9 items-center justify-center rounded-full bg-graphite-3 font-mono text-[clamp(1rem,1.8vw,2rem)] font-bold">{String.fromCharCode(65 + i)}</span>
-            <span className="flex-1 text-[clamp(1.1rem,2vw,2.4rem)] leading-snug font-semibold">{a.label}</span>
-            <span className="shrink-0 font-mono text-[clamp(1.2rem,2.2vw,2.6rem)] font-extrabold text-marker tabular-nums">{a.cost} 🪙</span>
+          <li key={a.id} className="flex items-center gap-[0.8em] overflow-hidden rounded-xs bg-graphite-2 px-[0.7em] ring-1 ring-graphite-3">
+            <span className="flex size-[1.9em] shrink-0 items-center justify-center rounded-full bg-graphite-3 font-mono text-[0.85em] font-bold">{String.fromCharCode(65 + i)}</span>
+            <span className="min-w-0 flex-1 text-[1em] leading-tight font-semibold">{a.label}</span>
+            <span className="shrink-0 font-mono text-[1.05em] font-extrabold text-marker tabular-nums">{a.cost} 🪙</span>
           </li>
         ))}
       </ul>
@@ -249,19 +290,22 @@ function R3Twist({ view }: { view: V<'r3-twist'> }) {
 function R3Reveal({ view, teams }: { view: V<'r3-reveal'>; teams: Team[] }) {
   const cost = new Map(view.actions.map((a) => [a.id, a.cost]));
   const spent = (id: string) => [...new Set(view.picks[id] ?? [])].reduce((n, p) => n + (cost.get(p) ?? 0), 0);
+  const labelW = 92 - 7 - teams.length * 6;
+  const tableFont = sizeStyle(fitVw([...view.actions.map((a) => a.label.length), 6, 12], labelW, 52, 1.5, 1.1), 0.6);
+  const lessonFont = sizeStyle(fitVw([view.lesson.length + 12], 84, 12, 1.4, 1), 0.6);
   return (
-    <div className="flex h-full flex-col justify-center gap-[2.4vh]">
-      <table className="w-full border-collapse text-[clamp(0.9rem,1.5vw,1.8rem)]">
+    <div className="flex h-full min-h-0 flex-col justify-center gap-[1.4vh]">
+      <table className="w-full border-collapse" style={tableFont}>
         <thead>
-          <tr className="border-b-2 border-graphite-3 text-left align-bottom text-[clamp(0.75rem,1.1vw,1.3rem)] text-shell-muted">
-            <th scope="col" className="py-[0.8vh]">
+          <tr className="border-b-2 border-graphite-3 text-left align-bottom text-[0.75em] text-shell-muted">
+            <th scope="col" className="py-[0.3em]">
               Action
             </th>
-            <th scope="col" className="text-center">
+            <th scope="col" className="w-[7vw] text-center">
               Points
             </th>
             {teams.map((t) => (
-              <th key={t.id} scope="col" className="text-center font-bold">
+              <th key={t.id} scope="col" className="w-[6vw] text-center font-bold">
                 {t.emoji}
                 <span className="block text-[0.8em]">{t.name.replace(/^Team /, '')}</span>
               </th>
@@ -271,14 +315,16 @@ function R3Reveal({ view, teams }: { view: V<'r3-reveal'>; teams: Team[] }) {
         <tbody>
           {view.actions.map((a) => (
             <tr key={a.id} className="border-b border-graphite-3">
-              <td className="py-[1.1vh] pr-[1vw] font-semibold">{a.label}</td>
+              <td className="py-[0.25em] pr-[1vw] leading-tight font-semibold">{a.label}</td>
               <td className="text-center">
-                <span className={cn('inline-block rounded-xs px-[0.7vw] py-[0.3vh] font-mono font-extrabold', a.points > 0 ? 'bg-ledger text-white' : 'bg-evidence text-white')}>{a.points > 0 ? `+${a.points}` : `−${Math.abs(a.points)}`}</span>
+                <span className={cn('inline-block rounded-xs px-[0.5em] font-mono font-extrabold', a.points > 0 ? 'bg-ledger text-white' : a.points < 0 ? 'bg-evidence text-white' : 'bg-graphite-3 text-shell-fg')}>
+                  {a.points > 0 ? `+${a.points}` : a.points < 0 ? `−${Math.abs(a.points)}` : '0'}
+                </span>
               </td>
               {teams.map((t) => {
                 const picked = (view.picks[t.id] ?? []).includes(a.id);
                 return (
-                  <td key={t.id} className={cn('text-center text-[1.4em] font-extrabold', picked ? (a.points > 0 ? 'text-[#4cd08b]' : 'text-[#ff7b6b]') : 'text-graphite-3')}>
+                  <td key={t.id} className={cn('text-center leading-none font-extrabold', picked ? (a.points > 0 ? 'text-[#4cd08b]' : a.points < 0 ? 'text-[#ff7b6b]' : 'text-shell-muted') : 'text-graphite-3')}>
                     {picked ? '●' : '·'}
                   </td>
                 );
@@ -286,7 +332,7 @@ function R3Reveal({ view, teams }: { view: V<'r3-reveal'>; teams: Team[] }) {
             </tr>
           ))}
           <tr className="font-bold text-shell-muted">
-            <td className="py-[1.1vh]">Coins spent</td>
+            <td className="py-[0.25em]">Coins spent</td>
             <td />
             {teams.map((t) => (
               <td key={t.id} className="text-center font-mono text-shell-fg tabular-nums">
@@ -296,7 +342,7 @@ function R3Reveal({ view, teams }: { view: V<'r3-reveal'>; teams: Team[] }) {
           </tr>
         </tbody>
       </table>
-      <p className="max-w-[70ch] rounded-xs bg-marker px-[1.6vw] py-[1.4vh] text-[clamp(1rem,1.7vw,2rem)] leading-snug font-semibold text-marker-ink">
+      <p className="rounded-xs bg-marker px-[1.6vw] py-[0.8vh] leading-snug font-semibold text-marker-ink" style={lessonFont}>
         <span className="font-extrabold">The lesson: </span>
         {view.lesson}
       </p>
@@ -305,36 +351,70 @@ function R3Reveal({ view, teams }: { view: V<'r3-reveal'>; teams: Team[] }) {
 }
 
 function R4Mission({ view }: { view: V<'r4-mission'> }) {
+  const rows = Math.ceil(view.situations.length / 2);
+  const itemFont = sizeStyle(fitVw(Array(rows).fill(maxLen(view.situations.map((s) => s.text))), 33, 36, 1.9, 0.5), 0.6);
   return (
-    <div className="flex h-full flex-col justify-between gap-[3vh]">
+    <div className="flex h-full min-h-0 flex-col justify-between gap-[2vh]">
       <div className="flex items-end gap-[3vw]">
-        <p className="font-mono text-[clamp(3rem,7vw,8rem)] leading-none font-extrabold text-marker">{view.time}</p>
-        <h2 className="pb-[0.6vh] text-[clamp(1.8rem,3.8vw,4.4rem)] leading-[1.05] font-extrabold">{view.headline}</h2>
+        <p className="font-mono text-[clamp(2.4rem,5.4vw,6.4rem)] leading-none font-extrabold text-marker">{view.time}</p>
+        <h2 className="pb-[0.6vh] text-[clamp(1.5rem,3.2vw,3.8rem)] leading-[1.05] font-extrabold">{view.headline}</h2>
       </div>
-      <ol className="grid grid-cols-2 gap-[1.4vw]">
+      <ol className="grid min-h-0 flex-1 grid-cols-2 [grid-auto-rows:1fr] gap-[1.2vw]" style={itemFont}>
         {view.situations.map((s, i) => (
-          <li key={s.id} className="flex items-start gap-[1.2vw] rounded-xs border-l-[0.8vh] border-evidence bg-graphite-2 p-[1.6vw] ring-1 ring-graphite-3">
-            <EvidenceMarker n={i + 1} size={44} />
-            <span className="text-[clamp(1.1rem,1.9vw,2.3rem)] leading-snug font-semibold">{s.text}</span>
+          <li key={s.id} className="flex items-center gap-[0.8em] overflow-hidden rounded-xs border-l-[0.8vh] border-evidence bg-graphite-2 px-[0.8em] ring-1 ring-graphite-3">
+            <EvidenceMarker n={i + 1} size={36} />
+            <span className="leading-tight font-semibold">{s.text}</span>
           </li>
         ))}
       </ol>
-      <p className="text-[clamp(1.2rem,2.2vw,2.6rem)] font-bold">{view.mission}</p>
+      <p className="text-[clamp(1rem,2vw,2.4rem)] leading-tight font-bold" style={sizeStyle(fitVw([view.mission.length], 90, 8, 2, 0), 0.8)}>
+        {view.mission}
+      </p>
     </div>
   );
 }
 
 function R4Reveal({ view, teams }: { view: V<'r4-reveal'>; teams: Team[] }) {
+  const many = view.situations.length > 6;
+  const tick = (t: Team, sid: string) => view.checks[t.id]?.[sid] === true;
+  if (many) {
+    const rows = Math.ceil(view.situations.length / 2);
+    const rowLen = Math.max(...view.situations.map((s) => s.text.length + s.correctAction.length));
+    const font = sizeStyle(fitVw(Array(rows).fill(rowLen), 36, 62, 1.5, 2.6), 0.55);
+    return (
+      <ol className="grid h-full min-h-0 grid-cols-2 [grid-auto-rows:1fr] gap-x-[1.6vw] gap-y-[0.9vh]" style={font}>
+        {view.situations.map((s, i) => (
+          <li key={s.id} className="flex min-h-0 items-start gap-[0.6em] overflow-hidden rounded-xs bg-graphite-2 px-[0.6em] py-[0.35em] ring-1 ring-graphite-3">
+            <EvidenceMarker n={i + 1} size={24} />
+            <span className="min-w-0 flex-1 leading-tight">
+              <span className="block font-semibold">{s.text}</span>
+              <span className="block font-bold text-[#4cd08b]">→ {s.correctAction}</span>
+              <span className="mt-[0.2em] flex flex-wrap gap-x-[0.7em] text-[0.8em] leading-tight font-bold">
+                {teams.map((t) => (
+                  <span key={t.id} className={tick(t, s.id) ? 'text-[#4cd08b]' : 'text-[#ff7b6b]'} aria-label={`${t.name} ${tick(t, s.id) ? 'correct' : 'missed'}`}>
+                    {t.emoji}
+                    {tick(t, s.id) ? '✓' : '✗'}
+                  </span>
+                ))}
+              </span>
+            </span>
+          </li>
+        ))}
+      </ol>
+    );
+  }
+  const textW = 92 - 4 - teams.length * 6;
+  const font = sizeStyle(fitVw([...view.situations.map((s) => s.text.length + s.correctAction.length), 12], textW, 58, 1.5, 0.9), 0.6);
   return (
-    <div className="flex h-full flex-col justify-center">
-      <table className="w-full border-collapse text-[clamp(0.9rem,1.5vw,1.8rem)]">
+    <div className="flex h-full min-h-0 flex-col justify-center">
+      <table className="w-full border-collapse" style={font}>
         <thead>
-          <tr className="border-b-2 border-graphite-3 text-left align-bottom text-[clamp(0.75rem,1.1vw,1.3rem)] text-shell-muted">
-            <th scope="col" className="py-[0.8vh]">
+          <tr className="border-b-2 border-graphite-3 text-left align-bottom text-[0.75em] text-shell-muted">
+            <th scope="col" className="py-[0.3em]">
               Situation and safest action
             </th>
             {teams.map((t) => (
-              <th key={t.id} scope="col" className="text-center font-bold">
+              <th key={t.id} scope="col" className="w-[6vw] text-center font-bold">
                 {t.emoji}
                 <span className="block text-[0.8em]">{t.name.replace(/^Team /, '')}</span>
               </th>
@@ -344,19 +424,19 @@ function R4Reveal({ view, teams }: { view: V<'r4-reveal'>; teams: Team[] }) {
         <tbody>
           {view.situations.map((s, i) => (
             <tr key={s.id} className="border-b border-graphite-3">
-              <td className="py-[1.4vh] pr-[1.5vw]">
-                <span className="flex items-start gap-[1vw]">
-                  <EvidenceMarker n={i + 1} size={30} />
-                  <span>
+              <td className="py-[0.3em] pr-[1.5vw]">
+                <span className="flex items-start gap-[0.7em]">
+                  <EvidenceMarker n={i + 1} size={28} />
+                  <span className="leading-tight">
                     <span className="block font-semibold">{s.text}</span>
-                    <span className="mt-[0.4vh] block font-bold text-[#4cd08b]">→ {s.correctAction}</span>
+                    <span className="block font-bold text-[#4cd08b]">→ {s.correctAction}</span>
                   </span>
                 </span>
               </td>
               {teams.map((t) => {
-                const ok = view.checks[t.id]?.[s.id] === true;
+                const ok = tick(t, s.id);
                 return (
-                  <td key={t.id} className={cn('text-center text-[1.8em] font-extrabold', ok ? 'text-[#4cd08b]' : 'text-[#ff7b6b]')}>
+                  <td key={t.id} className={cn('text-center leading-none font-extrabold', ok ? 'text-[#4cd08b]' : 'text-[#ff7b6b]')}>
                     <span aria-label={ok ? 'Correct' : 'Missed'}>{ok ? '✓' : '✗'}</span>
                   </td>
                 );
@@ -371,40 +451,50 @@ function R4Reveal({ view, teams }: { view: V<'r4-reveal'>; teams: Team[] }) {
 
 function Tiebreak({ view, teams }: { view: V<'tiebreak'>; teams: Teams }) {
   const winner = view.winnerTeamId ? teams.get(view.winnerTeamId) : undefined;
+  const revealed = !!view.expected;
+  const qFont = sizeStyle(fitVw([view.question.length], revealed ? 44 : 78, revealed ? 32 : 24, revealed ? 2.8 : 2.8, 0), 0.8);
+  const aLens = (view.expected ?? []).map((e) => e.length);
+  const aFont = sizeStyle(fitVw(aLens, 40, 28, 1.7, 0.8), 0.6);
   return (
-    <div className="flex h-full flex-col justify-center gap-[3vh]">
+    <div className="flex h-full min-h-0 flex-col justify-center gap-[2.4vh]">
       <div>
         <p className={EYEBROW}>Level on points</p>
-        <h2 className={cn(H1, 'mt-[1vh]')}>Tie-breaker!</h2>
+        <h2 className={cn(H1, 'mt-[1vh]', revealed && 'text-[clamp(1.8rem,3.6vw,4rem)]')}>Tie-breaker!</h2>
       </div>
       <ul className="flex flex-wrap gap-[1vw]">
         {view.tiedTeamIds.map((id) => (
-          <li key={id} className={cn('rounded-xs px-[1.4vw] py-[1.2vh] text-[clamp(1.1rem,2.1vw,2.5rem)] font-bold ring-1', winner?.id === id ? 'bg-marker text-marker-ink ring-marker' : 'bg-graphite-2 ring-graphite-3')}>
+          <li key={id} className={cn('rounded-xs px-[1.4vw] py-[1vh] text-[clamp(1rem,2.1vw,2.5rem)] font-bold ring-1', winner?.id === id ? 'bg-marker text-marker-ink ring-marker' : 'bg-graphite-2 ring-graphite-3')}>
             <TeamLabel team={teams.get(id)} />
           </li>
         ))}
       </ul>
-      <p className="max-w-[40ch] text-[clamp(1.4rem,2.8vw,3.3rem)] leading-tight font-bold">{view.question}</p>
-      <p className="text-[clamp(0.9rem,1.4vw,1.6rem)] text-shell-muted">{view.rule}</p>
-      {view.expected ? (
-        <div className="flex flex-col gap-[1.2vh] rounded-xs bg-graphite-2 p-[1.6vw] ring-1 ring-graphite-3" data-testid="tiebreak-answer">
-          <ul className="flex flex-col gap-[0.8vh] text-[clamp(1rem,1.7vw,2rem)]">
-            {view.expected.map((e) => (
-              <li key={e} className="flex gap-[0.8vw]">
-                <span aria-hidden className="font-extrabold text-[#4cd08b]">
-                  ✓
-                </span>
-                {e}
-              </li>
-            ))}
-          </ul>
-          {winner ? (
-            <p className="text-[clamp(1.2rem,2.2vw,2.6rem)] font-extrabold text-marker">
-              Winner: <TeamLabel team={winner} />
-            </p>
-          ) : null}
+      <div className={cn('grid min-h-0 gap-[2vw]', revealed ? 'grid-cols-2' : 'grid-cols-1')}>
+        <div className="min-w-0">
+          <p className={cn('leading-tight font-bold', !revealed && 'max-w-[40ch]')} style={qFont}>
+            {view.question}
+          </p>
+          <p className="mt-[1.4vh] text-[clamp(0.8rem,1.4vw,1.6rem)] text-shell-muted">{view.rule}</p>
         </div>
-      ) : null}
+        {view.expected ? (
+          <div className="flex min-w-0 flex-col gap-[1vh] self-start rounded-xs bg-graphite-2 p-[1.2vw] ring-1 ring-graphite-3" data-testid="tiebreak-answer">
+            <ul className="flex flex-col gap-[0.6vh] leading-snug" style={aFont}>
+              {view.expected.map((e) => (
+                <li key={e} className="flex gap-[0.6em]">
+                  <span aria-hidden className="font-extrabold text-[#4cd08b]">
+                    ✓
+                  </span>
+                  {e}
+                </li>
+              ))}
+            </ul>
+            {winner ? (
+              <p className="text-[clamp(1.1rem,2.2vw,2.6rem)] font-extrabold text-marker">
+                Winner: <TeamLabel team={winner} />
+              </p>
+            ) : null}
+          </div>
+        ) : null}
+      </div>
     </div>
   );
 }

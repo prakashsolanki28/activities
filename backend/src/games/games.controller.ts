@@ -1,10 +1,12 @@
-import { Body, Controller, Delete, Get, HttpCode, Param, Patch, Post, Put, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Headers, HttpCode, Param, Patch, Post, Put, UseGuards } from '@nestjs/common';
 import {
   gameCreateSchema,
+  gameQuestionsSchema,
   gameStateUpdateSchema,
   gameUpdateSchema,
   teamScoreUpdateSchema,
   type GameCreateInput,
+  type GameQuestions,
   type GameStateUpdate,
   type GameUpdateInput,
   type TeamScoreUpdate,
@@ -36,6 +38,11 @@ export class GamesController {
   @Patch(':id')
   update(@Param('id') id: string, @Body(new ZodPipe(gameUpdateSchema)) body: GameUpdateInput) {
     return this.games.update(id, body);
+  }
+
+  @Put(':id/questions')
+  setQuestions(@Param('id') id: string, @Body(new ZodPipe(gameQuestionsSchema)) body: GameQuestions, @Headers('if-match') ifMatch?: string) {
+    return this.games.setQuestions(id, body, ifMatch);
   }
 
   @Post(':id/state')

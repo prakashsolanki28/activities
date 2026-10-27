@@ -24,6 +24,7 @@ Cybersecurity awareness activities for the HRRL CISO Office. Admins build quizze
   - **Team games** on the admin home: create a game, edit team names, open the **Host console** (stages, Reveal, countdown, scoring, keyboard shortcuts).
   - **Projector display** at `/g/<code>`: big-screen scenario, countdown with sound, live scoreboard. Answers appear only after the host presses Reveal; the points that depend on them appear after Reveal, or once the host moves past that stage.
   - **Print** sheets: SAFE / DANGER / VERIFY FIRST cards per team, the Round 2 secret cards, a scoring sheet and a champion certificate.
+  - **Question editor** per game (before it starts): add, edit, reorder and delete questions in every round, and change points, the auction budget and the tie-breaker. The standard set has 6 questions per round (7 auction actions), worth up to 130 points; scoreboards always show the real maximum.
   - Games live in their own `games` collection; the design and build phases are in `NEW_ACTIVITY.md`.
 
 ## Run it with Docker

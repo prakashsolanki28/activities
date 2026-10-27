@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
-import { Loader2, MonitorPlay, MoreHorizontal, Plus, Printer, Presentation, Trash2 } from 'lucide-react';
+import { ListChecks, Loader2, MonitorPlay, MoreHorizontal, Plus, Printer, Presentation, Trash2 } from 'lucide-react';
 import { DEFAULT_TEAMS, type AdminGameSummary, type Team } from '@hrrl/shared';
 import { Card, EmptyState, ErrorNote } from '~/components/admin/ui';
 import { td, th } from '~/components/admin/data-table';
@@ -179,6 +179,13 @@ function RowActions({ game, onDelete }: { game: AdminGameSummary; onDelete: () =
         <DropdownMenuItem onSelect={() => navigate(`/admin/games/${game._id}`)}>
           <Presentation /> Open host console
         </DropdownMenuItem>
+        <DropdownMenuItem onSelect={() => navigate(`/admin/games/${game._id}/questions`)} className="items-start">
+          <ListChecks className="mt-0.5" />
+          <span>
+            Edit questions
+            {game.status !== 'setup' ? <span className="block text-xs text-ink-3">Read-only once the game has started</span> : null}
+          </span>
+        </DropdownMenuItem>
         <DropdownMenuItem onSelect={() => window.open(`/g/${encodeURIComponent(game.code)}`, '_blank', 'noopener')}>
           <MonitorPlay /> Open projector
         </DropdownMenuItem>
@@ -271,7 +278,7 @@ function DeleteGameDialog({ game, onClose }: { game: AdminGameSummary | null; on
         <AlertDialogFooter>
           <AlertDialogCancel disabled={remove.isPending}>Cancel</AlertDialogCancel>
           <AlertDialogAction
-            className="bg-bad text-white hover:bg-bad/90"
+            variant="destructive"
             disabled={remove.isPending}
             onClick={(e) => {
               e.preventDefault();

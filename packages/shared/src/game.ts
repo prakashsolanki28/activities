@@ -19,17 +19,23 @@ export type R2RubricId = (typeof R2_RUBRIC_IDS)[number];
 export const GAME_MIN_TEAMS = 2;
 export const GAME_MAX_TEAMS = 6;
 
-const id = z.string().regex(/^[A-Za-z0-9_-]{1,64}$/, 'Use letters, numbers, dashes or underscores');
+/** Built-in object names: as keys in a score map they would read inherited values (e.g. score.r4.constructor). */
+const OBJECT_NAMES = new Set([...Object.getOwnPropertyNames(Object.prototype), '__proto__', 'prototype']);
+const id = z
+  .string()
+  .regex(/^[A-Za-z0-9_-]{1,64}$/, 'Use letters, numbers, dashes or underscores')
+  .refine((v) => !OBJECT_NAMES.has(v), 'That id is reserved');
 
 /* ------------------------------------------------------------------ */
 /* Teams                                                                */
 /* ------------------------------------------------------------------ */
 
-/** Team stages are named r2-<team id>, so these ids would clash with the fixed r2-intro and r2-scores stages. */
+/** Stages are named r1-<challenge id> and r2-<team id>, so these ids would clash with the fixed intro and scores stages. */
 export const RESERVED_TEAM_IDS = ['intro', 'scores'];
+const stageKeyId = id.refine((v) => !RESERVED_TEAM_IDS.includes(v), 'That id is reserved');
 
 export const teamSchema = z.object({
-  id: id.refine((v) => !RESERVED_TEAM_IDS.includes(v), 'That team id is reserved'),
+  id: stageKeyId,
   name: z.string().trim().min(1, 'Give the team a name').max(40),
   emoji: z.string().max(16).default(''),
 });
@@ -143,9 +149,9 @@ export const CYBER_SURVIVOR: GameContent = {
   ],
   r1: {
     title: 'Trust Your Instincts',
-    subtitle: '5 minutes · 20 points',
+    subtitle: '7 minutes',
     intro: 'Read the situation. Agree as a team in 15 seconds, then hold up one card. Every team answers at the same time.',
-    rules: ['15 seconds to discuss', 'Hold up one card: Safe, Danger or Verify first', '5 points for each correct answer'],
+    rules: ['15 seconds to discuss', 'Hold up one card: Safe, Danger or Verify first'],
     hostNotes: ['If a team gives the wrong answer, ask another team to explain the correct response. It keeps everyone involved.'],
     answerSec: 15,
     pointsEach: 5,
@@ -174,13 +180,25 @@ export const CYBER_SURVIVOR: GameContent = {
         answer: 'danger',
         explanation: 'Do not plug it into any computer. Hand it to the IT or security team.',
       },
+      {
+        id: 'c5',
+        situation: 'An email that looks like it is from HR asks you to update your bank account details for this month’s salary.',
+        answer: 'verify',
+        explanation: 'Check with HR through a contact you already know before changing anything. Fake “update your bank details” requests are a common fraud.',
+      },
+      {
+        id: 'c6',
+        situation: 'A pop-up on a website says your computer is infected and tells you to call a support number right away.',
+        answer: 'danger',
+        explanation: 'Fake virus warnings are scams. Close the page, do not call the number, and report it to IT.',
+      },
     ],
   },
   r2: {
     title: 'The Human Firewall',
-    subtitle: '10 minutes · 30 points',
+    subtitle: '10 minutes',
     intro: 'Each team sends one volunteer to the front. The volunteer acts out a secret scenario without saying the words on the card. Their team guesses what is happening and explains the safest response.',
-    rules: ['One volunteer acts, the team guesses', '2 minutes per team', '10 points each: the scenario, the warning signs, the right response'],
+    rules: ['One volunteer acts, the team guesses', '2 minutes per team'],
     hostNotes: ['Hand each volunteer their card face down. Only they read it.', 'Score each team on the three points below after they explain.'],
     actSec: 120,
     rubric: [
@@ -221,14 +239,30 @@ export const CYBER_SURVIVOR: GameContent = {
         warningSigns: ['No access pass or ID', 'Claims authority as an IT technician', 'Wants to get in without the usual checks'],
         safeResponse: ['Do not let them in or hold the door open', 'Send them to reception or security to confirm who they are', 'Check with the IT team that the visit was expected'],
       },
+      {
+        id: 'E',
+        title: 'The Lucky Prize Call',
+        brief: 'Act as if you are phoning someone to say they have won a lucky draw, and they only need to pay a small processing fee or share their card details to claim the prize.',
+        teamTask: 'Spot the warning signs and explain what to do.',
+        warningSigns: ['A prize for a draw you never entered', 'A fee or card details are needed to claim it', 'Pressure to claim it today'],
+        safeResponse: ['Do not pay anything or share card details', 'End the call and ignore the offer', 'Report it; if money was lost, call the cyber-crime helpline 1930'],
+      },
+      {
+        id: 'F',
+        title: 'The Shoulder Surfer',
+        brief: 'Act as if you are standing close behind a colleague, chatting to distract them while you try to watch them type their password.',
+        teamTask: 'Explain what is happening and how to protect a password.',
+        warningSigns: ['Someone standing close behind you while you type', 'Chatter that distracts you while you enter a password', 'Interest in your screen or keyboard'],
+        safeResponse: ['Cover the keyboard or stop typing', 'Politely ask them to step back', 'Lock your screen (Windows + L) and report it if it keeps happening'],
+      },
     ],
     safetyNote: 'Keep the role-play fictional. Nobody should ask for or give real passwords, OTPs or confidential information.',
   },
   r3: {
     title: 'The Cyber Auction',
-    subtitle: '10 minutes · 30 points',
-    intro: 'Each team has 100 Cyber Coins. Read what happened, then choose which actions deserve your limited budget. Spend wisely.',
-    rules: ['100 Cyber Coins per team', '3 minutes to choose your actions', 'You cannot go over budget'],
+    subtitle: '10 minutes',
+    intro: 'Each team gets a budget of Cyber Coins. Read what happened, then choose which actions deserve your limited budget. Spend wisely.',
+    rules: ['3 minutes to choose your actions', 'You cannot go over budget'],
     hostNotes: ['Record each team’s picks. After the twist, ask every team whether it wants to change its strategy and update the picks.'],
     planSec: 180,
     budget: 100,
@@ -239,26 +273,28 @@ export const CYBER_SURVIVOR: GameContent = {
       { id: 'preserve', label: 'Preserve the suspicious email and relevant details', cost: 20, points: 10 },
       { id: 'ignore', label: 'Ignore the incident and hope nothing happens', cost: 10, points: -5 },
       { id: 'delete', label: 'Delete all evidence immediately', cost: 10, points: -5 },
+      { id: 'reuse', label: 'Tell the response team where else you used the same password', cost: 10, points: 10 },
+      { id: 'forward', label: 'Forward the email to colleagues to ask if they got it too', cost: 10, points: -5 },
     ],
     twist: {
       headline: 'New information!',
       text: 'The employee has now received an unexpected login notification.',
       question: 'Does your team want to change its strategy?',
     },
-    lesson: 'Report it, secure the account with the response team, and keep the evidence. Ignoring it or deleting evidence makes things worse.',
+    lesson: 'Report it, secure the account with the response team, keep the evidence and own up to a reused password. Ignoring it, deleting evidence or forwarding the email makes things worse.',
     facilitatorNote: 'The coins are only a game mechanic. In a real incident, employees report promptly and the response team decides on containment and on keeping evidence.',
   },
   r4: {
     title: 'The Final Survival Challenge',
-    subtitle: '10 minutes · 20 points',
-    intro: 'All teams play at once. Four things go wrong in the office at the same time. Write down the safest response to each before the timer ends.',
-    rules: ['3 minutes', 'Write one response for each situation', '5 points for each correct action'],
+    subtitle: '10 minutes',
+    intro: 'All teams play at once. Several things go wrong in the office at the same time. Write down the safest response to each before the timer ends.',
+    rules: ['3 minutes', 'Write one response for each situation'],
     hostNotes: ['Collect every team’s sheet when the timer ends, then tick the correct actions for each team.'],
     missionSec: 180,
     pointsEach: 5,
     time: '11:00 AM',
     headline: 'The office has a problem!',
-    mission: 'You have three minutes to write down the safest response to all four situations.',
+    mission: 'You have three minutes to write down the safest response to every situation.',
     situations: [
       { id: 'email', text: 'An employee receives a suspicious email.', correctAction: 'Report the suspicious email' },
       { id: 'otp', text: 'Another employee receives an unexpected OTP.', correctAction: 'Do not share the OTP or approve the unexpected request' },
@@ -268,6 +304,8 @@ export const CYBER_SURVIVOR: GameContent = {
         text: 'Someone gets a message from a person claiming to be the department head, asking for an urgent payment.',
         correctAction: 'Verify the payment request independently before taking any action',
       },
+      { id: 'tailgate', text: 'Someone without a badge follows an employee through a secure door.', correctAction: 'Do not let them follow you in; send them to reception or security' },
+      { id: 'qr', text: 'A QR code sticker on the canteen notice board offers a free lunch voucher.', correctAction: 'Do not scan it; report the sticker' },
     ],
   },
   tiebreak: {
@@ -316,12 +354,14 @@ export interface GameTimer {
 
 export interface GameState {
   stageId: string;
+  /** Set the first time the game leaves Welcome; only Reset clears it. Older games may lack it (see gameStarted). */
+  started?: boolean;
   /** Answers for the current stage are on the projector. Reset to false whenever the stage changes. */
   revealed: boolean;
   timer: GameTimer | null;
 }
 
-export const initialGameState = (): GameState => ({ stageId: 'lobby', revealed: false, timer: null });
+export const initialGameState = (): GameState => ({ stageId: 'lobby', revealed: false, timer: null, started: false });
 
 /** Seconds left on a timer at `nowMs` (server-corrected). */
 export function timerRemaining(timer: GameTimer | null, nowMs: number): number {
@@ -457,8 +497,32 @@ export function answersVisible(stage: Pick<Stage, 'kind' | 'revealable'>, reveal
 
 export type GameStatus = 'setup' | 'live' | 'finished';
 
-export function gameStatus(stageId: string): GameStatus {
-  if (stageId === 'lobby') return 'setup';
+/** Anything recorded for any team. */
+export function hasAnyScore(scores: Record<string, TeamScore>): boolean {
+  return Object.values(scores).some(
+    (s) =>
+      Object.values(s.r1).some((v) => v != null) ||
+      s.r2.card != null ||
+      s.r2.identified ||
+      s.r2.warningSigns ||
+      s.r2.response ||
+      s.r3.picks.length > 0 ||
+      Object.values(s.r4).some((v) => v === true) ||
+      s.tiebreakWin,
+  );
+}
+
+/**
+ * The game has been played: it left Welcome at some point (going back there does not undo that), or
+ * it has scores. Until Reset, teams can only be renamed and questions are locked.
+ */
+export function gameStarted(state: GameState, scores: Record<string, TeamScore>): boolean {
+  return state.stageId !== 'lobby' || !!state.started || hasAnyScore(scores);
+}
+
+/** `started`: from gameStarted, so a game taken back to Welcome mid-way still counts as in progress. */
+export function gameStatus(stageId: string, started = false): GameStatus {
+  if (stageId === 'lobby') return started ? 'live' : 'setup';
   if (stageId === 'final') return 'finished';
   return 'live';
 }
@@ -475,12 +539,177 @@ export interface TeamTotals {
   total: number;
 }
 
+/** Most Round 3 points a team can reach within the budget (at most 12 actions: trying every set is cheap). */
+function bestAuction(content: GameContent): number {
+  const good = content.r3.actions.filter((a) => a.points > 0);
+  let best = 0;
+  for (let mask = 0; mask < 1 << good.length; mask++) {
+    let cost = 0;
+    let pts = 0;
+    good.forEach((a, i) => {
+      if (mask & (1 << i)) {
+        cost += a.cost;
+        pts += a.points;
+      }
+    });
+    if (cost <= content.r3.budget && pts > best) best = pts;
+  }
+  return best;
+}
+
 export function roundMax(content: GameContent): TeamTotals {
   const r1 = content.r1.challenges.length * content.r1.pointsEach;
   const r2 = content.r2.rubric.reduce((n, r) => n + r.points, 0);
-  const r3 = content.r3.actions.reduce((n, a) => n + Math.max(0, a.points), 0);
+  const r3 = bestAuction(content);
   const r4 = content.r4.situations.length * content.r4.pointsEach;
   return { r1, r2, r3, r4, total: r1 + r2 + r3 + r4 };
+}
+
+/** Stored text that states points or coins: replaced by lines computed from the current questions. */
+const SCORING_TEXT = /\b\d+\s*points?\b|cyber coins per team/i;
+
+/** "7 minutes · 30 points": the time as written, the points always from the current questions. */
+export function roundSubtitle(content: GameContent, round: RoundId): string {
+  const time = content[round].subtitle.replace(/\s*·\s*\d+\s*points?\s*$/i, '').trim();
+  const points = `${roundMax(content)[round]} points`;
+  return time ? `${time} · ${points}` : points;
+}
+
+/** The round's rules, with the scoring line worked out from the current questions so an edit never leaves it stale. */
+export function roundRules(content: GameContent, round: RoundId): string[] {
+  const base = content[round].rules.filter((r) => !SCORING_TEXT.test(r));
+  switch (round) {
+    case 'r1':
+      return [...base, `${content.r1.pointsEach} points for each correct answer`];
+    case 'r2': {
+      const pts = [...new Set(content.r2.rubric.map((r) => r.points))];
+      return [...base, pts.length === 1 ? `${pts[0]} points each: the scenario, the warning signs, the right response` : `Up to ${roundMax(content).r2} points`];
+    }
+    case 'r3':
+      return [`${content.r3.budget} Cyber Coins per team`, ...base];
+    case 'r4':
+      return [...base, `${content.r4.pointsEach} points for each correct action`];
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Question editor: what admins may change before a game starts         */
+/* ------------------------------------------------------------------ */
+
+export const GAME_MAX_QUESTIONS = 12;
+
+const filled = (max: number, what: string) => z.string().trim().min(1, `Add ${what}`).max(max);
+
+export const r1ChallengeSchema = z.object({
+  id: stageKeyId,
+  situation: filled(240, 'the situation'),
+  answer: z.enum(CARD_CHOICES),
+  explanation: z.string().trim().max(300),
+});
+
+export const r2CardSchema = z.object({
+  /** The letter on the printed card. */
+  id: z.string().regex(/^[A-Z]$/, 'Cards are lettered A to Z'),
+  title: filled(80, 'a card title'),
+  brief: filled(400, 'what the volunteer acts out'),
+  teamTask: z.string().trim().max(200),
+  warningSigns: z.array(filled(140, 'the warning sign')).min(1, 'Add at least one warning sign').max(5),
+  safeResponse: z.array(filled(140, 'the safe response')).min(1, 'Add at least one safe response').max(5),
+});
+
+export const r3ActionSchema = z.object({
+  id,
+  label: filled(120, 'the action'),
+  cost: z.number().int().min(0).max(1000),
+  points: z.number().int().min(-50).max(50),
+});
+
+export const r4SituationSchema = z.object({
+  id,
+  text: filled(200, 'the situation'),
+  correctAction: filled(160, 'the correct action'),
+});
+
+const unique = (items: { id: string }[]) => new Set(items.map((i) => i.id)).size === items.length;
+
+/** PUT /api/admin/games/:id/questions. Allowed only before the game starts (stage "lobby"). */
+export const gameQuestionsSchema = z
+  .object({
+    r1: z.object({
+      pointsEach: z.number().int().min(1).max(50),
+      challenges: z.array(r1ChallengeSchema).min(1, 'Round 1 needs at least one situation').max(GAME_MAX_QUESTIONS),
+    }),
+    r2: z.object({ cards: z.array(r2CardSchema).min(1, 'Round 2 needs at least one card').max(GAME_MAX_QUESTIONS) }),
+    r3: z.object({
+      budget: z.number().int().min(1).max(1000),
+      actions: z.array(r3ActionSchema).min(2, 'Round 3 needs at least two actions').max(GAME_MAX_QUESTIONS),
+      /** Shown with the auction results; it names actions, so it is edited with them. */
+      lesson: z.string().trim().max(300),
+    }),
+    r4: z.object({
+      pointsEach: z.number().int().min(1).max(50),
+      situations: z.array(r4SituationSchema).min(1, 'Round 4 needs at least one situation').max(GAME_MAX_QUESTIONS),
+    }),
+    tiebreak: z.object({
+      question: filled(300, 'the tie-breaker question'),
+      expected: z.array(filled(200, 'the expected answer')).min(1, 'Add at least one expected answer').max(4),
+    }),
+  })
+  .superRefine((q, ctx) => {
+    const lists: [string[], { id: string }[]][] = [
+      [['r1', 'challenges'], q.r1.challenges],
+      [['r2', 'cards'], q.r2.cards],
+      [['r3', 'actions'], q.r3.actions],
+      [['r4', 'situations'], q.r4.situations],
+    ];
+    for (const [path, items] of lists) if (!unique(items)) ctx.addIssue({ code: 'custom', path, message: 'Every item needs a different id' });
+    if (!q.r3.actions.some((a) => a.points > 0 && a.cost <= q.r3.budget)) {
+      ctx.addIssue({ code: 'custom', path: ['r3', 'actions'], message: 'At least one action that earns points must fit the budget' });
+    }
+  });
+export type GameQuestions = z.infer<typeof gameQuestionsSchema>;
+
+/** The editable part of a game's content (a copy). */
+export function questionsOf(c: GameContent): GameQuestions {
+  return structuredClone({
+    r1: { pointsEach: c.r1.pointsEach, challenges: c.r1.challenges },
+    r2: { cards: c.r2.cards },
+    r3: { budget: c.r3.budget, actions: c.r3.actions, lesson: c.r3.lesson },
+    r4: { pointsEach: c.r4.pointsEach, situations: c.r4.situations },
+    tiebreak: { question: c.tiebreak.question, expected: c.tiebreak.expected },
+  });
+}
+
+/** Wording from the first version that states counts or budgets; replaced with the current wording when questions are saved. */
+const LEGACY_TEXT: { round: 'r3' | 'r4'; field: 'intro' | 'mission'; old: string }[] = [
+  { round: 'r3', field: 'intro', old: 'Each team has 100 Cyber Coins. Read what happened, then choose which actions deserve your limited budget. Spend wisely.' },
+  { round: 'r4', field: 'intro', old: 'All teams play at once. Four things go wrong in the office at the same time. Write down the safest response to each before the timer ends.' },
+  { round: 'r4', field: 'mission', old: 'You have three minutes to write down the safest response to all four situations.' },
+];
+
+/** Short, stable fingerprint of a game's questions: the editor sends it back (If-Match) so a stale tab cannot overwrite newer questions. */
+export function questionsFingerprint(c: GameContent): string {
+  const text = JSON.stringify(questionsOf(c));
+  let h = 5381;
+  for (let i = 0; i < text.length; i++) h = (Math.imul(h, 33) ^ text.charCodeAt(i)) >>> 0;
+  return `q${text.length.toString(36)}-${h.toString(36)}`;
+}
+
+/** Content with the questions replaced; everything else (titles, timers, notes) is kept. */
+export function withQuestions(c: GameContent, q: GameQuestions): GameContent {
+  const next: GameContent = {
+    ...c,
+    r1: { ...c.r1, pointsEach: q.r1.pointsEach, challenges: q.r1.challenges },
+    r2: { ...c.r2, cards: q.r2.cards },
+    r3: { ...c.r3, budget: q.r3.budget, actions: q.r3.actions, lesson: q.r3.lesson },
+    r4: { ...c.r4, pointsEach: q.r4.pointsEach, situations: q.r4.situations },
+    tiebreak: { ...c.tiebreak, question: q.tiebreak.question, expected: q.tiebreak.expected },
+  };
+  for (const { round, field, old } of LEGACY_TEXT) {
+    const r = next[round] as unknown as Record<string, string>;
+    if (r[field] === old) r[field] = (CYBER_SURVIVOR[round] as unknown as Record<string, string>)[field]!;
+  }
+  return next;
 }
 
 /** The Round 2 card a team acts out: the one the host chose, else the card for its position. */
@@ -504,7 +733,7 @@ export function scoreTeam(content: GameContent, score: TeamScore | undefined): T
   const picked = new Set(score.r3.picks);
   const raw3 = content.r3.actions.reduce((n, a) => n + (picked.has(a.id) ? a.points : 0), 0);
   const r3 = Math.min(Math.max(raw3, 0), max.r3);
-  const r4 = content.r4.situations.filter((s) => score.r4[s.id]).length * content.r4.pointsEach;
+  const r4 = content.r4.situations.filter((s) => score.r4[s.id] === true).length * content.r4.pointsEach;
   return { r1, r2, r3, r4, total: r1 + r2 + r3 + r4 };
 }
 
@@ -699,7 +928,15 @@ export function buildPublicDisplay(
       break;
     case 'round-intro': {
       const r = c[stage.round!];
-      view = { kind: 'round-intro', round: stage.round!, number: ROUND_IDS.indexOf(stage.round!) + 1, title: r.title, subtitle: r.subtitle, intro: r.intro, rules: r.rules };
+      view = {
+        kind: 'round-intro',
+        round: stage.round!,
+        number: ROUND_IDS.indexOf(stage.round!) + 1,
+        title: r.title,
+        subtitle: roundSubtitle(c, stage.round!),
+        intro: r.intro,
+        rules: roundRules(c, stage.round!),
+      };
       break;
     }
     case 'r1-challenge': {

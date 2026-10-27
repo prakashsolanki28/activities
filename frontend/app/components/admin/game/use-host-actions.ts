@@ -4,6 +4,7 @@ import { toast } from 'sonner';
 import {
   buildStages,
   emptyTeamScore,
+  gameStarted,
   gameStatus,
   rankTeams,
   roundMax,
@@ -60,10 +61,12 @@ export function deriveHost(game: AdminGame): HostModel {
 
 export function applyState(g: AdminGame, body: GameStateUpdate): AdminGame {
   let state = g.state;
-  if (body.stageId !== undefined && body.stageId !== state.stageId) state = { stageId: body.stageId, revealed: false, timer: null };
+  if (body.stageId !== undefined && body.stageId !== state.stageId) {
+    state = { stageId: body.stageId, revealed: false, timer: null, started: !!g.state.started || body.stageId !== 'lobby' };
+  }
   if (body.revealed !== undefined) state = { ...state, revealed: body.revealed };
   if (body.timer?.action === 'clear') state = { ...state, timer: null };
-  return state === g.state ? g : { ...g, state, status: gameStatus(state.stageId) };
+  return state === g.state ? g : { ...g, state, status: gameStatus(state.stageId, gameStarted(state, g.scores)) };
 }
 
 export function applyScore(g: AdminGame, teamId: string, u: TeamScoreUpdate): AdminGame {

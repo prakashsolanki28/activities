@@ -8,13 +8,17 @@ import {
   DEFAULT_TEAMS,
   emptyTeamScore,
   GAME_TEMPLATES,
+  gameStarted,
   gameStatus,
   initialGameState,
   rankTeams,
   scoreTeam,
+  questionsFingerprint,
+  withQuestions,
   type AdminGame,
   type AdminGameSummary,
   type GameCreateInput,
+  type GameQuestions,
   type GameState,
   type GameStateUpdate,
   type GameUpdateInput,
@@ -56,7 +60,7 @@ export class GamesService {
       teams: g.teams,
       scores,
       state: g.state,
-      status: gameStatus(g.state.stageId),
+      status: gameStatus(g.state.stageId, gameStarted(g.state, scores)),
       totals,
       serverNow: new Date().toISOString(),
       createdAt: iso(g.createdAt),
@@ -71,7 +75,7 @@ export class GamesService {
   async list(): Promise<AdminGameSummary[]> {
     const rows = await this.games.find().sort({ updatedAt: -1 }).lean<GameLean[]>();
     return rows.map((g) => {
-      const status = gameStatus(g.state.stageId);
+      const status = gameStatus(g.state.stageId, gameStarted(g.state, this.fullScores(g)));
       const stageLabel = buildStages(g.content, g.teams).find((s) => s.id === g.state.stageId)?.label ?? '';
       const top = status === 'setup' ? undefined : rankTeams(g.content, g.teams, this.fullScores(g))[0];
       return {
@@ -121,7 +125,7 @@ export class GamesService {
       const after = new Set(input.teams.map((t) => t.id));
       // Order matters too: it sets the Round 2 stage order and each team's default card.
       const changed = g.teams.length !== input.teams.length || g.teams.some((t, i) => t.id !== input.teams![i]!.id);
-      if (changed && g.state.stageId !== 'lobby') {
+      if (changed && gameStarted(g.state, this.fullScores(g))) {
         throw new AppError(HttpStatus.CONFLICT, 'game_started', 'Teams can only be added, removed or reordered before the game starts.');
       }
       $set.teams = input.teams;
@@ -132,6 +136,23 @@ export class GamesService {
     if (Object.keys($set).length) update.$set = $set;
     if (Object.keys($unset).length) update.$unset = $unset;
     if (Object.keys(update).length) await this.games.updateOne({ _id: g._id }, update);
+    return this.get(id);
+  }
+
+  async setQuestions(id: string, input: GameQuestions, basedOn?: string): Promise<AdminGame> {
+    const g = await this.findLean(id);
+    const started = () =>
+      new AppError(HttpStatus.CONFLICT, 'game_started', 'Questions can only be changed before the game starts. Reset the game to edit them.');
+    // Going back to Welcome mid-game does not unlock them: scores already recorded would change meaning.
+    if (gameStarted(g.state, this.fullScores(g))) throw started();
+    // The editor sends the fingerprint of the questions it loaded; a mismatch means another window saved first.
+    if (basedOn && basedOn !== questionsFingerprint(g.content)) {
+      throw new AppError(HttpStatus.CONFLICT, 'questions_changed', 'These questions were changed in another window. Reload to see the latest version.');
+    }
+    const content = withQuestions(g.content, input);
+    // Only if the game has not started since we read it.
+    const res = await this.games.updateOne({ _id: g._id, 'state.stageId': 'lobby', 'state.started': { $ne: true } }, { $set: { content } });
+    if (res.matchedCount === 0) throw started();
     return this.get(id);
   }
 
@@ -150,6 +171,7 @@ export class GamesService {
         state.stageId = input.stageId;
         state.revealed = false;
         state.timer = null;
+        if (input.stageId !== 'lobby') state.started = true;
       }
     }
     if (input.revealed !== undefined) state.revealed = input.revealed;

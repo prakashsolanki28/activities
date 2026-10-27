@@ -14,9 +14,9 @@ export function ScoreTable({ display, highlightId }: { display: PublicGameDispla
     { key: 'total', label: `Total / ${max.total}` },
   ];
   return (
-    <table className="w-full border-collapse text-left text-[clamp(1rem,1.9vw,2.2rem)]" data-testid="score-table">
+    <table className="w-full border-collapse text-left" style={{ fontSize: `clamp(0.8rem, min(1.9vw, ${38 / (display.scoreboard.length + 1)}vh), 2.2rem)` }} data-testid="score-table">
       <thead>
-        <tr className="border-b-2 border-graphite-3 text-[clamp(0.8rem,1.2vw,1.4rem)] font-bold tracking-[0.06em] text-shell-muted uppercase">
+        <tr className="border-b-2 border-graphite-3 text-[0.65em] font-bold tracking-[0.06em] text-shell-muted uppercase">
           <th scope="col" className="w-[7vw] py-[0.8vh]">
             Rank
           </th>
@@ -33,8 +33,8 @@ export function ScoreTable({ display, highlightId }: { display: PublicGameDispla
           const team = teams.get(row.teamId);
           return (
             <tr key={row.teamId} className={cn('border-b border-graphite-3', highlightId === row.teamId && 'bg-graphite-2')} data-testid={`score-row-${row.teamId}`}>
-              <td className="py-[1.2vh]">
-                {row.rank <= 3 ? <EvidenceMarker n={row.rank} size={34} title={`Rank ${row.rank}`} /> : <span className="pl-2 font-mono font-bold text-shell-muted">{row.rank}</span>}
+              <td className="py-[0.35em]">
+                {row.rank <= 3 ? <EvidenceMarker n={row.rank} size={30} title={`Rank ${row.rank}`} /> : <span className="pl-2 font-mono font-bold text-shell-muted">{row.rank}</span>}
               </td>
               <td className="font-bold">
                 <span className="mr-[0.6vw]">{team?.emoji}</span>

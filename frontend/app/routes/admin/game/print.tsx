@@ -178,13 +178,13 @@ function Scenarios({ game }: { game: AdminGame }) {
   );
 }
 
-const CELL = 'border border-ink-3 h-[11mm] text-center';
+const CELL = 'border border-ink-3 h-[8mm] text-center';
 const TH = 'border border-ink-3 bg-ground px-[2mm] py-[1.5mm] text-[9pt] font-bold text-ink';
 
 function Scoreboard({ game }: { game: AdminGame }) {
   const c = game.content;
   const max = roundMax(c);
-  const heading = (t: string) => <h3 className="mt-[7mm] mb-[2mm] text-[12pt] font-extrabold text-ink">{t}</h3>;
+  const heading = (t: string) => <h3 className="mt-[5mm] mb-[2mm] text-[12pt] font-extrabold text-ink">{t}</h3>;
   const teamCell = (t: AdminGame['teams'][number]) => (
     <th scope="row" className="border border-ink-3 px-[2mm] text-left text-[11pt] font-bold whitespace-nowrap text-ink">
       {t.emoji} {t.name}
@@ -227,8 +227,8 @@ function Scoreboard({ game }: { game: AdminGame }) {
           <tr>
             <th className={TH} />
             {c.r1.challenges.map((ch, i) => (
-              <th key={ch.id} className={TH}>
-                Challenge {i + 1}
+              <th key={ch.id} className={cn(TH, 'px-[1mm]')}>
+                {c.r1.challenges.length > 8 ? i + 1 : `Challenge ${i + 1}`}
               </th>
             ))}
           </tr>
@@ -239,7 +239,7 @@ function Scoreboard({ game }: { game: AdminGame }) {
               Answer key
             </th>
             {c.r1.challenges.map((ch) => (
-              <td key={ch.id} className="border border-ink-3 bg-ground py-[1.5mm] text-center text-[10pt] font-bold text-ink-2">
+              <td key={ch.id} className="border border-ink-3 bg-ground px-[1mm] py-[1.5mm] text-center text-[9pt] font-bold text-ink-2">
                 {CARD_LABELS[ch.answer]}
               </td>
             ))}
@@ -259,26 +259,37 @@ function Scoreboard({ game }: { game: AdminGame }) {
       <table className="w-full border-collapse">
         <thead>
           <tr>
-            <th className={TH} />
-            {c.r3.actions.map((a, i) => (
-              <th key={a.id} className={cn(TH, 'max-w-[26mm] align-bottom text-[8pt]')}>
-                {String.fromCharCode(65 + i)}. {a.label}
-                <span className="block font-mono">{a.cost} coins</span>
+            <th className={cn(TH, 'text-left')}>Action</th>
+            <th className={TH}>Cost</th>
+            {game.teams.map((t) => (
+              <th key={t.id} className={cn(TH, 'px-[1mm]')}>
+                {t.emoji}
+                <span className="block text-[8pt]">{t.name.replace(/^Team /, '')}</span>
               </th>
             ))}
-            <th className={TH}>Spent</th>
           </tr>
         </thead>
         <tbody>
-          {game.teams.map((t) => (
-            <tr key={t.id}>
-              {teamCell(t)}
-              {c.r3.actions.map((a) => (
-                <td key={a.id} className={CELL} />
+          {c.r3.actions.map((a, i) => (
+            <tr key={a.id}>
+              <th scope="row" className="border border-ink-3 px-[2mm] py-[1mm] text-left text-[8.5pt] leading-tight font-semibold text-ink">
+                {String.fromCharCode(65 + i)}. {a.label}
+              </th>
+              <td className="border border-ink-3 bg-ground px-[2mm] text-center font-mono text-[9pt]">{a.cost}</td>
+              {game.teams.map((t) => (
+                <td key={t.id} className="h-[7mm] border border-ink-3 text-center" />
               ))}
-              <td className={cn(CELL, 'bg-ground')} />
             </tr>
           ))}
+          <tr>
+            <th scope="row" className="border border-ink-3 bg-ground px-[2mm] py-[1mm] text-left text-[9pt] font-bold text-ink">
+              Coins spent (of {c.r3.budget})
+            </th>
+            <td className="border border-ink-3 bg-ground" />
+            {game.teams.map((t) => (
+              <td key={t.id} className="h-[7mm] border border-ink-3 bg-ground" />
+            ))}
+          </tr>
         </tbody>
       </table>
     </Paper>
@@ -290,7 +301,8 @@ function Certificate({ game }: { game: AdminGame }) {
   const win = champion(ranked);
   if (!win) {
     return (
-      <Paper className="flex items-center justify-center">
+      // Landscape like the certificate itself: a portrait sheet would spill onto a second page.
+      <Paper landscape className="flex items-center justify-center">
         <p className="max-w-[40ch] text-center text-[14pt] font-semibold text-ink-2">Finish the game (and any tie-breaker) to print the certificate.</p>
       </Paper>
     );

@@ -52,6 +52,28 @@ try {
   const setState = (body) => call('POST', `/admin/games/${id}/state`, body);
   const score = (teamId, body) => call('PUT', `/admin/games/${id}/scores/${teamId}`, body);
 
+  step('questions editor API (lobby)');
+  const probe = await fetch(`${base}/api/admin/games/x/questions`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: '{}' });
+  const hasQuestions = probe.status !== 404;
+  let extra = false;
+  let questionsBody;
+  if (!hasQuestions) console.log('  - questions endpoint not built yet: skipped');
+  else {
+    const q0 = (await call('GET', `/admin/games/${id}`)).content;
+    const first = q0.r1.challenges[0];
+    const questions = {
+      r1: { pointsEach: q0.r1.pointsEach, challenges: [...q0.r1.challenges, { ...first, id: 'c7', situation: 'E2E extra challenge: a stranger asks to borrow your laptop.' }] },
+      r2: { cards: q0.r2.cards },
+      r3: { budget: q0.r3.budget, actions: q0.r3.actions, lesson: q0.r3.lesson },
+      r4: { pointsEach: q0.r4.pointsEach, situations: q0.r4.situations },
+      tiebreak: { question: q0.tiebreak.question, expected: q0.tiebreak.expected },
+    };
+    await call('PUT', `/admin/games/${id}/questions`, questions);
+    extra = true;
+    questionsBody = questions;
+    check((await call('GET', `/admin/games/${id}`)).content.r1.challenges.length === 7, 'questions saved: 7 challenges');
+  }
+
   const p = await open({ width: 1920, height: 1080 });
   await p.goto(`${base}/g/${code}`);
   // The projector shows the game's own title (the template's "Cyber Survivor" is only the default).
@@ -62,9 +84,9 @@ try {
   await shot(p, 'lobby');
   check((await p.getByText('Team Firewall').count()) > 0, 'lobby lists the teams');
 
-  // Firewall's R1 answers are right (by the contract: c1 verify, c2 danger, c3 safe, c4 danger); ninjas answer c1 wrong.
+  // Firewall's R1 answers are right (by the contract: c1 verify, c2 danger, c3 safe, c4 danger, c5 verify, c6 danger); ninjas answer c1 wrong.
   step('round 1');
-  for (const [cid, choice] of [['c1', 'verify'], ['c2', 'danger'], ['c3', 'safe'], ['c4', 'danger']]) await score(TEAM, { round: 'r1', challengeId: cid, choice });
+  for (const [cid, choice] of [['c1', 'verify'], ['c2', 'danger'], ['c3', 'safe'], ['c4', 'danger'], ['c5', 'verify'], ['c6', 'danger']]) await score(TEAM, { round: 'r1', challengeId: cid, choice });
   await score(OTHER, { round: 'r1', challengeId: 'c1', choice: 'safe' });
   await setState({ stageId: 'r1-intro' });
   await stageIs('r1-intro');
@@ -72,9 +94,15 @@ try {
   await setState({ stageId: 'r1-c1' });
   await stageIs('r1-c1');
   await p.getByTestId('situation').waitFor();
+  if (extra) await p.getByText('Challenge 1 / 7').waitFor({ timeout: 8000 });
+  check(true, extra ? 'projector shows Challenge 1 / 7' : 'projector shows the challenge');
   const hidden = 'known, independent contact';
   check((await p.getByText(hidden).count()) === 0, 'c1 explanation hidden before reveal');
   check((await total(TEAM)) === 0, 'score strip is 0 before reveal');
+  if (extra) {
+    const r = await fetch(`${base}/api/admin/games/${id}/questions`, { method: 'PUT', headers: { cookie, 'Content-Type': 'application/json' }, body: JSON.stringify(questionsBody) });
+    check(r.status === 409, `questions locked once the game started (got ${r.status})`);
+  }
   await setState({ revealed: true });
   await p.getByText(hidden).waitFor({ timeout: 8000 });
   check(true, 'c1 explanation shown after reveal');
@@ -82,7 +110,7 @@ try {
   check((await total(TEAM)) === 5, 'score strip updates after reveal (5)');
   check((await total(OTHER)) === 0, 'wrong answer scores nothing');
   await shot(p, 'r1-reveal');
-  for (const sid of ['r1-c2', 'r1-c3', 'r1-c4']) {
+  for (const sid of ['r1-c2', 'r1-c3', 'r1-c4', 'r1-c5', 'r1-c6']) {
     await setState({ stageId: sid, revealed: true });
   }
   await setState({ stageId: 'r1-scores' });
@@ -97,18 +125,18 @@ try {
   await stageIs(`r2-${TEAM}`);
   await p.getByText('Your volunteer is acting').waitFor();
   check((await p.getByText('The Fake IT Call').count()) === 0, 'card A title hidden before reveal');
-  check((await total(TEAM)) === 20, 'R2 points not counted before reveal');
+  check((await total(TEAM)) === 30, 'R2 points not counted before reveal');
   await setState({ revealed: true });
   await p.getByText('The Fake IT Call').waitFor({ timeout: 8000 });
   check(true, 'card A title shown after reveal');
-  await p.waitForFunction(() => document.querySelector('[data-testid="strip-total-firewall"]')?.textContent === '50', null, { timeout: 8000 });
-  check(true, 'score strip counts R2 after reveal (50)');
+  await p.waitForFunction(() => document.querySelector('[data-testid="strip-total-firewall"]')?.textContent === '60', null, { timeout: 8000 });
+  check(true, 'score strip counts R2 after reveal (60)');
   await shot(p, 'r2-reveal');
   await setState({ stageId: 'r2-scores' });
 
   step('round 3 and 4');
-  await score(TEAM, { round: 'r3', picks: ['report', 'secure', 'preserve'] });
-  for (const sit of ['email', 'otp', 'usb', 'payment']) await score(TEAM, { round: 'r4', situationId: sit, correct: true });
+  await score(TEAM, { round: 'r3', picks: ['report', 'secure', 'preserve', 'reuse'] });
+  for (const sit of ['email', 'otp', 'usb', 'payment', 'tailgate', 'qr']) await score(TEAM, { round: 'r4', situationId: sit, correct: true });
   await setState({ stageId: 'r3-intro' });
   await setState({ stageId: 'r3-auction', timer: { action: 'start', durationSec: 180 } });
   await stageIs('r3-auction');
@@ -135,7 +163,7 @@ try {
   const champ = p.getByTestId('champion');
   await champ.waitFor({ timeout: 8000 });
   check((await champ.innerText()).includes('Team Firewall'), 'final shows Team Firewall as champion');
-  check((await champ.innerText()).includes('100'), 'champion total is 100');
+  check((await champ.innerText()).includes('130'), 'champion total is 130');
   await shot(p, 'final');
 
   step('host console');

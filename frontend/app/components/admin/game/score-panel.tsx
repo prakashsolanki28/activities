@@ -207,7 +207,7 @@ function R2Scoring() {
       <TeamName team={team} className="text-base" />
       <div>
         <h3 className="text-[13px] font-semibold text-ink">Secret card</h3>
-        <div className="mt-1.5 grid grid-cols-4 gap-1.5" role="group" aria-label="Secret card for this team">
+        <div className="mt-1.5 grid grid-cols-[repeat(auto-fill,minmax(3rem,1fr))] gap-1.5" role="group" aria-label="Secret card for this team">
           {c.r2.cards.map((k) => {
             const others = usedBy(k.id);
             return (
@@ -344,8 +344,8 @@ function R3Team({ team, onToggle }: { team: Team; onToggle: (actionId: string, o
               meta={
                 <>
                   {a.cost} coins
-                  <span className={cn('ml-1.5', a.points > 0 ? 'text-ok' : 'text-bad')}>
-                    {a.points > 0 ? `+${a.points}` : `−${Math.abs(a.points)}`}
+                  <span className={cn('ml-1.5', a.points > 0 ? 'text-ok' : a.points < 0 ? 'text-bad' : 'text-ink-3')}>
+                    {a.points > 0 ? `+${a.points}` : a.points < 0 ? `−${Math.abs(a.points)}` : '0'}
                   </span>
                 </>
               }

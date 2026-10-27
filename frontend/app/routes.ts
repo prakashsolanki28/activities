@@ -30,6 +30,7 @@ export default [
         route('insights', 'routes/admin/activity/insights.tsx'),
       ]),
       route('games/:id', 'routes/admin/game/host.tsx'),
+      route('games/:id/questions', 'routes/admin/game/questions.tsx'),
       route('admins', 'routes/admin/admins.tsx'),
     ]),
   ]),

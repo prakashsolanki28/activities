@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router';
 import { toast } from 'sonner';
-import { ArrowLeft, Copy, Loader2, MonitorPlay, MoreHorizontal, Printer, RotateCcw, Users } from 'lucide-react';
+import { ArrowLeft, Copy, ListChecks, Loader2, MonitorPlay, MoreHorizontal, Printer, RotateCcw, Users } from 'lucide-react';
 import { Button } from '~/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '~/components/ui/dropdown-menu';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '~/components/ui/dialog';
@@ -70,6 +70,11 @@ export function HostHeader() {
                 <Printer /> Print
               </a>
             </Button>
+            <Button variant="outline" asChild>
+              <Link to={`/admin/games/${game._id}/questions`}>
+                <ListChecks /> Questions
+              </Link>
+            </Button>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="outline" aria-label="More actions">
@@ -124,7 +129,7 @@ function ResetDialog({ open, onClose }: { open: boolean; onClose: () => void }) 
         <AlertDialogFooter>
           <AlertDialogCancel disabled={busy}>Cancel</AlertDialogCancel>
           <AlertDialogAction
-            className="bg-bad text-white hover:bg-bad/90"
+            variant="destructive"
             disabled={busy}
             onClick={(e) => {
               e.preventDefault();

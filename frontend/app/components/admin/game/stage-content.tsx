@@ -1,5 +1,5 @@
 import { Trophy } from 'lucide-react';
-import { ROUND_IDS, answersVisible, champion, needsTiebreak, r2CardFor, type Team } from '@hrrl/shared';
+import { ROUND_IDS, answersVisible, champion, needsTiebreak, r2CardFor, roundRules, roundSubtitle, type Team } from '@hrrl/shared';
 import { MessageBar } from '~/components/admin/ui';
 import { useHost } from './host-context';
 import { BulletList, CardChip, HostSection, RevealNote, RoomSection, SubHeading, TeamName } from './bits';
@@ -30,7 +30,8 @@ function TeamChips({ teams }: { teams: Team[] }) {
 }
 
 const coins = (n: number) => `${n} ${n === 1 ? 'coin' : 'coins'}`;
-const signed = (n: number) => (n > 0 ? `+${n}` : `−${Math.abs(n)}`);
+const signed = (n: number) => (n > 0 ? `+${n}` : n < 0 ? `−${Math.abs(n)}` : '0');
+const pointsTone = (n: number) => (n > 0 ? 'text-ok' : n < 0 ? 'text-bad' : 'text-ink-3');
 
 /** What the room sees on the projector at this stage (answers only once they are shown). */
 export function RoomView() {
@@ -59,12 +60,12 @@ export function RoomView() {
         <>
           <div>
             <Eyebrow>
-              Round {ROUND_IDS.indexOf(stage.round!) + 1} · {r.subtitle}
+              Round {ROUND_IDS.indexOf(stage.round!) + 1} · {roundSubtitle(c, stage.round!)}
             </Eyebrow>
             <Big className="mt-1 text-xl">{r.title}</Big>
           </div>
           <p className="text-[15px] leading-6 text-ink-2">{r.intro}</p>
-          <BulletList items={r.rules} />
+          <BulletList items={roundRules(c, stage.round!)} />
         </>
       );
       break;
@@ -167,7 +168,7 @@ export function RoomView() {
             {c.r3.actions.map((a) => (
               <li key={a.id} className="flex items-start justify-between gap-3 text-sm leading-5">
                 <span className="text-ink">{a.label}</span>
-                <span className={cn('shrink-0 font-semibold tabular-nums', a.points > 0 ? 'text-ok' : 'text-bad')}>{signed(a.points)} points</span>
+                <span className={cn('shrink-0 font-semibold tabular-nums', pointsTone(a.points))}>{signed(a.points)} points</span>
               </li>
             ))}
           </ul>
@@ -373,7 +374,7 @@ export function HostView() {
                 {c.r3.actions.map((a) => (
                   <li key={a.id} className="flex items-start justify-between gap-3">
                     <span className="text-ink-2">{a.label}</span>
-                    <span className={cn('shrink-0 font-semibold tabular-nums', a.points > 0 ? 'text-ok' : 'text-bad')}>{signed(a.points)}</span>
+                    <span className={cn('shrink-0 font-semibold tabular-nums', pointsTone(a.points))}>{signed(a.points)}</span>
                   </li>
                 ))}
               </ul>

@@ -3,6 +3,7 @@ import type {
   AdminGame,
   AdminGameSummary,
   GameCreateInput,
+  GameQuestions,
   GameStateUpdate,
   GameUpdateInput,
   PublicGameDisplay,
@@ -21,6 +22,12 @@ export const gameApi = {
   create: (body: GameCreateInput = {}) => api.post<AdminGame>('/admin/games', body),
   get: (id: string) => api.get<AdminGame>(`/admin/games/${id}`),
   update: (id: string, body: GameUpdateInput) => api.patch<AdminGame>(`/admin/games/${id}`, body),
+  /**
+   * Replace the game's questions (only before it starts). `basedOn` is questionsFingerprint() of the
+   * questions the editor loaded: if someone saved since, the API answers 409 questions_changed.
+   */
+  questions: (id: string, body: GameQuestions, basedOn?: string) =>
+    api.put<AdminGame>(`/admin/games/${id}/questions`, body, basedOn ? { headers: { 'If-Match': basedOn } } : undefined),
   setState: (id: string, body: GameStateUpdate) => api.post<AdminGame>(`/admin/games/${id}/state`, body),
   score: (id: string, teamId: string, body: TeamScoreUpdate) => api.put<AdminGame>(`/admin/games/${id}/scores/${encodeURIComponent(teamId)}`, body),
   reset: (id: string) => api.post<AdminGame>(`/admin/games/${id}/reset`),
