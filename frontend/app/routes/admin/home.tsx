@@ -20,6 +20,7 @@ import { Copy, CopyPlus, ExternalLink, ListOrdered, MoreHorizontal, PenLine, Sea
 import type { ActivityStatus, AdminActivitySummary } from '@hrrl/shared';
 import type { Route } from './+types/home';
 import { NewActivityButton } from '~/components/admin/new-activity';
+import { TeamGamesCard } from '~/components/admin/team-games';
 import { Card, EmptyState, ErrorNote, PageHeader, StatusBadge } from '~/components/admin/ui';
 import { SortHeader, td, th } from '~/components/admin/data-table';
 import { Button } from '~/components/ui/button';
@@ -260,6 +261,7 @@ export default function Home() {
           )
         ) : null}
       </Card>
+      <TeamGamesCard />
       <DeleteDialog activity={deleting} onClose={() => setDeleting(null)} />
     </main>
   );

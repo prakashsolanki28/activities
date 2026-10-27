@@ -20,6 +20,11 @@ Cybersecurity awareness activities for the HRRL CISO Office. Admins build quizze
   - printable certificates with a verification code;
   - Excel/CSV export;
   - a per-question summary showing which answers the workforce picks.
+- **Live team game: Cyber Survivor.** A facilitator-led game for a room with a projector: 2–6 teams, four rounds (Trust Your Instincts, The Human Firewall, The Cyber Auction, The Final Survival Challenge), a tie-breaker and a champion. Teams answer on printed cards and the host records their answers.
+  - **Team games** on the admin home: create a game, edit team names, open the **Host console** (stages, Reveal, countdown, scoring, keyboard shortcuts).
+  - **Projector display** at `/g/<code>`: big-screen scenario, countdown with sound, live scoreboard. Answers appear only after the host presses Reveal; the points that depend on them appear after Reveal, or once the host moves past that stage.
+  - **Print** sheets: SAFE / DANGER / VERIFY FIRST cards per team, the Round 2 secret cards, a scoring sheet and a champion certificate.
+  - Games live in their own `games` collection; the design and build phases are in `NEW_ACTIVITY.md`.
 
 ## Run it with Docker
 
@@ -63,6 +68,7 @@ pnpm --filter backend test:e2e         # attempt lifecycle against in-memory Mon
 node e2e/smoke.mjs  [baseUrl]          # browser walk: both seeded activities + every admin page
 node e2e/builder.mjs [baseUrl]         # build, publish and play an activity, including the timer
 node e2e/spot.mjs [baseUrl]            # play "Spot Every Red Flag": draw, tap, miss, repeat, give up; admin preview
+node e2e/survivor.mjs [baseUrl]        # Cyber Survivor: host drives every stage; the projector never shows an answer before Reveal
 ```
 
 The browser scripts use Playwright (`npx playwright install chromium-headless-shell` once). They default to `http://127.0.0.1:5173`. For the Docker stack, pass `http://127.0.0.1:8080` and set `ADMIN_PASSWORD`.

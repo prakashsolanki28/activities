@@ -7,6 +7,7 @@ import { ThrottlerModule } from '@nestjs/throttler';
 import { AuthModule } from './auth/auth.module';
 import { ActivitiesModule } from './activities/activities.module';
 import { AttemptsModule } from './attempts/attempts.module';
+import { GamesModule } from './games/games.module';
 import { UploadsModule } from './uploads/uploads.module';
 import { ModelsModule } from './common/models.module';
 import { AttemptAwareThrottlerGuard } from './common/throttle.guard';
@@ -37,6 +38,7 @@ class HealthController {
     ActivitiesModule,
     AttemptsModule,
     UploadsModule,
+    GamesModule,
   ],
   controllers: [HealthController],
   providers: [{ provide: APP_GUARD, useClass: AttemptAwareThrottlerGuard }],

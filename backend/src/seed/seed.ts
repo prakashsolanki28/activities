@@ -6,6 +6,7 @@ import type { Model } from 'mongoose';
 import { activityContentSchema, type ActivityContentInput, type ImageRef } from '@hrrl/shared';
 import { AppModule } from '../app.module';
 import { ActivitiesService } from '../activities/activities.service';
+import { GamesService } from '../games/games.service';
 import { UploadsService } from '../uploads/uploads.service';
 import { Activity } from '../activities/activity.schema';
 import { Attempt } from '../attempts/attempt.schema';
@@ -56,6 +57,14 @@ async function main() {
     const published = await activities.publish(created._id, {});
     const count = content.sections.reduce((n, s) => n + s.questions.length, 0);
     console.log(`✓ ${published.code} ${published.title}: ${count} questions, live at /a/${published.slug}`);
+  }
+
+  const games = app.get(GamesService);
+  if ((await games.count()) === 0) {
+    const game = await games.create({ title: 'Cyber Survivor — HRRL Awareness Month' }, String(owner._id));
+    console.log(`✓ ${game.code} Cyber Survivor: host at /admin/games/${game._id}, projector at /g/${game.code}`);
+  } else {
+    console.log('• games already exist (none created)');
   }
   await app.close();
 }
