@@ -63,7 +63,7 @@ try {
     const first = q0.r1.challenges[0];
     const questions = {
       r1: { pointsEach: q0.r1.pointsEach, challenges: [...q0.r1.challenges, { ...first, id: 'c7', situation: 'E2E extra challenge: a stranger asks to borrow your laptop.' }] },
-      r2: { cards: q0.r2.cards },
+      r2: { maxMarks: q0.r2.maxMarks },
       r3: { budget: q0.r3.budget, actions: q0.r3.actions, lesson: q0.r3.lesson },
       r4: { pointsEach: q0.r4.pointsEach, situations: q0.r4.situations },
       tiebreak: { question: q0.tiebreak.question, expected: q0.tiebreak.expected },
@@ -119,25 +119,30 @@ try {
   await shot(p, 'scores');
 
   step('round 2');
-  await score(TEAM, { round: 'r2', identified: true, warningSigns: true, response: true });
+  await score(TEAM, { round: 'r2', marks: 30 });
+  const over = await fetch(`${base}/api/admin/games/${id}/scores/${TEAM}`, { method: 'PUT', headers: { cookie, 'Content-Type': 'application/json' }, body: JSON.stringify({ round: 'r2', marks: 31 }) });
+  check(over.status === 400, `marks above the maximum are refused (got ${over.status})`);
   await setState({ stageId: 'r2-intro' });
-  await setState({ stageId: `r2-${TEAM}` });
-  await stageIs(`r2-${TEAM}`);
-  await p.getByText('Your volunteer is acting').waitFor();
-  check((await p.getByText('The Fake IT Call').count()) === 0, 'card A title hidden before reveal');
-  check((await total(TEAM)) === 30, 'R2 points not counted before reveal');
-  await setState({ revealed: true });
-  await p.getByText('The Fake IT Call').waitFor({ timeout: 8000 });
-  check(true, 'card A title shown after reveal');
-  await p.waitForFunction(() => document.querySelector('[data-testid="strip-total-firewall"]')?.textContent === '60', null, { timeout: 8000 });
-  check(true, 'score strip counts R2 after reveal (60)');
-  await shot(p, 'r2-reveal');
+  await stageIs('r2-intro');
+  await p.getByText('CyberMime Challenge').first().waitFor({ timeout: 8000 });
+  await p.getByText('Act It. Guess It. Secure It!').waitFor({ timeout: 8000 });
+  check(true, 'round 2 intro shows CyberMime Challenge');
+  await shot(p, 'r2-intro');
+  await setState({ stageId: 'r2-mime' });
+  await stageIs('r2-mime');
+  await p.getByText('No Words. Just Actions.').waitFor({ timeout: 8000 });
+  check((await total(TEAM)) === 30, 'R2 marks not counted on the strip before r2-scores');
+  await shot(p, 'r2-mime');
   await setState({ stageId: 'r2-scores' });
+  await stageIs('r2-scores');
 
   step('round 3 and 4');
   await score(TEAM, { round: 'r3', picks: ['report', 'secure', 'preserve', 'reuse'] });
   for (const sit of ['email', 'otp', 'usb', 'payment', 'tailgate', 'qr']) await score(TEAM, { round: 'r4', situationId: sit, correct: true });
   await setState({ stageId: 'r3-intro' });
+  await stageIs('r3-intro');
+  await p.waitForFunction(() => document.querySelector('[data-testid="strip-total-firewall"]')?.textContent === '60', null, { timeout: 8000 });
+  check((await total(TEAM)) === 60, 'score strip counts R2 marks after r2-scores (60)');
   await setState({ stageId: 'r3-auction', timer: { action: 'start', durationSec: 180 } });
   await stageIs('r3-auction');
   await p.getByText('Budget: 100 Cyber Coins').waitFor();
@@ -175,7 +180,7 @@ try {
 
   step('print sheets');
   const pr = await open({ width: 1200, height: 900 }, true);
-  for (const sheet of ['cards', 'scenarios', 'scoreboard', 'certificate']) {
+  for (const sheet of ['cards', 'scoreboard', 'certificate']) {
     await pr.goto(`${base}/admin/games/${id}/print?sheet=${sheet}`);
     await pr.waitForSelector(`[data-sheet="${sheet}"]`, { timeout: 10000 });
     await pr.waitForTimeout(300);

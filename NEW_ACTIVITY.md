@@ -147,3 +147,43 @@ Phase 3.2  Integrate + verify ───────────── Opus    (m
 | **3.1B Question editor** | Opus | A form-heavy editor: lists, add, edit, reorder, delete, validation, unsaved changes, locking | `routes/admin/game/questions.tsx`, `components/admin/game/questions/**`, the links in `host-header.tsx` and `team-games.tsx` |
 | **3.1C Screens follow content** | Sonnet | Make the host console, projector and print sheets handle 6+ items and computed points | `components/admin/game/{stage-content,score-panel,scoreboard}.tsx`, `components/game/**`, `routes/game/display.tsx`, `routes/admin/game/print.tsx`, `e2e/survivor.mjs` |
 | **3.2 Integrate** | Opus | Cross-checks, browser drive of the editor, final verification | any fix, README |
+
+---
+
+## 6. Update: Round 2 becomes the CyberMime Challenge
+
+Asked for after the question editor: **replace Round 2 completely**. The Human Firewall (secret cards A–F, a three-tick rubric, one stage per team) is replaced by the **CyberMime Challenge**, which is played **offline**. The app shows the round's text on the projector, and the host's only job in the app is to type each team's marks.
+
+> **CyberMime Challenge** — “Act It. Guess It. Secure It!”
+> **CYBERMIME CHALLENGE** — No Words. Just Actions. Outsmart the Threat!
+
+Decisions (chosen by the user):
+- **Marks:** up to **30 per team** by default, so the standard total stays 130. Admins can change the maximum in the question editor before the game starts (1–100), and the API refuses more than the maximum.
+- **Two slides, then the scores:** the round intro (*Round 2 · CyberMime Challenge · 10 minutes · 30 points · “Act It. Guess It. Secure It!”*), then the play slide (*CYBERMIME CHALLENGE · No Words. Just Actions. Outsmart the Threat!*), where the host types the marks, then *Scores after Round 2*.
+- **When marks show:** the room sees Round 2 marks on the score strip from *Scores after Round 2* on, as with Rounds 3 and 4. The host can still correct them on that stage.
+- **Old games are converted:** when the API starts, every saved game with the old Round 2 is switched to CyberMime. Ticked rubric points become marks (three ticks = 30), a game paused on an old team stage moves to the play slide, and the old cards and scores are **kept** under `legacy.humanFirewall` on the game. Nothing is deleted.
+- **Print:** the *Scenario cards* sheet is removed (there are no cards). The host scoreboard gains a Round 2 marks table.
+
+| Round | Format (standard questions) | Points |
+|---|---|---:|
+| 2. CyberMime Challenge | Offline: teams act out cyber threats without words and guess them. The host types each team's marks. | 30 |
+
+**Stage order for Round 2:** R2 intro → Act it out → Scores after Round 2.
+
+### Phases
+
+```
+Phase 4.0  Contract ─────────────────── Opus    (main session)
+   ├─▶ 4.1A Backend + migration ─────── Sonnet ┐
+   ├─▶ 4.1B Host console + editor ───── Opus   ├─ in parallel, disjoint files
+   └─▶ 4.1C Projector + print + e2e ─── Sonnet ┘
+Phase 4.2  Integrate + verify ───────── Opus    (main session) ‖ code review agent
+```
+
+| Phase | Model | Why this model | Owns |
+|---|---|---|---|
+| **4.0 Contract** | Opus | New Round 2 content, score shape, stages, reveal timing and editor schema that everything else follows | `packages/shared/src/game.ts`, the `legacy` prop in `backend/src/games/game.schema.ts`, this section |
+| **4.1A Backend** | Sonnet | One scoring branch, a pure migration with tests, mirroring the games service | `backend/src/games/**` (except the schema prop), `backend/test/games.e2e-spec.ts` |
+| **4.1B Host console + editor** | Opus | Stateful marks entry, and removing the lettered-card machinery from the question editor | `components/admin/game/**`, `routes/admin/game/questions.tsx` |
+| **4.1C Projector + print** | Sonnet | Presentational slide, print sheet change, browser walk | `components/game/**`, `routes/game/display.tsx`, `routes/admin/game/print.tsx`, `e2e/survivor.mjs` |
+| **4.2 Integrate** | Opus | Cross-checks, final verification, README | any fix, `README.md` |

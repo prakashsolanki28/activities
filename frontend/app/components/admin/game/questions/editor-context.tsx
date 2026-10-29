@@ -5,8 +5,6 @@ import type { ListName } from './model';
 export interface QuestionsEditor {
   /** What the editor shows: the draft, or the saved questions while the game is locked. */
   q: GameQuestions;
-  /** Stable React keys for the Round 2 cards, by position. */
-  r2Keys: string[];
   content: GameContent;
   teams: Team[];
   locked: boolean;

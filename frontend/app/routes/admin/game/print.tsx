@@ -15,7 +15,6 @@ export const meta: Route.MetaFunction = () => [{ title: 'Print · HRRL Activitie
 
 const SHEETS = [
   { id: 'cards', label: 'Team cards' },
-  { id: 'scenarios', label: 'Scenario cards' },
   { id: 'scoreboard', label: 'Host scoreboard' },
   { id: 'certificate', label: 'Certificate' },
 ] as const;
@@ -23,7 +22,7 @@ type SheetId = (typeof SHEETS)[number]['id'];
 
 const PAGE = 'break-after-page break-inside-avoid last:break-after-auto';
 
-/** Printable cards, scenario cards, blank scoreboard and the champion certificate. Sits outside the admin layout so it prints clean. */
+/** Printable answer cards, blank scoreboard and the champion certificate. Sits outside the admin layout so it prints clean. */
 export default function GamePrint() {
   useAdminTheme();
   const { id = '' } = useParams();
@@ -90,7 +89,6 @@ export default function GamePrint() {
       `}</style>
       {toolbar}
       {sheet === 'cards' ? <Cards game={game} /> : null}
-      {sheet === 'scenarios' ? <Scenarios game={game} /> : null}
       {sheet === 'scoreboard' ? <Scoreboard game={game} /> : null}
       {sheet === 'certificate' ? <Certificate game={game} /> : null}
     </div>
@@ -136,42 +134,6 @@ function Cards({ game }: { game: AdminGame }) {
               </div>
             );
           })}
-        </Paper>
-      ))}
-    </>
-  );
-}
-
-function Scenarios({ game }: { game: AdminGame }) {
-  const cards = game.content.r2.cards;
-  const pages: (typeof cards)[] = [];
-  for (let i = 0; i < cards.length; i += 2) pages.push(cards.slice(i, i + 2));
-  return (
-    <>
-      {pages.map((pair, p) => (
-        <Paper key={p} className="flex flex-col">
-          {pair.map((c, i) => (
-            <article key={c.id} className={cn('flex flex-1 flex-col gap-[3mm] py-[4mm]', i > 0 && 'border-t-[0.5mm] border-dashed border-ink-3')}>
-              {i > 0 ? <p className="-mt-[7mm] mb-[1mm] text-center text-[8pt] text-ink-3 select-none">✂ cut here</p> : null}
-              <div className="flex items-start gap-[5mm]">
-                <span className="flex size-[22mm] shrink-0 items-center justify-center rounded-[3mm] border-[1.2mm] border-ink text-[40pt] leading-none font-extrabold text-ink">{c.id}</span>
-                <div className="min-w-0 flex-1">
-                  <p className="text-[9pt] font-bold tracking-[0.12em] text-ink-3 uppercase">Round 2 · Secret scenario</p>
-                  <h2 className="text-[22pt] leading-tight font-extrabold text-ink">{c.title}</h2>
-                </div>
-                <p className="shrink-0 rounded-[2mm] border-[0.6mm] border-evidence px-[3mm] py-[1.5mm] text-[9pt] font-extrabold text-evidence uppercase">Do not show this card to your team</p>
-              </div>
-              <p className="text-[13pt] leading-snug text-ink">
-                <strong>Act this out: </strong>
-                {c.brief}
-              </p>
-              <p className="text-[11pt] leading-snug text-ink-2">
-                <strong>Team task: </strong>
-                {c.teamTask}
-              </p>
-              <p className="mt-auto text-[9pt] leading-snug text-ink-3">{game.content.r2.safetyNote}</p>
-            </article>
-          ))}
         </Paper>
       ))}
     </>
@@ -252,6 +214,27 @@ function Scoreboard({ game }: { game: AdminGame }) {
               ))}
             </tr>
           ))}
+        </tbody>
+      </table>
+
+      {heading(`Round 2: ${c.r2.title} marks (out of ${c.r2.maxMarks})`)}
+      <table className="w-full border-collapse">
+        <thead>
+          <tr>
+            {game.teams.map((t) => (
+              <th key={t.id} className={cn(TH, 'px-[1mm]')}>
+                {t.emoji}
+                <span className="block text-[8pt]">{t.name.replace(/^Team /, '')}</span>
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            {game.teams.map((t) => (
+              <td key={t.id} className="h-[8mm] border border-ink-3" />
+            ))}
+          </tr>
         </tbody>
       </table>
 

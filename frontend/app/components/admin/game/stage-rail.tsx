@@ -35,7 +35,13 @@ export function StageRail({ autoScroll = false, className }: { autoScroll?: bool
     g.items.push({ stage, index });
   });
 
-  const answered = (s: Stage) => (s.kind === 'r1-challenge' && s.challengeId ? game.teams.filter((t) => game.scores[t.id]?.r1[s.challengeId!] != null).length : null);
+  /** How many teams have something recorded at a stage where the host scores every team. */
+  const answered = (s: Stage) => {
+    if (s.kind === 'r1-challenge' && s.challengeId) return game.teams.filter((t) => game.scores[t.id]?.r1[s.challengeId!] != null).length;
+    if (s.kind === 'r2-mime') return game.teams.filter((t) => game.scores[t.id]?.r2?.marks != null).length;
+    return null;
+  };
+  const what = (s: Stage) => (s.kind === 'r2-mime' ? 'marks' : 'answers');
 
   return (
     <nav aria-label="Stages" className={cn('grid gap-4', className)}>
@@ -75,9 +81,9 @@ export function StageRail({ autoScroll = false, className }: { autoScroll?: bool
                     </span>
                     <span className="min-w-0 flex-1 truncate">{stage.kind === 'round-intro' ? 'Introduction' : stage.label}</span>
                     {count != null ? (
-                      <span className={cn('shrink-0 text-[11px] tabular-nums', count === game.teams.length ? 'text-ok' : 'text-ink-3')} title={`${count} of ${game.teams.length} answers recorded`}>
+                      <span className={cn('shrink-0 text-[11px] tabular-nums', count === game.teams.length ? 'text-ok' : 'text-ink-3')} title={`${count} of ${game.teams.length} ${what(stage)} recorded`}>
                         {count}/{game.teams.length}
-                        <span className="sr-only"> answers recorded</span>
+                        <span className="sr-only"> {what(stage)} recorded</span>
                       </span>
                     ) : null}
                   </button>

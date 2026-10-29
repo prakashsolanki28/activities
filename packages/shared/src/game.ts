@@ -13,9 +13,6 @@ export const CARD_LABELS: Record<CardChoice, string> = { safe: 'Safe', danger: '
 export const ROUND_IDS = ['r1', 'r2', 'r3', 'r4'] as const;
 export type RoundId = (typeof ROUND_IDS)[number];
 
-export const R2_RUBRIC_IDS = ['identified', 'warningSigns', 'response'] as const;
-export type R2RubricId = (typeof R2_RUBRIC_IDS)[number];
-
 export const GAME_MIN_TEAMS = 2;
 export const GAME_MAX_TEAMS = 6;
 
@@ -30,7 +27,10 @@ const id = z
 /* Teams                                                                */
 /* ------------------------------------------------------------------ */
 
-/** Stages are named r1-<challenge id> and r2-<team id>, so these ids would clash with the fixed intro and scores stages. */
+/**
+ * Stages are named r1-<challenge id>; these ids would clash with the fixed intro and scores stages. Round 2 stages no
+ * longer contain team ids, but the reservation stays so teams saved earlier still validate the same way.
+ */
 export const RESERVED_TEAM_IDS = ['intro', 'scores'];
 const stageKeyId = id.refine((v) => !RESERVED_TEAM_IDS.includes(v), 'That id is reserved');
 
@@ -77,16 +77,6 @@ export interface R1Challenge {
   explanation: string;
 }
 
-export interface R2Card {
-  id: string;
-  title: string;
-  /** What the volunteer acts out. Shown on the Host console and the printed card, never on the display before reveal. */
-  brief: string;
-  teamTask: string;
-  warningSigns: string[];
-  safeResponse: string[];
-}
-
 export interface R3Action {
   id: string;
   label: string;
@@ -109,11 +99,14 @@ export interface GameContent {
   championTitle: string;
   hostTips: string[];
   r1: RoundMeta & { answerSec: number; pointsEach: number; challenges: R1Challenge[] };
+  /** Played offline: the projector shows the round's text and the host types each team's marks. */
   r2: RoundMeta & {
-    actSec: number;
-    rubric: { id: R2RubricId; label: string; points: number }[];
-    cards: R2Card[];
-    safetyNote: string;
+    /** Suggested countdown for one mime. */
+    playSec: number;
+    /** Most marks a team can get. */
+    maxMarks: number;
+    /** The slide shown while teams play. */
+    banner: { headline: string; slogan: string };
   };
   r3: RoundMeta & {
     planSec: number;
@@ -144,7 +137,7 @@ export const CYBER_SURVIVOR: GameContent = {
   hostTips: [
     'Be energetic: this is a game, not a classroom session.',
     'Keep the countdown on the projector and let teams defend their answers.',
-    'Make the Human Firewall round the highlight.',
+    'Make the CyberMime Challenge the highlight.',
     'Keep it friendly. The focus is learning, never embarrassing anyone.',
   ],
   r1: {
@@ -195,68 +188,18 @@ export const CYBER_SURVIVOR: GameContent = {
     ],
   },
   r2: {
-    title: 'The Human Firewall',
+    title: 'CyberMime Challenge',
     subtitle: '10 minutes',
-    intro: 'Each team sends one volunteer to the front. The volunteer acts out a secret scenario without saying the words on the card. Their team guesses what is happening and explains the safest response.',
-    rules: ['One volunteer acts, the team guesses', '2 minutes per team'],
-    hostNotes: ['Hand each volunteer their card face down. Only they read it.', 'Score each team on the three points below after they explain.'],
-    actSec: 120,
-    rubric: [
-      { id: 'identified', label: 'Correctly identifies the scenario', points: 10 },
-      { id: 'warningSigns', label: 'Identifies the security warning signs', points: 10 },
-      { id: 'response', label: 'Explains the appropriate response', points: 10 },
+    intro: '“Act It. Guess It. Secure It!”',
+    rules: [],
+    hostNotes: [
+      'Played offline: teams act out a cyber threat or a safe habit without words, and their team guesses it.',
+      'Use your own prompts. Nothing is needed on screen.',
+      'Type each team’s marks in the Round 2 panel. The room sees them at Scores after Round 2.',
     ],
-    cards: [
-      {
-        id: 'A',
-        title: 'The Fake IT Call',
-        brief: 'You are pretending to be someone from IT. Act as if you urgently need an employee’s OTP to fix their account.',
-        teamTask: 'Spot the warning signs and explain the correct response.',
-        warningSigns: ['A caller says they are from IT and contacts you out of the blue', 'Pressure to act right now', 'Asks for an OTP, which nobody genuine ever needs'],
-        safeResponse: ['Never share the OTP', 'End the call and contact IT on a number you already know', 'Report the call to the CISO Office'],
-      },
-      {
-        id: 'B',
-        title: 'The Urgent Boss',
-        brief: 'Act as if you are a manager asking someone to send a confidential document to a personal email address because you are in a hurry.',
-        teamTask: 'Explain what should be verified.',
-        warningSigns: ['Urgency and pressure from a senior person', 'A confidential document is requested', 'It must go to a personal email address, outside official channels'],
-        safeResponse: ['Verify the request with the manager through a known channel', 'Never send confidential documents to a personal email address', 'Report the request if it cannot be verified'],
-      },
-      {
-        id: 'C',
-        title: 'The Free Gift',
-        brief: 'Act as if you have found a QR code promising a free smartphone and are trying to convince your colleagues to scan it.',
-        teamTask: 'Identify the risks and explain how to check whether the offer is genuine.',
-        warningSigns: ['Too good to be true: a free smartphone', 'A QR code from an unknown source', 'Excitement used to rush people into acting'],
-        safeResponse: ['Do not scan unknown QR codes', 'Check the offer on the official website or with the organiser', 'Report suspicious QR codes or stickers'],
-      },
-      {
-        id: 'D',
-        title: 'The Suspicious Visitor',
-        brief: 'Act as if you are a visitor who says they are an IT technician and has forgotten their access pass.',
-        teamTask: 'Explain how the visitor should be verified.',
-        warningSigns: ['No access pass or ID', 'Claims authority as an IT technician', 'Wants to get in without the usual checks'],
-        safeResponse: ['Do not let them in or hold the door open', 'Send them to reception or security to confirm who they are', 'Check with the IT team that the visit was expected'],
-      },
-      {
-        id: 'E',
-        title: 'The Lucky Prize Call',
-        brief: 'Act as if you are phoning someone to say they have won a lucky draw, and they only need to pay a small processing fee or share their card details to claim the prize.',
-        teamTask: 'Spot the warning signs and explain what to do.',
-        warningSigns: ['A prize for a draw you never entered', 'A fee or card details are needed to claim it', 'Pressure to claim it today'],
-        safeResponse: ['Do not pay anything or share card details', 'End the call and ignore the offer', 'Report it; if money was lost, call the cyber-crime helpline 1930'],
-      },
-      {
-        id: 'F',
-        title: 'The Shoulder Surfer',
-        brief: 'Act as if you are standing close behind a colleague, chatting to distract them while you try to watch them type their password.',
-        teamTask: 'Explain what is happening and how to protect a password.',
-        warningSigns: ['Someone standing close behind you while you type', 'Chatter that distracts you while you enter a password', 'Interest in your screen or keyboard'],
-        safeResponse: ['Cover the keyboard or stop typing', 'Politely ask them to step back', 'Lock your screen (Windows + L) and report it if it keeps happening'],
-      },
-    ],
-    safetyNote: 'Keep the role-play fictional. Nobody should ask for or give real passwords, OTPs or confidential information.',
+    playSec: 60,
+    maxMarks: 30,
+    banner: { headline: 'CYBERMIME CHALLENGE', slogan: 'No Words. Just Actions. Outsmart the Threat!' },
   },
   r3: {
     title: 'The Cyber Auction',
@@ -325,8 +268,8 @@ export const GAME_TEMPLATES: Record<GameContent['templateId'], GameContent> = { 
 export const teamScoreSchema = z.object({
   /** Card each team held up, by challenge id. */
   r1: z.record(z.string(), z.enum(CARD_CHOICES).nullable()),
-  /** card null = the default card for the team's position. */
-  r2: z.object({ card: z.string().max(8).nullable(), identified: z.boolean(), warningSigns: z.boolean(), response: z.boolean() }),
+  /** Marks the host gave for the offline round; null = not marked yet. */
+  r2: z.object({ marks: z.number().int().min(0).max(1000).nullable() }),
   r3: z.object({ picks: z.array(id) }),
   /** Correct actions written down, by situation id. */
   r4: z.record(z.string(), z.boolean()),
@@ -336,7 +279,7 @@ export type TeamScore = z.infer<typeof teamScoreSchema>;
 
 export const emptyTeamScore = (): TeamScore => ({
   r1: {},
-  r2: { card: null, identified: false, warningSigns: false, response: false },
+  r2: { marks: null },
   r3: { picks: [] },
   r4: {},
   tiebreakWin: false,
@@ -415,13 +358,8 @@ export type GameStateUpdate = z.infer<typeof gameStateUpdateSchema>;
 /** One scoring change for one team. The API applies it as a targeted update, so parallel taps never overwrite each other. */
 export const teamScoreUpdateSchema = z.discriminatedUnion('round', [
   z.object({ round: z.literal('r1'), challengeId: id, choice: z.enum(CARD_CHOICES).nullable() }),
-  z.object({
-    round: z.literal('r2'),
-    card: z.string().max(8).nullable().optional(),
-    identified: z.boolean().optional(),
-    warningSigns: z.boolean().optional(),
-    response: z.boolean().optional(),
-  }),
+  /** null clears the marks. The API refuses more than the round's maxMarks. */
+  z.object({ round: z.literal('r2'), marks: z.number().int().min(0).max(1000).nullable() }),
   z.object({ round: z.literal('r3'), picks: z.array(id).max(20) }),
   z.object({ round: z.literal('r4'), situationId: id, correct: z.boolean() }),
   /** Marking one team the winner clears the others. */
@@ -437,7 +375,7 @@ export type StageKind =
   | 'lobby'
   | 'round-intro'
   | 'r1-challenge'
-  | 'r2-team'
+  | 'r2-mime'
   | 'r3-auction'
   | 'r3-twist'
   | 'r3-reveal'
@@ -454,7 +392,6 @@ export interface Stage {
   /** Short label for the host's stage list, e.g. "Challenge 2". */
   label: string;
   challengeId?: string;
-  teamId?: string;
   /** Suggested countdown for this stage. */
   timerSec?: number;
   /** The host presses Reveal to put this stage's answer on the projector. */
@@ -473,7 +410,7 @@ export function buildStages(content: GameContent, teams: Pick<Team, 'id' | 'name
   );
   s.push({ id: 'r1-scores', kind: 'scores', round: 'r1', label: 'Scores after Round 1', revealable: false });
   s.push({ id: 'r2-intro', kind: 'round-intro', round: 'r2', label: `Round 2: ${content.r2.title}`, revealable: false });
-  teams.forEach((t) => s.push({ id: `r2-${t.id}`, kind: 'r2-team', round: 'r2', label: t.name, teamId: t.id, timerSec: content.r2.actSec, revealable: true }));
+  s.push({ id: 'r2-mime', kind: 'r2-mime', round: 'r2', label: 'Act it out', timerSec: content.r2.playSec, revealable: false });
   s.push({ id: 'r2-scores', kind: 'scores', round: 'r2', label: 'Scores after Round 2', revealable: false });
   s.push({ id: 'r3-intro', kind: 'round-intro', round: 'r3', label: `Round 3: ${content.r3.title}`, revealable: false });
   s.push({ id: 'r3-auction', kind: 'r3-auction', round: 'r3', label: 'The auction', timerSec: content.r3.planSec, revealable: false });
@@ -502,10 +439,7 @@ export function hasAnyScore(scores: Record<string, TeamScore>): boolean {
   return Object.values(scores).some(
     (s) =>
       Object.values(s.r1).some((v) => v != null) ||
-      s.r2.card != null ||
-      s.r2.identified ||
-      s.r2.warningSigns ||
-      s.r2.response ||
+      s.r2?.marks != null ||
       s.r3.picks.length > 0 ||
       Object.values(s.r4).some((v) => v === true) ||
       s.tiebreakWin,
@@ -559,7 +493,7 @@ function bestAuction(content: GameContent): number {
 
 export function roundMax(content: GameContent): TeamTotals {
   const r1 = content.r1.challenges.length * content.r1.pointsEach;
-  const r2 = content.r2.rubric.reduce((n, r) => n + r.points, 0);
+  const r2 = content.r2.maxMarks;
   const r3 = bestAuction(content);
   const r4 = content.r4.situations.length * content.r4.pointsEach;
   return { r1, r2, r3, r4, total: r1 + r2 + r3 + r4 };
@@ -581,10 +515,9 @@ export function roundRules(content: GameContent, round: RoundId): string[] {
   switch (round) {
     case 'r1':
       return [...base, `${content.r1.pointsEach} points for each correct answer`];
-    case 'r2': {
-      const pts = [...new Set(content.r2.rubric.map((r) => r.points))];
-      return [...base, pts.length === 1 ? `${pts[0]} points each: the scenario, the warning signs, the right response` : `Up to ${roundMax(content).r2} points`];
-    }
+    case 'r2':
+      // The subtitle already states the points; the slide shows only the round's own text.
+      return base;
     case 'r3':
       return [`${content.r3.budget} Cyber Coins per team`, ...base];
     case 'r4':
@@ -605,16 +538,6 @@ export const r1ChallengeSchema = z.object({
   situation: filled(240, 'the situation'),
   answer: z.enum(CARD_CHOICES),
   explanation: z.string().trim().max(300),
-});
-
-export const r2CardSchema = z.object({
-  /** The letter on the printed card. */
-  id: z.string().regex(/^[A-Z]$/, 'Cards are lettered A to Z'),
-  title: filled(80, 'a card title'),
-  brief: filled(400, 'what the volunteer acts out'),
-  teamTask: z.string().trim().max(200),
-  warningSigns: z.array(filled(140, 'the warning sign')).min(1, 'Add at least one warning sign').max(5),
-  safeResponse: z.array(filled(140, 'the safe response')).min(1, 'Add at least one safe response').max(5),
 });
 
 export const r3ActionSchema = z.object({
@@ -639,7 +562,8 @@ export const gameQuestionsSchema = z
       pointsEach: z.number().int().min(1).max(50),
       challenges: z.array(r1ChallengeSchema).min(1, 'Round 1 needs at least one situation').max(GAME_MAX_QUESTIONS),
     }),
-    r2: z.object({ cards: z.array(r2CardSchema).min(1, 'Round 2 needs at least one card').max(GAME_MAX_QUESTIONS) }),
+    /** Round 2 is played offline: only the most marks a team can get is set here. */
+    r2: z.object({ maxMarks: z.number().int().min(1).max(100) }),
     r3: z.object({
       budget: z.number().int().min(1).max(1000),
       actions: z.array(r3ActionSchema).min(2, 'Round 3 needs at least two actions').max(GAME_MAX_QUESTIONS),
@@ -658,7 +582,6 @@ export const gameQuestionsSchema = z
   .superRefine((q, ctx) => {
     const lists: [string[], { id: string }[]][] = [
       [['r1', 'challenges'], q.r1.challenges],
-      [['r2', 'cards'], q.r2.cards],
       [['r3', 'actions'], q.r3.actions],
       [['r4', 'situations'], q.r4.situations],
     ];
@@ -673,7 +596,7 @@ export type GameQuestions = z.infer<typeof gameQuestionsSchema>;
 export function questionsOf(c: GameContent): GameQuestions {
   return structuredClone({
     r1: { pointsEach: c.r1.pointsEach, challenges: c.r1.challenges },
-    r2: { cards: c.r2.cards },
+    r2: { maxMarks: c.r2.maxMarks },
     r3: { budget: c.r3.budget, actions: c.r3.actions, lesson: c.r3.lesson },
     r4: { pointsEach: c.r4.pointsEach, situations: c.r4.situations },
     tiebreak: { question: c.tiebreak.question, expected: c.tiebreak.expected },
@@ -700,7 +623,7 @@ export function withQuestions(c: GameContent, q: GameQuestions): GameContent {
   const next: GameContent = {
     ...c,
     r1: { ...c.r1, pointsEach: q.r1.pointsEach, challenges: q.r1.challenges },
-    r2: { ...c.r2, cards: q.r2.cards },
+    r2: { ...c.r2, maxMarks: q.r2.maxMarks },
     r3: { ...c.r3, budget: q.r3.budget, actions: q.r3.actions, lesson: q.r3.lesson },
     r4: { ...c.r4, pointsEach: q.r4.pointsEach, situations: q.r4.situations },
     tiebreak: { ...c.tiebreak, question: q.tiebreak.question, expected: q.tiebreak.expected },
@@ -712,14 +635,6 @@ export function withQuestions(c: GameContent, q: GameQuestions): GameContent {
   return next;
 }
 
-/** The Round 2 card a team acts out: the one the host chose, else the card for its position. */
-export function r2CardFor(content: GameContent, teams: Pick<Team, 'id'>[], teamId: string, score: TeamScore | undefined): R2Card {
-  const chosen = score?.r2.card ? content.r2.cards.find((c) => c.id === score.r2.card) : undefined;
-  if (chosen) return chosen;
-  const index = Math.max(0, teams.findIndex((t) => t.id === teamId));
-  return content.r2.cards[index % content.r2.cards.length]!;
-}
-
 /** Cyber Coins spent on a set of picks (unknown ids cost nothing). */
 export function auctionSpend(content: GameContent, picks: readonly string[]): number {
   return [...new Set(picks)].reduce((n, p) => n + (content.r3.actions.find((a) => a.id === p)?.cost ?? 0), 0);
@@ -729,7 +644,7 @@ export function scoreTeam(content: GameContent, score: TeamScore | undefined): T
   if (!score) return { r1: 0, r2: 0, r3: 0, r4: 0, total: 0 };
   const max = roundMax(content);
   const r1 = content.r1.challenges.filter((c) => score.r1[c.id] === c.answer).length * content.r1.pointsEach;
-  const r2 = content.r2.rubric.reduce((n, r) => n + (score.r2[r.id] ? r.points : 0), 0);
+  const r2 = Math.min(Math.max(score.r2?.marks ?? 0, 0), max.r2);
   const picked = new Set(score.r3.picks);
   const raw3 = content.r3.actions.reduce((n, a) => n + (picked.has(a.id) ? a.points : 0), 0);
   const r3 = Math.min(Math.max(raw3, 0), max.r3);
@@ -804,8 +719,7 @@ export function visibleScores(
     const s = scores[t.id] ?? emptyTeamScore();
     const v = emptyTeamScore();
     for (const c of content.r1.challenges) if (shown(`r1-${c.id}`)) v.r1[c.id] = s.r1[c.id] ?? null;
-    if (shown(`r2-${t.id}`)) v.r2 = { ...s.r2 };
-    else v.r2.card = s.r2.card;
+    if (reached('r2-scores')) v.r2 = { ...s.r2 };
     if (reached('r3-reveal')) v.r3 = { picks: [...s.r3.picks] };
     if (reached('r4-reveal')) v.r4 = { ...s.r4 };
     v.tiebreakWin = shown('tiebreak') && s.tiebreakWin;
@@ -869,14 +783,7 @@ export type DisplayView =
       /** Card each team held up, by team id. */
       teamAnswers?: Record<string, CardChoice | null>;
     }
-  | {
-      kind: 'r2-team';
-      teamId: string;
-      number: number;
-      total: number;
-      safetyNote: string;
-      card?: Pick<R2Card, 'id' | 'title' | 'warningSigns' | 'safeResponse'>;
-    }
+  | { kind: 'r2-mime'; headline: string; slogan: string }
   | { kind: 'r3-auction'; scenario: { title: string; text: string }; budget: number; actions: Pick<R3Action, 'id' | 'label' | 'cost'>[] }
   | { kind: 'r3-twist'; headline: string; text: string; question: string }
   | { kind: 'r3-reveal'; actions: R3Action[]; picks: Record<string, string[]>; lesson: string }
@@ -906,7 +813,7 @@ export interface PublicGameDisplay {
 
 /**
  * The projector payload for a game. The only place that decides what the room may see:
- * answers appear once revealed, Round 2 card text never before its reveal, scores via visibleScores.
+ * answers appear once revealed, Round 2 marks from Scores after Round 2, scores via visibleScores.
  */
 export function buildPublicDisplay(
   game: { code: string; title: string; content: GameContent; teams: Team[]; scores: Record<string, TeamScore>; state: GameState },
@@ -951,19 +858,9 @@ export function buildPublicDisplay(
       };
       break;
     }
-    case 'r2-team': {
-      const i = teams.findIndex((t) => t.id === stage.teamId);
-      const card = r2CardFor(c, teams, stage.teamId!, game.scores[stage.teamId!]);
-      view = {
-        kind: 'r2-team',
-        teamId: stage.teamId!,
-        number: i + 1,
-        total: teams.length,
-        safetyNote: c.r2.safetyNote,
-        ...(open ? { card: { id: card.id, title: card.title, warningSigns: card.warningSigns, safeResponse: card.safeResponse } } : {}),
-      };
+    case 'r2-mime':
+      view = { kind: 'r2-mime', headline: c.r2.banner.headline, slogan: c.r2.banner.slogan };
       break;
-    }
     case 'r3-auction':
       view = { kind: 'r3-auction', scenario: c.r3.scenario, budget: c.r3.budget, actions: c.r3.actions.map(({ id, label, cost }) => ({ id, label, cost })) };
       break;

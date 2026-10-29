@@ -301,7 +301,7 @@ export function IconAction({
   );
 }
 
-/** A short list of one-line answers (warning signs, safe responses, expected answers), min to max lines. */
+/** A short list of one-line answers (e.g. the tie-breaker's expected answers), min to max lines. */
 export function LinesField({
   path,
   legend,
@@ -319,7 +319,7 @@ export function LinesField({
   path: string;
   legend: string;
   srSuffix?: string;
-  /** "Warning sign": each box is "Warning sign 2 on card A". */
+  /** "Expected answer": each box is "Expected answer 2 for the tie-breaker". */
   itemLabel: string;
   values: string[];
   onChange: (values: string[]) => void;

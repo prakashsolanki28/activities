@@ -1,5 +1,5 @@
 import { Trophy } from 'lucide-react';
-import { ROUND_IDS, answersVisible, champion, needsTiebreak, r2CardFor, roundRules, roundSubtitle, type Team } from '@hrrl/shared';
+import { ROUND_IDS, answersVisible, champion, needsTiebreak, roundRules, roundSubtitle, type Team } from '@hrrl/shared';
 import { MessageBar } from '~/components/admin/ui';
 import { useHost } from './host-context';
 import { BulletList, CardChip, HostSection, RevealNote, RoomSection, SubHeading, TeamName } from './bits';
@@ -38,7 +38,6 @@ export function RoomView() {
   const { game, stage, ranked, tied } = useHost();
   const c = game.content;
   const open = answersVisible(stage, game.state.revealed);
-  const teamById = (id: string | undefined) => game.teams.find((t) => t.id === id);
 
   let body: React.ReactNode;
   switch (stage.kind) {
@@ -98,41 +97,17 @@ export function RoomView() {
       );
       break;
     }
-    case 'r2-team': {
-      const team = teamById(stage.teamId);
-      const n = game.teams.findIndex((t) => t.id === stage.teamId) + 1;
-      const card = team ? r2CardFor(c, game.teams, team.id, game.scores[team.id]) : null;
+    case 'r2-mime':
       body = (
         <>
-          <Eyebrow>
-            Team {n} of {game.teams.length}
-          </Eyebrow>
-          {team ? <Big className="text-xl">{team.emoji ? `${team.emoji} ` : ''}{team.name}</Big> : <Waiting>This team is not in the game any more.</Waiting>}
-          <p className="text-sm leading-5 text-ink-2">One volunteer acts out the secret card. Their team guesses the scenario and explains the safest response.</p>
-          <p className="text-[13px] leading-5 text-ink-3">{c.r2.safetyNote}</p>
-          {card && open ? (
-            <div className="grid gap-3 border-t border-line pt-3">
-              <p className="text-[15px] font-semibold text-ink">
-                Card {card.id}: {card.title}
-              </p>
-              <div className="grid gap-3 sm:grid-cols-2">
-                <div>
-                  <SubHeading>Warning signs</SubHeading>
-                  <BulletList className="mt-1.5" items={card.warningSigns} />
-                </div>
-                <div>
-                  <SubHeading>Safe response</SubHeading>
-                  <BulletList className="mt-1.5" items={card.safeResponse} />
-                </div>
-              </div>
-            </div>
-          ) : (
-            <Waiting>The card stays secret until you press Reveal.</Waiting>
-          )}
+          <div>
+            <Big className="text-xl">{c.r2.banner.headline}</Big>
+            <p className="mt-1 text-[15px] leading-6 text-ink-2">{c.r2.banner.slogan}</p>
+          </div>
+          <Waiting>Marks appear on the projector at Scores after Round 2.</Waiting>
         </>
       );
       break;
-    }
     case 'r3-auction':
       body = (
         <>
@@ -269,6 +244,8 @@ export function RoomView() {
       );
       break;
     }
+    default:
+      stage.kind satisfies never;
   }
 
   return <RoomSection>{body}</RoomSection>;
@@ -300,7 +277,6 @@ export function HostView() {
               <BulletList className="mt-1.5" items={notes} />
             </div>
           ) : null}
-          {stage.round === 'r2' ? <Note title="Safety">{c.r2.safetyNote}</Note> : null}
           {stage.round === 'r3' ? <Note title="Say to the room">{c.r3.facilitatorNote}</Note> : null}
         </>
       );
@@ -325,39 +301,9 @@ export function HostView() {
       );
       break;
     }
-    case 'r2-team': {
-      const team = game.teams.find((t) => t.id === stage.teamId);
-      if (!team) break;
-      const card = r2CardFor(c, game.teams, team.id, game.scores[team.id]);
-      body = (
-        <>
-          <div className="grid gap-2">
-            <div className="flex flex-wrap items-center justify-between gap-2">
-              <span className="text-[13px] font-semibold text-ink">
-                Card {card.id}: {card.title}
-              </span>
-              <RevealNote shown={open} />
-            </div>
-            <p className="text-sm leading-5 text-ink-2">
-              <span className="font-semibold text-ink">The team’s task: </span>
-              {card.teamTask}
-            </p>
-            <div className="grid gap-3 sm:grid-cols-2">
-              <div>
-                <SubHeading>Warning signs to listen for</SubHeading>
-                <BulletList className="mt-1.5" items={card.warningSigns} />
-              </div>
-              <div>
-                <SubHeading>Safe response</SubHeading>
-                <BulletList className="mt-1.5" items={card.safeResponse} />
-              </div>
-            </div>
-          </div>
-          <NotesBlock items={notes} />
-        </>
-      );
+    case 'r2-mime':
+      body = notes.length ? <NotesBlock items={notes} /> : null;
       break;
-    }
     case 'r3-auction':
     case 'r3-twist':
     case 'r3-reveal':
@@ -431,6 +377,8 @@ export function HostView() {
       break;
     case 'scores':
       break;
+    default:
+      stage.kind satisfies never;
   }
 
   if (!body) return null;

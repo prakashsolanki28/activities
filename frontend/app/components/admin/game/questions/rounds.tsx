@@ -90,127 +90,39 @@ export function Round1() {
 }
 
 /* ------------------------------------------------------------------ */
-/* Round 2: secret cards a volunteer acts out                           */
+/* Round 2: played offline; only the most marks a team can get          */
 /* ------------------------------------------------------------------ */
 
 export function Round2() {
-  const { q, r2Keys, content, teams, edit } = useEditor();
-  const cards = q.r2.cards;
+  const { q, content, edit } = useEditor();
   const max = maxOf(content, q);
   return (
     <RoundSection
       id="round-2"
-      eyebrow="Round 2 · Secret cards"
+      eyebrow="Round 2 · Offline"
       srTitlePrefix="Round 2:"
       title={content.r2.title}
-      summary={`${count(cards.length, 'card')} · up to ${num(max.r2)} points per team`}
+      summary={`Host gives marks · up to ${num(max.r2)} points per team`}
       header={
         <>
-          <p className="text-sm leading-5 text-ink-2">By default team 1 gets card A, team 2 card B, and so on; the host can switch cards during the game.</p>
-          {cards.length < teams.length ? (
-            <MessageBar intent="info">
-              This game has {teams.length} teams and {count(cards.length, 'card')}, so team {cards.length + 1} gets card A again unless the host switches it.
-            </MessageBar>
-          ) : null}
+          <NumberField
+            path="r2.maxMarks"
+            label="Maximum marks per team"
+            min={1}
+            max={100}
+            value={q.r2.maxMarks}
+            onChange={(v) =>
+              edit((d) => {
+                d.r2.maxMarks = v;
+              })
+            }
+          />
+          <p className="text-sm leading-5 text-ink-2">
+            This round has no questions to set up. Teams act out cyber threats without words, and the host types each team’s marks during the game.
+          </p>
         </>
       }
-    >
-      <ItemList list="r2">
-        {cards.map((c, i) => {
-          const on = `card ${c.id}`;
-          return (
-            <ItemCard key={r2Keys[i] ?? c.id} list="r2" index={i} total={cards.length}>
-              {() => (
-                <>
-                  <TextField
-                    path={`r2.cards.${i}.title`}
-                    label="Title"
-                    srSuffix={`of ${on}`}
-                    focusKey={r2Keys[i]}
-                    maxLength={80}
-                    placeholder="e.g. The Fake IT Call"
-                    hint="Shown on the projector after you press Reveal."
-                    value={c.title}
-                    onChange={(v) =>
-                      edit((d) => {
-                        d.r2.cards[i].title = v;
-                      })
-                    }
-                  />
-                  <TextField
-                    multiline
-                    path={`r2.cards.${i}.brief`}
-                    label="What the volunteer acts out"
-                    srSuffix={`on ${on}`}
-                    maxLength={400}
-                    placeholder="e.g. You are pretending to be someone from IT…"
-                    hint="Printed on the volunteer’s card and shown on your screen. The room never sees it."
-                    value={c.brief}
-                    onChange={(v) =>
-                      edit((d) => {
-                        d.r2.cards[i].brief = v;
-                      })
-                    }
-                  />
-                  <TextField
-                    multiline
-                    optional
-                    path={`r2.cards.${i}.teamTask`}
-                    label="Team task"
-                    srSuffix={`for ${on}`}
-                    maxLength={200}
-                    placeholder="e.g. Spot the warning signs and explain the correct response."
-                    value={c.teamTask}
-                    onChange={(v) =>
-                      edit((d) => {
-                        d.r2.cards[i].teamTask = v;
-                      })
-                    }
-                  />
-                  <LinesField
-                    path={`r2.cards.${i}.warningSigns`}
-                    legend="Warning signs"
-                    srSuffix={`on ${on}`}
-                    itemLabel="Warning sign"
-                    hint="Shown on the projector after you press Reveal."
-                    min={1}
-                    max={5}
-                    maxLength={140}
-                    addLabel="Add a warning sign"
-                    minHint="Keep at least one warning sign"
-                    values={c.warningSigns}
-                    onChange={(v) =>
-                      edit((d) => {
-                        d.r2.cards[i].warningSigns = v;
-                      })
-                    }
-                  />
-                  <LinesField
-                    path={`r2.cards.${i}.safeResponse`}
-                    legend="Safe responses"
-                    srSuffix={`on ${on}`}
-                    itemLabel="Safe response"
-                    min={1}
-                    max={5}
-                    maxLength={140}
-                    addLabel="Add a safe response"
-                    minHint="Keep at least one safe response"
-                    values={c.safeResponse}
-                    onChange={(v) =>
-                      edit((d) => {
-                        d.r2.cards[i].safeResponse = v;
-                      })
-                    }
-                  />
-                </>
-              )}
-            </ItemCard>
-          );
-        })}
-      </ItemList>
-      <ListIssue list="r2" />
-      <AddItem list="r2" label="Add card" />
-    </RoundSection>
+    />
   );
 }
 

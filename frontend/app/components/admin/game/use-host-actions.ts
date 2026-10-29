@@ -78,15 +78,7 @@ export function applyScore(g: AdminGame, teamId: string, u: TeamScoreUpdate): Ad
       next = { ...cur, r1: { ...cur.r1, [u.challengeId]: u.choice } };
       break;
     case 'r2':
-      next = {
-        ...cur,
-        r2: {
-          card: u.card !== undefined ? u.card : cur.r2.card,
-          identified: u.identified ?? cur.r2.identified,
-          warningSigns: u.warningSigns ?? cur.r2.warningSigns,
-          response: u.response ?? cur.r2.response,
-        },
-      };
+      next = { ...cur, r2: { marks: u.marks } };
       break;
     case 'r3':
       next = { ...cur, r3: { picks: [...u.picks] } };

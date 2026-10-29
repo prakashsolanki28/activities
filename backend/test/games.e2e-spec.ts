@@ -9,6 +9,7 @@ import { CYBER_SURVIVOR, questionsFingerprint, questionsOf, roundMax } from '@hr
 import { AppModule } from '../src/app.module';
 import { configureApp } from '../src/setup';
 import { Game } from '../src/games/game.schema';
+import { GamesService } from '../src/games/games.service';
 import { AuthService } from '../src/auth/auth.service';
 
 let mongo: MongoMemoryServer;
@@ -80,15 +81,65 @@ describe('games API', () => {
     expect(shown.body.scoreboard.find((r: { teamId: string }) => r.teamId === 'firewall').totals.total).toBe(5);
   });
 
-  it('keeps the r2 card off the projector until revealed', async () => {
+  it('validates Round 2 marks and keeps them off the projector until the scores stage', async () => {
     const g = await createGame();
-    const card = CYBER_SURVIVOR.r2.cards[0]!;
-    await setState(g._id, { stageId: 'r2-firewall' }).expect(200);
-    const hidden = JSON.stringify((await display(g.code).expect(200)).body);
-    expect(hidden).not.toContain(card.title);
-    expect(hidden).not.toContain(card.brief);
-    await setState(g._id, { revealed: true }).expect(200);
-    expect(JSON.stringify((await display(g.code).expect(200)).body)).toContain(card.title);
+    const over = await setScore(g._id, 'firewall', { round: 'r2', marks: CYBER_SURVIVOR.r2.maxMarks + 1 }).expect(400);
+    expect(over.body.code).toBe('too_many_marks');
+    await setScore(g._id, 'firewall', { round: 'r2', marks: 30 }).expect(200);
+    await setScore(g._id, 'ninjas', { round: 'r2', marks: null }).expect(200);
+    const total = async (stageId: string, team: string) => {
+      await setState(g._id, { stageId }).expect(200);
+      const pub = await display(g.code).expect(200);
+      return pub.body.scoreboard.find((r: { teamId: string }) => r.teamId === team).totals.total;
+    };
+    const adminTotal = async () => (await http().get(`/api/admin/games/${g._id}`).set('Cookie', cookie).expect(200)).body.totals.firewall.total;
+    expect(await total('r2-mime', 'firewall')).toBe(0);
+    expect(await adminTotal()).toBe(30);
+    expect(await total('r2-scores', 'firewall')).toBe(30);
+    expect(await adminTotal()).toBe(30);
+  });
+
+  it('converts a game saved with the old Human Firewall round', async () => {
+    const model = moduleRef.get<Model<Game>>(getModelToken(Game.name));
+    const fresh = await createGame();
+    const doc = await model.findById(fresh._id).lean<Record<string, any>>();
+    // A copy without the id and code, so it can be saved as a second game.
+    const rest: Record<string, any> = { ...doc! };
+    delete rest._id;
+    delete rest.code;
+    const oldContent = {
+      title: 'The Human Firewall',
+      subtitle: '10 minutes',
+      intro: 'old',
+      rules: [],
+      hostNotes: [],
+      actSec: 60,
+      rubric: [
+        { id: 'identified', label: 'Identified', points: 10 },
+        { id: 'warningSigns', label: 'Warning signs', points: 10 },
+        { id: 'response', label: 'Response', points: 10 },
+      ],
+      cards: [{ id: 'A', title: 'Phish', brief: 'b', warningSigns: ['x'] }],
+      safetyNote: 'n',
+    };
+    const old = await model.create({
+      ...rest,
+      code: 'OLDGM1',
+      content: { ...rest.content, r2: oldContent },
+      scores: { ...rest.scores, firewall: { ...rest.scores.firewall, r2: { card: 'A', identified: true, warningSigns: true, response: false } } },
+      state: { ...rest.state, stageId: 'r2-firewall' },
+    });
+    expect(await moduleRef.get(GamesService).migrateLegacyRound2()).toBeGreaterThanOrEqual(1);
+    const admin = (await http().get(`/api/admin/games/${String(old._id)}`).set('Cookie', cookie).expect(200)).body;
+    expect(admin.totals.firewall.r2).toBe(20);
+    expect(admin.state.stageId).toBe('r2-mime');
+    expect(admin.content.r2.title).toBe('CyberMime Challenge');
+    const raw = await model.findById(old._id).lean<Record<string, any>>();
+    expect(raw!.legacy.humanFirewall.content.cards).toHaveLength(1);
+    // A conversion is not an edit: the games list (sorted by updatedAt) keeps its order.
+    expect(new Date(raw!.updatedAt).getTime()).toBe(old.updatedAt.getTime());
+    // A second run changes nothing.
+    expect(await moduleRef.get(GamesService).migrateLegacyRound2()).toBe(0);
   });
 
   it('validates budget and stage ids', async () => {
@@ -120,7 +171,7 @@ describe('games API', () => {
     expect(res.body.code).toBe('game_started');
   });
 
-  it('blocks reordering teams after start (it moves Round 2 stages and default cards)', async () => {
+  it('blocks reordering teams after start (it changes the order on every screen mid-game)', async () => {
     const g = await createGame();
     await setState(g._id, { stageId: 'r1-intro' }).expect(200);
     const swapped = [g.teams[1], g.teams[0], ...g.teams.slice(2)];

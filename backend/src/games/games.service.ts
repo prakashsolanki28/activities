@@ -1,4 +1,4 @@
-import { HttpStatus, Injectable } from '@nestjs/common';
+import { HttpStatus, Injectable, Logger, type OnModuleInit } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import {
@@ -30,14 +30,42 @@ import {
 import { Game } from './game.schema';
 import { AppError } from '../common/errors';
 import { humanCode, SAFE_ID } from '../common/ids';
+import { upgradeLegacyRound2 } from './legacy-round2';
 
 type GameLean = Game & { _id: Types.ObjectId };
 
 const iso = (d: Date | null | undefined) => (d ? new Date(d).toISOString() : new Date(0).toISOString());
 
 @Injectable()
-export class GamesService {
+export class GamesService implements OnModuleInit {
+  private readonly log = new Logger(GamesService.name);
+
   constructor(@InjectModel(Game.name) private readonly games: Model<Game>) {}
+
+  async onModuleInit() {
+    await this.migrateLegacyRound2();
+  }
+
+  /** Convert games saved with the old Human Firewall Round 2 to the CyberMime Round 2. Safe to run again and from several instances. */
+  async migrateLegacyRound2(): Promise<number> {
+    const old = await this.games.find({ 'content.r2.cards': { $exists: true } }).lean<GameLean[]>();
+    let n = 0;
+    for (const g of old) {
+      // One unreadable game must not stop the API from starting.
+      try {
+        const $set = upgradeLegacyRound2(g);
+        if (!$set) continue;
+        // Same filter as the find, so a second instance converting the same game changes nothing.
+        // No timestamps: the games list is sorted by updatedAt, and a conversion is not an edit.
+        const res = await this.games.updateOne({ _id: g._id, 'content.r2.cards': { $exists: true } }, { $set }, { timestamps: false });
+        n += res.modifiedCount;
+      } catch (e) {
+        this.log.error(`Could not convert game ${String(g._id)} to the CyberMime Round 2: ${(e as Error).message}`);
+      }
+    }
+    if (n > 0) this.log.log(`Converted ${n} game(s) to the CyberMime Round 2`);
+    return n;
+  }
 
   private async findLean(id: string): Promise<GameLean> {
     const doc = Types.ObjectId.isValid(id) ? await this.games.findById(id).lean<GameLean>() : null;
@@ -123,7 +151,7 @@ export class GamesService {
     if (input.teams) {
       const before = new Set(g.teams.map((t) => t.id));
       const after = new Set(input.teams.map((t) => t.id));
-      // Order matters too: it sets the Round 2 stage order and each team's default card.
+      // Order matters too: it sets the order teams are listed in on the projector, host console and print sheets.
       const changed = g.teams.length !== input.teams.length || g.teams.some((t, i) => t.id !== input.teams![i]!.id);
       if (changed && gameStarted(g.state, this.fullScores(g))) {
         throw new AppError(HttpStatus.CONFLICT, 'game_started', 'Teams can only be added, removed or reordered before the game starts.');
@@ -206,14 +234,10 @@ export class GamesService {
         if (!c.r1.challenges.some((x) => x.id === input.challengeId)) throw bad('unknown_challenge', 'That challenge does not exist.');
         ops.push({ $set: { [`${p}.r1.${input.challengeId}`]: input.choice } });
         break;
-      case 'r2': {
-        if (input.card != null && !c.r2.cards.some((x) => x.id === input.card)) throw bad('unknown_card', 'That card does not exist.');
-        const set: Record<string, unknown> = {};
-        if (input.card !== undefined) set[`${p}.r2.card`] = input.card;
-        for (const k of ['identified', 'warningSigns', 'response'] as const) if (input[k] !== undefined) set[`${p}.r2.${k}`] = input[k];
-        if (Object.keys(set).length) ops.push({ $set: set });
+      case 'r2':
+        if (input.marks != null && input.marks > c.r2.maxMarks) throw bad('too_many_marks', `Round 2 is out of ${c.r2.maxMarks} marks.`);
+        ops.push({ $set: { [`${p}.r2`]: { marks: input.marks } } });
         break;
-      }
       case 'r3': {
         const picks = [...new Set(input.picks)];
         if (picks.some((x) => !c.r3.actions.some((a) => a.id === x))) throw bad('unknown_action', 'That action does not exist.');

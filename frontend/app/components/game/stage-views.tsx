@@ -52,8 +52,8 @@ export function StageView({ display }: { display: PublicGameDisplay }) {
       return <RoundIntro view={v} />;
     case 'r1-challenge':
       return <R1 view={v} teams={teams} />;
-    case 'r2-team':
-      return <R2 view={v} team={teams.get(v.teamId)} />;
+    case 'r2-mime':
+      return <R2Mime view={v} />;
     case 'r3-auction':
       return <R3Auction view={v} />;
     case 'r3-twist':
@@ -107,13 +107,16 @@ function RoundIntro({ view }: { view: V<'round-intro'> }) {
         <p className="mt-[1.4vh] text-[clamp(1.1rem,1.9vw,2.2rem)] font-semibold text-shell-muted">{view.subtitle}</p>
       </div>
       <p className="max-w-[48ch] text-[clamp(1.2rem,2.1vw,2.5rem)] leading-snug">{view.intro}</p>
-      <ul className="flex flex-wrap gap-[1vw]">
-        {view.rules.map((r) => (
-          <li key={r} className="rounded-xs bg-marker px-[1.4vw] py-[1.2vh] text-[clamp(1rem,1.8vw,2.1rem)] font-bold text-marker-ink">
-            {r}
-          </li>
-        ))}
-      </ul>
+      {/* Round 2 has no rules: its slide shows only the round's own text. */}
+      {view.rules.length ? (
+        <ul className="flex flex-wrap gap-[1vw]">
+          {view.rules.map((r) => (
+            <li key={r} className="rounded-xs bg-marker px-[1.4vw] py-[1.2vh] text-[clamp(1rem,1.8vw,2.1rem)] font-bold text-marker-ink">
+              {r}
+            </li>
+          ))}
+        </ul>
+      ) : null}
     </div>
   );
 }
@@ -185,61 +188,13 @@ function R1({ view, teams }: { view: V<'r1-challenge'>; teams: Teams }) {
   );
 }
 
-function R2({ view, team }: { view: V<'r2-team'>; team?: Team }) {
-  const card = view.card;
-  const titleStyle = card ? sizeStyle(fitVw([card.title.length], 90, 15, 5.4, 0), 1.2) : undefined;
-  const listRows = card ? Math.max(card.warningSigns.length, card.safeResponse.length) : 0;
-  const listLen = card ? Math.max(maxLen(card.warningSigns), maxLen(card.safeResponse)) : 0;
-  const listStyle = card ? sizeStyle(fitVw(Array(listRows).fill(listLen), 38, 36, 1.7, 1.3), 0.6) : undefined;
+function R2Mime({ view }: { view: V<'r2-mime'> }) {
   return (
-    <div className="flex h-full min-h-0 flex-col justify-between gap-[2vh]">
-      {card ? (
-        <div className="flex min-h-0 flex-col gap-[2vh]" data-testid="r2-card">
-          <div>
-            <p className={EYEBROW}>
-              {team?.emoji} {team?.name} · The scenario
-            </p>
-            <h2 className="mt-[1vh] leading-[1.02] font-extrabold tracking-[-0.02em]" style={titleStyle}>
-              {card.title}
-            </h2>
-          </div>
-          <div className="grid grid-cols-2 gap-[2vw]" style={listStyle}>
-            <ListBlock title="Warning signs" items={card.warningSigns} tone="danger" />
-            <ListBlock title="Safe response" items={card.safeResponse} tone="safe" />
-          </div>
-        </div>
-      ) : (
-        <div className="flex flex-1 flex-col justify-center gap-[3vh]">
-          <p className={EYEBROW}>
-            Team {view.number} of {view.total}
-          </p>
-          <h2 className="text-[clamp(3rem,7.5vw,8.5rem)] leading-none font-extrabold tracking-[-0.025em]">
-            <span className="mr-[0.25em]">{team?.emoji}</span>
-            {team?.name}
-          </h2>
-          <p className="text-[clamp(1.4rem,2.8vw,3.3rem)] font-bold">Your volunteer is acting: guess the scenario!</p>
-        </div>
-      )}
-      <p className="max-w-[80ch] text-[clamp(0.85rem,1.15vw,1.3rem)] text-shell-muted">{view.safetyNote}</p>
+    <div className="flex h-full flex-col justify-center gap-[4vh]" data-testid="r2-mime">
+      <p className={EYEBROW}>Round 2</p>
+      <h1 className="text-[clamp(3.2rem,8.4vw,9.5rem)] leading-[0.98] font-extrabold tracking-[-0.03em] uppercase">{view.headline}</h1>
+      <p className="max-w-[24ch] text-[clamp(1.6rem,3.6vw,4.2rem)] leading-tight font-bold text-shell-muted">{view.slogan}</p>
     </div>
-  );
-}
-
-function ListBlock({ title, items, tone }: { title: string; items: string[]; tone: 'safe' | 'danger' }) {
-  return (
-    <section className={cn('min-w-0 rounded-xs bg-graphite-2 p-[0.9em] ring-1 ring-graphite-3 border-t-[0.8vh]', tone === 'safe' ? 'border-ledger' : 'border-evidence')}>
-      <h3 className="text-[1em] font-extrabold tracking-[0.06em] uppercase">{title}</h3>
-      <ul className="mt-[0.5em] flex flex-col gap-[0.5em] leading-snug">
-        {items.map((s) => (
-          <li key={s} className="flex gap-[0.5em]">
-            <span aria-hidden className={cn('font-extrabold', tone === 'safe' ? 'text-[#4cd08b]' : 'text-[#ff7b6b]')}>
-              {tone === 'safe' ? '✓' : '⚠'}
-            </span>
-            {s}
-          </li>
-        ))}
-      </ul>
-    </section>
   );
 }
 

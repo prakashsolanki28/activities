@@ -20,11 +20,11 @@ Cybersecurity awareness activities for the HRRL CISO Office. Admins build quizze
   - printable certificates with a verification code;
   - Excel/CSV export;
   - a per-question summary showing which answers the workforce picks.
-- **Live team game: Cyber Survivor.** A facilitator-led game for a room with a projector: 2–6 teams, four rounds (Trust Your Instincts, The Human Firewall, The Cyber Auction, The Final Survival Challenge), a tie-breaker and a champion. Teams answer on printed cards and the host records their answers.
+- **Live team game: Cyber Survivor.** A facilitator-led game for a room with a projector: 2–6 teams, four rounds (Trust Your Instincts, the CyberMime Challenge, The Cyber Auction, The Final Survival Challenge), a tie-breaker and a champion. Teams answer on printed cards and the host records their answers; Round 2 is played offline (no words, just actions) and the host types each team's marks.
   - **Team games** on the admin home: create a game, edit team names, open the **Host console** (stages, Reveal, countdown, scoring, keyboard shortcuts).
   - **Projector display** at `/g/<code>`: big-screen scenario, countdown with sound, live scoreboard. Answers appear only after the host presses Reveal; the points that depend on them appear after Reveal, or once the host moves past that stage.
-  - **Print** sheets: SAFE / DANGER / VERIFY FIRST cards per team, the Round 2 secret cards, a scoring sheet and a champion certificate.
-  - **Question editor** per game (before it starts): add, edit, reorder and delete questions in every round, and change points, the auction budget and the tie-breaker. The standard set has 6 questions per round (7 auction actions), worth up to 130 points; scoreboards always show the real maximum.
+  - **Print** sheets: SAFE / DANGER / VERIFY FIRST cards per team, a scoring sheet (with a Round 2 marks table) and a champion certificate.
+  - **Question editor** per game (before it starts): add, edit, reorder and delete the questions in Rounds 1, 3 and 4, and change points, the Round 2 maximum marks, the auction budget and the tie-breaker. The standard set has 6 situations in Rounds 1 and 4, 7 auction actions and 30 marks for Round 2, worth up to 130 points; scoreboards always show the real maximum.
   - Games live in their own `games` collection; the design and build phases are in `NEW_ACTIVITY.md`.
 
 ## Run it with Docker

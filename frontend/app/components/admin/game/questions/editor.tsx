@@ -21,7 +21,7 @@ import { gameApi, gameKeys } from '~/lib/game-api';
 import { newId } from '~/lib/ids';
 import { GameStatusBadge } from '../bits';
 import { EditorContext, type QuestionsEditor as EditorApi } from './editor-context';
-import { LIST_MIN, ROUND_NO, collectIssues, focusSoon, itemName, listOf, maxOf, newItem, nounFor, num, reletter, stateFor, type EditorState, type Issue, type ListName } from './model';
+import { LIST_MIN, ROUND_NO, collectIssues, focusSoon, itemName, listOf, maxOf, newItem, nounFor, num, stateFor, type EditorState, type Issue, type ListName } from './model';
 import { Round1, Round2, Round3, Round4, Tiebreak } from './rounds';
 
 const editorRoot = '[data-q-editor]';
@@ -45,13 +45,17 @@ function clearStash(id: string) {
   }
 }
 
-function readStash(id: string): GameQuestions | null {
+/** `savedR2`: used for a draft kept before Round 2 changed shape (it had cards and no maxMarks), so its other rounds are not lost. */
+function readStash(id: string, savedR2: GameQuestions['r2']): GameQuestions | null {
   try {
     const raw = sessionStorage.getItem(stashKey(id));
     if (!raw) return null;
     const q = JSON.parse(raw) as GameQuestions;
-    if (!Array.isArray(q?.r1?.challenges) || !Array.isArray(q?.r2?.cards) || !Array.isArray(q?.r3?.actions) || !Array.isArray(q?.r4?.situations) || !q?.tiebreak) return null;
-    return { ...q, r3: { ...q.r3, lesson: q.r3.lesson ?? '' } };
+    if (!Array.isArray(q?.r1?.challenges) || !Array.isArray(q?.r3?.actions) || !Array.isArray(q?.r4?.situations) || !q?.tiebreak) return null;
+    // An empty marks box was kept as null (JSON has no NaN).
+    const marks: unknown = q.r2?.maxMarks;
+    const maxMarks = typeof marks === 'number' ? marks : marks === null ? Number.NaN : savedR2.maxMarks;
+    return { ...q, r2: { maxMarks }, r3: { ...q.r3, lesson: q.r3.lesson ?? '' } };
   } catch {
     return null;
   }
@@ -77,7 +81,7 @@ export function QuestionsEditor({ game, refreshError }: { game: AdminGame; refre
   const [showAll, setShowAll] = useState(false);
   // An earlier unsaved draft found in storage, offered back once the editor is editable and clean.
   const [stash, setStash] = useState<GameQuestions | null>(() => {
-    const s = readStash(game._id);
+    const s = readStash(game._id, questionsOf(game.content).r2);
     return s && JSON.stringify(s) !== JSON.stringify(questionsOf(game.content)) ? s : null;
   });
   // Someone else saved while this draft was open.
@@ -127,13 +131,13 @@ export function QuestionsEditor({ game, refreshError }: { game: AdminGame; refre
       basedFp.current = savedFp;
       dismissUndos();
       setConflict(false);
-      setState((s) => stateFor(saved, s.r2Keys));
+      setState(stateFor(saved));
       setTouched(new Set());
       setShowAll(false);
     } else if (was !== savedJson && clean) {
       baseline.current = savedJson;
       basedFp.current = savedFp;
-      setState((s) => stateFor(saved, s.r2Keys));
+      setState(stateFor(saved));
     }
   }, [savedJson, savedFp, saved, locked, dismissUndos, game._id]);
 
@@ -148,7 +152,7 @@ export function QuestionsEditor({ game, refreshError }: { game: AdminGame; refre
 
   const apply = useCallback((fn: (s: EditorState) => void) => {
     setState((prev) => {
-      const next: EditorState = { q: structuredClone(prev.q), r2Keys: [...prev.r2Keys] };
+      const next: EditorState = { q: structuredClone(prev.q) };
       fn(next);
       return next;
     });
@@ -159,20 +163,14 @@ export function QuestionsEditor({ game, refreshError }: { game: AdminGame; refre
   const touch = useCallback((path: string) => setTouched((prev) => (prev.has(path) ? prev : new Set(prev).add(path))), []);
 
   const add = (list: ListName) => {
-    // Ids are made out here: React may run the updater twice.
-    const key = newId();
-    const item = newItem(list, list === 'r2' ? 'A' : newId());
+    // The id is made out here: React may run the updater twice.
+    const item = newItem(list, newId());
     apply((s) => {
       const items = listOf(s.q, list);
       if (items.length >= GAME_MAX_QUESTIONS) return;
       items.push(structuredClone(item));
-      if (list === 'r2') {
-        s.r2Keys.push(key);
-        reletter(s.q);
-      }
     });
-    const focusKey = list === 'r2' ? key : item.id;
-    focusSoon(() => document.querySelector<HTMLElement>(`${editorRoot} [data-focus="${focusKey}"]`));
+    focusSoon(() => document.querySelector<HTMLElement>(`${editorRoot} [data-focus="${item.id}"]`));
   };
 
   const move = (list: ListName, index: number, by: -1 | 1) =>
@@ -181,14 +179,10 @@ export function QuestionsEditor({ game, refreshError }: { game: AdminGame; refre
       const to = index + by;
       if (to < 0 || to >= items.length) return;
       [items[index], items[to]] = [items[to]!, items[index]!];
-      if (list === 'r2') {
-        [s.r2Keys[index], s.r2Keys[to]] = [s.r2Keys[to]!, s.r2Keys[index]!];
-        reletter(s.q);
-      }
     });
 
   /** Put a deleted item back after the item that preceded it (or first), wherever the list has moved to since. */
-  const restore = (list: ListName, after: string | null, fallback: number, item: { id: string }, key: string | undefined) => {
+  const restore = (list: ListName, after: string | null, fallback: number, item: { id: string }) => {
     if (lockedRef.current) return;
     const cur = stateRef.current;
     const items = listOf(cur.q, list);
@@ -196,16 +190,11 @@ export function QuestionsEditor({ game, refreshError }: { game: AdminGame; refre
       toast.error(`Round ${ROUND_NO[list]} already has ${GAME_MAX_QUESTIONS} ${nounFor(list, 2)}. Delete one first.`);
       return;
     }
-    const back = list !== 'r2' && items.some((x) => x.id === item.id) ? { ...item, id: newId() } : item;
-    const k = key && !cur.r2Keys.includes(key) ? key : newId();
-    const prev = after === null ? -2 : list === 'r2' ? cur.r2Keys.indexOf(after) : items.findIndex((x) => x.id === after);
+    const back = items.some((x) => x.id === item.id) ? { ...item, id: newId() } : item;
+    const prev = after === null ? -2 : items.findIndex((x) => x.id === after);
     const at = after === null ? 0 : prev >= 0 ? prev + 1 : Math.min(fallback, items.length);
     apply((s) => {
       listOf(s.q, list).splice(at, 0, structuredClone(back));
-      if (list === 'r2') {
-        s.r2Keys.splice(at, 0, k);
-        reletter(s.q);
-      }
     });
     focusSoon(headingAt(list, at));
   };
@@ -215,16 +204,10 @@ export function QuestionsEditor({ game, refreshError }: { game: AdminGame; refre
     const item = items[index];
     if (!item || items.length <= LIST_MIN[list]) return;
     const copy = structuredClone(item);
-    const key = list === 'r2' ? state.r2Keys[index] : undefined;
-    const before = items[index - 1];
-    const after = index === 0 ? null : list === 'r2' ? (state.r2Keys[index - 1] ?? null) : (before?.id ?? null);
+    const after = index === 0 ? null : (items[index - 1]?.id ?? null);
     const name = itemName(list, index);
     apply((s) => {
       listOf(s.q, list).splice(index, 1);
-      if (list === 'r2') {
-        s.r2Keys.splice(index, 1);
-        reletter(s.q);
-      }
     });
     requestAnimationFrame(() => {
       const next = headingAt(list, Math.min(index, items.length - 2))();
@@ -233,7 +216,7 @@ export function QuestionsEditor({ game, refreshError }: { game: AdminGame; refre
     });
     // Only the latest delete can be undone.
     dismissUndos();
-    offerUndo(`${name} deleted from Round ${ROUND_NO[list]}`, () => restore(list, after, index, copy, key));
+    offerUndo(`${name} deleted from Round ${ROUND_NO[list]}`, () => restore(list, after, index, copy));
   };
 
   /* ---------------- whole draft ---------------- */
@@ -248,7 +231,7 @@ export function QuestionsEditor({ game, refreshError }: { game: AdminGame; refre
     dismissUndos();
     clearStash(game._id);
     setConflict(false);
-    setState(stateFor(saved, state.r2Keys));
+    setState(stateFor(saved));
     baseline.current = savedJson;
     basedFp.current = savedFp;
     resetMarks();
@@ -265,7 +248,7 @@ export function QuestionsEditor({ game, refreshError }: { game: AdminGame; refre
       return;
     }
     dismissUndos();
-    setState((s) => stateFor(standard, s.r2Keys));
+    setState(stateFor(standard));
     resetMarks();
     toast.success('Standard questions loaded. Press Save changes to keep them.');
   };
@@ -284,7 +267,7 @@ export function QuestionsEditor({ game, refreshError }: { game: AdminGame; refre
       setConflict(false);
       // Edits made while the save was on its way stay in the draft.
       if (JSON.stringify(stateRef.current.q) === v.sent) {
-        setState((s) => stateFor(next, s.r2Keys));
+        setState(stateFor(next));
         resetMarks();
         headingRef.current?.focus({ preventScroll: true });
       }
@@ -334,7 +317,7 @@ export function QuestionsEditor({ game, refreshError }: { game: AdminGame; refre
       setStash(null);
       setConflict(false);
       dismissUndos();
-      setState((s) => stateFor(next, s.r2Keys));
+      setState(stateFor(next));
       resetMarks();
       qc.setQueryData(gameKeys.game(game._id), g);
     } catch (e) {
@@ -361,7 +344,7 @@ export function QuestionsEditor({ game, refreshError }: { game: AdminGame; refre
   const restoreStash = () => {
     if (!stash) return;
     dismissUndos();
-    setState((s) => stateFor(stash, s.r2Keys));
+    setState(stateFor(stash));
     resetMarks();
     setStash(null);
   };
@@ -399,11 +382,9 @@ export function QuestionsEditor({ game, refreshError }: { game: AdminGame; refre
   /* ---------------- render ---------------- */
 
   const q = locked ? saved : state.q;
-  const r2Keys = useMemo(() => (locked ? saved.r2.cards.map((c) => `saved-${c.id}`) : state.r2Keys), [locked, saved, state.r2Keys]);
 
   const api: EditorApi = {
     q,
-    r2Keys,
     content: game.content,
     teams: game.teams,
     locked,

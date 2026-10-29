@@ -66,7 +66,7 @@ function LobbyQuestions() {
   const { game } = useHost();
   return (
     <p className="text-[13px] leading-5 text-ink-3">
-      You can change the situations, cards and points until the game starts.{' '}
+      You can change the situations, actions and points until the game starts.{' '}
       <Link to={`/admin/games/${game._id}/questions`} className="rounded-sm font-semibold text-brand hover:underline">
         Edit the questions
       </Link>

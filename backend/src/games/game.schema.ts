@@ -13,6 +13,8 @@ export class Game {
   @Prop({ type: MongooseSchema.Types.Mixed, default: {} }) scores!: Record<string, TeamScore>;
   @Prop({ type: MongooseSchema.Types.Mixed, required: true }) state!: GameState;
   @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'Admin', default: null }) createdBy!: unknown;
+  /** Data from earlier versions of the game, kept when a round is replaced (e.g. legacy.humanFirewall, the old Round 2). */
+  @Prop({ type: MongooseSchema.Types.Mixed, default: undefined }) legacy?: Record<string, unknown>;
   createdAt!: Date;
   updatedAt!: Date;
 }

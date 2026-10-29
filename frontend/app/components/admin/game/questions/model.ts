@@ -1,39 +1,33 @@
 import { gameQuestionsSchema, roundMax, withQuestions, type GameContent, type GameQuestions, type TeamTotals } from '@hrrl/shared';
-import { newId } from '~/lib/ids';
 
 /*
- * The question editor's draft: the game's editable questions plus a stable key per Round 2 card.
- * Card ids are their letters and change with position, so React needs keys that do not.
+ * The question editor's draft: the game's editable questions. Rounds 1, 3 and 4 are lists of items
+ * (keyed by their ids); Round 2 is played offline and has only its maximum marks.
  */
 
-export type ListName = 'r1' | 'r2' | 'r3' | 'r4';
+export type ListName = 'r1' | 'r3' | 'r4';
 
 export interface EditorState {
   q: GameQuestions;
-  r2Keys: string[];
 }
 
 /** The schema's list minimums, so Delete can be disabled before the API would refuse. */
-export const LIST_MIN: Record<ListName, number> = { r1: 1, r2: 1, r3: 2, r4: 1 };
+export const LIST_MIN: Record<ListName, number> = { r1: 1, r3: 2, r4: 1 };
 
-export const LIST_PATH: Record<ListName, string> = { r1: 'r1.challenges', r2: 'r2.cards', r3: 'r3.actions', r4: 'r4.situations' };
+export const LIST_PATH: Record<ListName, string> = { r1: 'r1.challenges', r3: 'r3.actions', r4: 'r4.situations' };
 
-export const ROUND_NO: Record<ListName, number> = { r1: 1, r2: 2, r3: 3, r4: 4 };
+export const ROUND_NO: Record<ListName, number> = { r1: 1, r3: 3, r4: 4 };
 
 const NOUN: Record<ListName, [string, string]> = {
   r1: ['situation', 'situations'],
-  r2: ['card', 'cards'],
   r3: ['action', 'actions'],
   r4: ['situation', 'situations'],
 };
 
-export const letter = (i: number) => String.fromCharCode(65 + i);
-
-/** "Situation 3", "Card C", "Action 2". */
+/** "Situation 3", "Action 2". */
 export function itemName(list: ListName, index: number): string {
   const noun = NOUN[list][0];
-  const label = noun.charAt(0).toUpperCase() + noun.slice(1);
-  return list === 'r2' ? `${label} ${letter(index)}` : `${label} ${index + 1}`;
+  return `${noun.charAt(0).toUpperCase()}${noun.slice(1)} ${index + 1}`;
 }
 
 export function nounFor(list: ListName, count: number): string {
@@ -45,20 +39,11 @@ export function listOf(q: GameQuestions, list: ListName): { id: string }[] {
   switch (list) {
     case 'r1':
       return q.r1.challenges;
-    case 'r2':
-      return q.r2.cards;
     case 'r3':
       return q.r3.actions;
     case 'r4':
       return q.r4.situations;
   }
-}
-
-/** Cards are lettered A, B, C… by position: the letter is what the printed card and the host show. */
-export function reletter(q: GameQuestions) {
-  q.r2.cards.forEach((c, i) => {
-    c.id = letter(i);
-  });
 }
 
 type Q = GameQuestions;
@@ -67,10 +52,6 @@ export function newItem(list: ListName, id: string): { id: string } {
   switch (list) {
     case 'r1': {
       const item: Q['r1']['challenges'][number] = { id, situation: '', answer: 'verify', explanation: '' };
-      return item;
-    }
-    case 'r2': {
-      const item: Q['r2']['cards'][number] = { id, title: '', brief: '', teamTask: '', warningSigns: [''], safeResponse: [''] };
       return item;
     }
     case 'r3': {
@@ -84,9 +65,9 @@ export function newItem(list: ListName, id: string): { id: string } {
   }
 }
 
-/** A fresh editor state for saved questions, keeping card keys by position so nothing remounts. */
-export function stateFor(q: GameQuestions, keys: string[] = []): EditorState {
-  return { q, r2Keys: q.r2.cards.map((_, i) => keys[i] ?? newId()) };
+/** A fresh editor state for saved questions. */
+export function stateFor(q: GameQuestions): EditorState {
+  return { q };
 }
 
 /* ------------------------------------------------------------------ */

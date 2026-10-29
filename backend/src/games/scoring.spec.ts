@@ -27,7 +27,7 @@ import {
 const teams = DEFAULT_TEAMS;
 const perfect = (): TeamScore => ({
   r1: Object.fromEntries(content.r1.challenges.map((c) => [c.id, c.answer])),
-  r2: { card: null, identified: true, warningSigns: true, response: true },
+  r2: { marks: 30 },
   r3: { picks: ['report', 'secure', 'preserve', 'reuse'] },
   r4: Object.fromEntries(content.r4.situations.map((s) => [s.id, true])),
   tiebreakWin: false,
@@ -44,6 +44,10 @@ describe('scoreTeam', () => {
   it('clamps round 3 between 0 and 40', () => {
     expect(scoreTeam(content, { ...emptyTeamScore(), r3: { picks: ['ignore', 'delete', 'forward'] } }).r3).toBe(0);
     expect(scoreTeam(content, { ...emptyTeamScore(), r3: { picks: ['report', 'ignore'] } }).r3).toBe(5);
+  });
+  it('clamps round 2 marks to the maximum', () => {
+    expect(scoreTeam(content, { ...emptyTeamScore(), r2: { marks: 99 } }).r2).toBe(content.r2.maxMarks);
+    expect(scoreTeam(content, { ...emptyTeamScore(), r2: { marks: null } }).r2).toBe(0);
   });
   it('computes auction spend', () => {
     expect(auctionSpend(content, ['report', 'secure', 'preserve'])).toBe(80);
@@ -105,7 +109,7 @@ describe('withQuestions', () => {
     expect(next.title).toBe(content.title);
     expect(next.r1.title).toBe(content.r1.title);
     expect(next.r1.answerSec).toBe(content.r1.answerSec);
-    expect(next.r2.actSec).toBe(content.r2.actSec);
+    expect(next.r2.playSec).toBe(content.r2.playSec);
     expect(next.r3.planSec).toBe(content.r3.planSec);
     expect(next.r4.missionSec).toBe(content.r4.missionSec);
     expect(next.tiebreak.answerSec).toBe(content.tiebreak.answerSec);
@@ -145,14 +149,15 @@ describe('visibility', () => {
     expect(d.view).not.toHaveProperty('answer');
     expect(d.scoreboard.every((r) => r.totals.total === 0)).toBe(true);
   });
-  it('omits the r2 card text until revealed', () => {
-    const state = { stageId: 'r2-firewall', revealed: false, timer: null };
-    const hidden = JSON.stringify(buildPublicDisplay({ code: 'ABC123', title: 't', content, teams, scores, state }));
-    const card = content.r2.cards[0]!;
-    for (const text of [card.title, card.brief, card.warningSigns[0]!]) expect(hidden).not.toContain(text);
-    const shown = JSON.stringify(buildPublicDisplay({ code: 'ABC123', title: 't', content, teams, scores, state: { ...state, revealed: true } }));
-    expect(shown).toContain(card.title);
-    expect(shown).not.toContain(card.brief);
+  it('hides r2 marks until the Round 2 scores stage and shows the mime banner', () => {
+    const marked = withScores({ firewall: { ...emptyTeamScore(), r2: { marks: 30 } } });
+    const at = (stageId: string) => ({ code: 'ABC123', title: 't', content, teams, scores: marked, state: { stageId, revealed: false, timer: null } });
+    expect(visibleScores(content, teams, marked, 'r2-mime', false).firewall?.r2).toEqual({ marks: null });
+    const mime = buildPublicDisplay(at('r2-mime'));
+    expect(mime.scoreboard.find((r) => r.teamId === 'firewall')!.totals.total).toBe(0);
+    expect(mime.view).toMatchObject({ kind: 'r2-mime', headline: content.r2.banner.headline, slogan: content.r2.banner.slogan });
+    const scored = buildPublicDisplay(at('r2-scores'));
+    expect(scored.scoreboard.find((r) => r.teamId === 'firewall')!.totals.total).toBe(30);
   });
   it('lobby shows nothing scored', () => {
     const d = buildPublicDisplay({ code: 'ABC123', title: 't', content, teams, scores, state: initialGameState() });

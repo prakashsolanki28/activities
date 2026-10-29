@@ -1,20 +1,10 @@
-import { useId } from 'react';
+import { useId, useState } from 'react';
 import { CircleCheck, CircleX, Trophy } from 'lucide-react';
-import {
-  CARD_CHOICES,
-  CARD_LABELS,
-  auctionSpend,
-  champion,
-  emptyTeamScore,
-  needsTiebreak,
-  r2CardFor,
-  scoreTeam,
-  type CardChoice,
-  type Team,
-} from '@hrrl/shared';
+import { CARD_CHOICES, CARD_LABELS, auctionSpend, champion, emptyTeamScore, needsTiebreak, scoreTeam, type CardChoice, type Team } from '@hrrl/shared';
 import { Card, MessageBar } from '~/components/admin/ui';
 import { Button } from '~/components/ui/button';
 import { Checkbox } from '~/components/ui/checkbox';
+import { Input } from '~/components/ui/input';
 import { useHost } from './host-context';
 import { CARD_TONE, CardChip, TeamName } from './bits';
 import { Scoreboard } from './scoreboard';
@@ -24,7 +14,7 @@ const focusRing = 'outline-none focus-visible:outline-2 focus-visible:outline-of
 
 /** Scoring for the current stage, then the scoreboard. */
 export function ScorePanel({ className }: { className?: string }) {
-  const { stage } = useHost();
+  const { game, stage } = useHost();
   let title = 'Scoreboard';
   let hint: string | null = null;
   let body: React.ReactNode = null;
@@ -34,10 +24,10 @@ export function ScorePanel({ className }: { className?: string }) {
       hint = 'Tap the card each team showed. Tap it again to clear.';
       body = <R1Scoring />;
       break;
-    case 'r2-team':
-      title = 'Score this team';
-      hint = 'Hand the card face down to the volunteer, then tick what the team got right.';
-      body = <R2Scoring />;
+    case 'r2-mime':
+      title = 'Round 2 marks';
+      hint = `Type each team’s marks out of ${game.content.r2.maxMarks}. The room sees them at Scores after Round 2.`;
+      body = <R2Marks />;
       break;
     case 'r3-auction':
     case 'r3-twist':
@@ -57,6 +47,14 @@ export function ScorePanel({ className }: { className?: string }) {
       hint = 'Pick the team that gave the clearest, safest answer.';
       body = <TiebreakScoring />;
       break;
+    case 'scores':
+      // Marks can still be corrected here; they are already on the projector.
+      if (stage.round === 'r2') {
+        title = 'Round 2 marks';
+        hint = `Type each team’s marks out of ${game.content.r2.maxMarks}. They are on the projector now, so a correction shows straight away.`;
+        body = <R2Marks />;
+      }
+      break;
     default:
       break;
   }
@@ -74,7 +72,7 @@ export function ScorePanel({ className }: { className?: string }) {
           <div className="px-4 pb-4 sm:px-5">{body}</div>
           <div className="border-t border-line px-4 pt-3 pb-4 sm:px-5">
             <h3 className="mb-1 text-[13px] font-semibold text-ink-2">Scoreboard</h3>
-            <Scoreboard />
+            <Scoreboard size={stage.kind === 'scores' ? 'full' : 'compact'} />
           </div>
         </>
       ) : (
@@ -188,81 +186,128 @@ function CardToggle({ choice, pressed, onClick }: { choice: CardChoice; pressed:
 }
 
 /* ------------------------------------------------------------------ */
-/* Round 2: the card and the rubric for one team                        */
+/* Round 2: marks the host types for each team                          */
 /* ------------------------------------------------------------------ */
 
-function R2Scoring() {
-  const { game, stage, actions } = useHost();
-  const c = game.content;
-  const team = game.teams.find((t) => t.id === stage.teamId);
-  if (!team) return <p className="text-sm text-ink-3">This team is not in the game any more.</p>;
-  const score = game.scores[team.id] ?? emptyTeamScore();
-  const card = r2CardFor(c, game.teams, team.id, score);
-  const usedBy = (cardId: string) => game.teams.filter((t) => t.id !== team.id && r2CardFor(c, game.teams, t.id, game.scores[t.id]).id === cardId);
-  const points = scoreTeam(c, score).r2;
-  const max = c.r2.rubric.reduce((n, r) => n + r.points, 0);
-
+function R2Marks() {
+  const { game } = useHost();
+  const max = game.content.r2.maxMarks;
   return (
-    <div className="grid gap-4">
-      <TeamName team={team} className="text-base" />
-      <div>
-        <h3 className="text-[13px] font-semibold text-ink">Secret card</h3>
-        <div className="mt-1.5 grid grid-cols-[repeat(auto-fill,minmax(3rem,1fr))] gap-1.5" role="group" aria-label="Secret card for this team">
-          {c.r2.cards.map((k) => {
-            const others = usedBy(k.id);
-            return (
-              <button
-                key={k.id}
-                type="button"
-                aria-pressed={card.id === k.id}
-                onClick={() => card.id !== k.id && actions.score(team.id, { round: 'r2', card: k.id })}
-                title={others.length ? `${k.title} · also given to ${others.map((o) => o.name).join(', ')}` : k.title}
-                className={cn(
-                  'relative h-11 rounded-md text-[15px] font-semibold ring-1 ring-inset transition-colors',
-                  focusRing,
-                  card.id === k.id ? 'bg-brand text-white ring-brand' : 'bg-surface text-ink-2 ring-line-strong hover:bg-ground',
-                )}
-              >
-                {k.id}
-                {others.length ? <span className={cn('absolute top-1 right-1 size-1.5 rounded-full', card.id === k.id ? 'bg-white' : 'bg-ink-3')} aria-hidden /> : null}
-                <span className="sr-only">
-                  : {k.title}
-                  {others.length ? `, also given to ${others.map((o) => o.name).join(', ')}` : ''}
-                </span>
-              </button>
-            );
-          })}
-        </div>
-        <div className="mt-3 rounded-lg border border-line bg-ground p-3">
-          <p className="text-sm font-semibold text-ink">
-            Card {card.id}: {card.title}
-          </p>
-          <p className="mt-1.5 text-xs font-semibold text-ink-3">Hand to the volunteer, or read it to them quietly</p>
-          <p className="mt-0.5 text-sm leading-5 text-ink">{card.brief}</p>
-          <p className="mt-2 text-xs font-semibold text-ink-3">Their team’s task</p>
-          <p className="mt-0.5 text-sm leading-5 text-ink-2">{card.teamTask}</p>
-        </div>
-      </div>
-      <fieldset>
-        <legend className="flex w-full items-baseline justify-between gap-2 text-[13px] font-semibold text-ink">
-          <span>What the team got right</span>
-          <span className="font-normal text-ink-2 tabular-nums">
-            {points} / {max} points
+    <ul className="grid gap-2">
+      {game.teams.map((t) => (
+        <R2MarksRow key={t.id} team={t} max={max} />
+      ))}
+    </ul>
+  );
+}
+
+const marksText = (marks: number | null) => (marks == null ? '' : String(marks));
+
+/** What was typed: null for an empty box, undefined when it is not a whole number from 0 to max. */
+function parseMarks(text: string, max: number): number | null | undefined {
+  const t = text.trim();
+  if (!t) return null;
+  if (!/^\d{1,4}$/.test(t)) return undefined;
+  const n = Number(t);
+  return n <= max ? n : undefined;
+}
+
+/**
+ * One team's marks. The box keeps its own text while the host types; it is sent on blur or Enter
+ * (Escape puts the saved marks back). Saved marks that change elsewhere replace the text unless the
+ * host is typing in this box.
+ */
+function R2MarksRow({ team, max }: { team: Team; max: number }) {
+  const { game, actions } = useHost();
+  const id = useId();
+  const saved = game.scores[team.id]?.r2?.marks ?? null;
+  const points = game.totals[team.id]?.r2 ?? 0;
+  const [draft, setDraft] = useState(() => marksText(saved));
+  const [invalid, setInvalid] = useState(false);
+  const [focused, setFocused] = useState(false);
+  const [typed, setTyped] = useState(false);
+  const [synced, setSynced] = useState(saved);
+  if (saved !== synced) {
+    setSynced(saved);
+    if (!focused || !typed) {
+      setDraft(marksText(saved));
+      setInvalid(false);
+      setTyped(false);
+    }
+  }
+
+  /** Includes changes still on their way to the server. */
+  const latest = () => (actions.latest() ?? game).scores[team.id]?.r2?.marks ?? null;
+
+  const commit = () => {
+    if (!typed) return;
+    const marks = parseMarks(draft, max);
+    if (marks === undefined) {
+      setInvalid(true);
+      return;
+    }
+    setInvalid(false);
+    setTyped(false);
+    setDraft(marksText(marks));
+    if (marks !== latest()) actions.score(team.id, { round: 'r2', marks });
+  };
+
+  const revert = () => {
+    setDraft(marksText(latest()));
+    setInvalid(false);
+    setTyped(false);
+  };
+
+  const errId = `${id}-error`;
+  return (
+    <li className="rounded-lg border border-line px-3 py-2">
+      <div className="flex items-center gap-3">
+        <TeamName team={team} className="flex-1" />
+        <div className="flex shrink-0 items-center gap-1.5">
+          <Input
+            id={id}
+            type="text"
+            inputMode="numeric"
+            autoComplete="off"
+            enterKeyHint="done"
+            value={draft}
+            aria-label={`Marks for ${team.name}`}
+            aria-invalid={invalid || undefined}
+            aria-describedby={invalid ? `${id}-max ${errId}` : `${id}-max`}
+            onFocus={() => setFocused(true)}
+            onChange={(e) => {
+              setDraft(e.target.value);
+              setTyped(true);
+              setInvalid(false);
+            }}
+            onBlur={() => {
+              setFocused(false);
+              commit();
+            }}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                e.preventDefault();
+                commit();
+              } else if (e.key === 'Escape') {
+                e.preventDefault();
+                revert();
+              }
+            }}
+            className="h-11 w-16 text-right text-[15px] tabular-nums"
+          />
+          <span id={`${id}-max`} className="text-[13px] text-ink-3 tabular-nums">
+            <span aria-hidden>/ {max}</span>
+            <span className="sr-only">out of {max}</span>
           </span>
-        </legend>
-        <div className="mt-1.5 grid gap-1">
-          {c.r2.rubric.map((r) => (
-            <CheckRow
-              key={r.id}
-              checked={score.r2[r.id]}
-              onChange={(v) => actions.score(team.id, { round: 'r2', [r.id]: v })}
-              label={r.label}
-              meta={`${r.points} points`}
-            />
-          ))}
         </div>
-      </fieldset>
-    </div>
+        <span className={cn('min-w-18 shrink-0 text-right text-[13px] tabular-nums', saved == null ? 'text-ink-3' : 'font-semibold text-ink')}>
+          {saved == null ? 'Not marked' : `${points} points`}
+        </span>
+      </div>
+      <p id={errId} aria-live="polite" className="mt-1 text-xs leading-5 font-semibold text-red-ink empty:mt-0">
+        {invalid ? `Use a whole number from 0 to ${max}` : null}
+      </p>
+    </li>
   );
 }
 
